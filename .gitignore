@@ -1,0 +1,11 @@
+.idea
+.DS_Store
+.tern-project
+*.log
+*.sublime-project
+*.sublime-workspace
+
+node_modules
+dump.rdb
+npm-debug.log
+/dist
