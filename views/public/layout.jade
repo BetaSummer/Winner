@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title= title
+    block css
+      link(rel='stylesheet', href='/semantic-ui/semantic.min.css')
+      link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    include header
+    block content
+    include footer
