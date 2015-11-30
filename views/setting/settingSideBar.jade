@@ -1,0 +1,19 @@
+div.setting-side-bar
+  div.user-setting-my-card
+    div.user-img
+      img(src="/dist/images/header.jpg", alt="")
+    p.user-name 烟树
+    div.my-infos-box
+      - numList = [{type:'关注',num:22},{type:"信徒",num:33},{type:"闲置",num:44}]
+      - each item in numList
+        span.user-center-header-info
+          a(href="#",class="user-num-info")= item.num
+          a(href="#",class="user-num-type")= item.type
+  div.user-setting-nav
+    div.user-setting-nav-top
+      span.setting-title 设置
+    ul
+      - settingList = ['修改头像','个人资料','帐号安全','第三方绑定']
+      - each item in settingList
+        li
+          a(href="#",class="user-setting-nav-item")= item

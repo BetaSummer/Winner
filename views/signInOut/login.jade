@@ -1,0 +1,23 @@
+extends ../public/layout.jade
+block content
+  div.login-box
+    div.login-error
+    form(action="#" method="POST")
+      p.login-line
+        label(for="userName") 用户名
+        input(type="text",id="userName",name="name")
+      p.login-line
+        label(for="password") 密码
+        input(type="password",id="password",name="password")
+      p.login-line
+        input(type="submit",value="登录",class="login-btn")
+        a(href="#" class="forget-password")忘记密码？
+      p.login-line
+        a(href="#" class="to-reg-btn")没有帐号？点我注册
+      div.quick-login
+        span
+          快捷登录
+        a(href="#" class="quick-login-btn weibo")
+        a(href="#" class="quick-login-btn qq")
+
+

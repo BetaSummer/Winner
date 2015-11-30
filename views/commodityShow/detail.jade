@@ -1,0 +1,58 @@
+extends ../public/layout.jade
+block content
+  div.commodity-detail-box
+    div.commodity-detail-post
+      h1 这是标题
+      p.commodity-sub-title
+        div.commodity-sub-title-left
+          span.commodity-category 数码相机
+          span.last-edit-time 2015-11-04
+        div.commodity-sub-title-right
+          span.visited-num 222
+          span.comment-num 222
+      //- 正文内容
+      div.commodity-post-text
+      //- 评论区
+      div.comment-box
+    div.commodity-detail-list
+      div.commodity-info-detail
+        h2 商品信息
+          a(href="#" class="to-edit-btn") 编辑
+        p.detail-line 
+          span.info-key 商品名称
+          span.info-value iphone6国行
+        p.detail-line 
+          span.info-key 价格
+          span.info-value 100
+        p.detail-line 
+          span.info-key 成色
+          span.info-value 9成新
+        p.detail-line 
+          span.info-key 入手时间
+          span.info-value 2015-10-1
+        p.detail-line
+          span.info-key 买入价格
+          span.info-value 250
+
+      div.commodity-user-info
+        div.info-header
+          div.img-box
+            a(href="#")
+              img(src="#", alt="")
+          div.info-as-name
+            a(href="#",class="user-name") 烟树
+            p.user-num
+              a(href="#",class="user-follow-num") 信徒10
+              a(href="#",class="user-commodity-num") 闲置2
+        div.info-body
+          p.detail-line 
+            span.info-key 联系电话
+            span.info-value 123124342312
+          p.detail-line 
+            span.info-key qq
+            span.info-value 123124342312
+          p.detail-line 
+            span.info-key 微信
+            span.info-value 123124342312
+        //- 这里差一块  用户曾经售过的东西
+

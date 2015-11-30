@@ -1,0 +1,137 @@
+.user-setting-content {
+  width: 100%;
+  min-height: 600px;
+  margin-top: 60px;
+  overflow: hidden; }
+  .user-setting-content > .user-setting-edit-box {
+    float: left;
+    width: 66%;
+    min-height: 600px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff; }
+    .user-setting-content > .user-setting-edit-box > .setting-top {
+      width: 92%;
+      margin: 10px auto;
+      padding: 14px 0;
+      border-bottom: 1px solid #ccc;
+      font-size: 18px;
+      font-weight: bold; }
+    .user-setting-content > .user-setting-edit-box > .user-setting-form {
+      width: 92%;
+      margin: 30px auto 0; }
+      .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line {
+        font-size: 16px;
+        margin-top: 30px;
+        position: relative;
+        height: 32px;
+        line-height: 32px;
+        vertical-align: middle; }
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line input,
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line select {
+          vertical-align: middle;
+          height: 32px;
+          position: absolute;
+          left: 80px;
+          border: 1px solid #ccc;
+          padding: 6px 0 6px 6px;
+          border-radius: 6px; }
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line input[type='submit'] {
+          width: 100px;
+          height: 40px;
+          padding: 0;
+          position: absolute;
+          left: 80px;
+          background: #f2711c; }
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line select {
+          margin-top: 6px; }
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line .get-verification-btn,
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line .got-verification-btn,
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line .forget-password {
+          position: absolute;
+          padding: 0 8px;
+          border-radius: 4px;
+          cursor: pointer;
+          left: 270px; }
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line .get-verification-btn {
+          background: #3399FF;
+          color: #fff; }
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line .got-verification-btn {
+          background: #ccc;
+          color: #fff;
+          cursor: not-allowed; }
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line .bind-with-qq,
+        .user-setting-content > .user-setting-edit-box > .user-setting-form .setting-line .bind-with-wechat {
+          display: inline-block;
+          width: 120px;
+          vertical-align: middle;
+          height: 32px;
+          margin: 0 10px; }
+  .user-setting-content > .setting-side-bar {
+    margin-right: 2px;
+    float: right;
+    width: 26%;
+    min-height: 600px; }
+    .user-setting-content > .setting-side-bar > .user-setting-my-card {
+      background: #fff;
+      width: 100%;
+      height: 320px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      position: relative; }
+      .user-setting-content > .setting-side-bar > .user-setting-my-card > .user-img {
+        width: 140px;
+        height: 140px;
+        margin: 40px auto 0; }
+        .user-setting-content > .setting-side-bar > .user-setting-my-card > .user-img > img {
+          width: 140px;
+          height: 140px; }
+      .user-setting-content > .setting-side-bar > .user-setting-my-card > .user-name {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0 0 0;
+        font-size: 20px;
+        letter-spacing: 2px; }
+      .user-setting-content > .setting-side-bar > .user-setting-my-card > .my-infos-box {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center; }
+        .user-setting-content > .setting-side-bar > .user-setting-my-card > .my-infos-box .user-center-header-info {
+          display: inline-block;
+          width: 60px;
+          height: 50px;
+          position: relative; }
+          .user-setting-content > .setting-side-bar > .user-setting-my-card > .my-infos-box .user-center-header-info a {
+            display: block;
+            height: 25px;
+            line-height: 25px;
+            color: #000; }
+          .user-setting-content > .setting-side-bar > .user-setting-my-card > .my-infos-box .user-center-header-info > .user-num-info {
+            width: 100%; }
+    .user-setting-content > .setting-side-bar .user-setting-nav {
+      margin-right: 2px;
+      width: 100%;
+      height: 200px;
+      background: #fff;
+      margin-top: 78px;
+      border: 1px solid #ccc;
+      border-radius: 4px; }
+      .user-setting-content > .setting-side-bar .user-setting-nav .user-setting-nav-top {
+        width: 80%;
+        margin: 10px auto;
+        padding: 10px 0;
+        border-bottom: 1px solid #ccc;
+        font-size: 16px;
+        font-weight: bold; }
+      .user-setting-content > .setting-side-bar .user-setting-nav > ul {
+        padding: 0;
+        width: 80%;
+        margin: 16px auto; }
+        .user-setting-content > .setting-side-bar .user-setting-nav > ul li {
+          list-style: none;
+          display: block;
+          height: 32px; }
+          .user-setting-content > .setting-side-bar .user-setting-nav > ul li a {
+            color: #000; }
+          .user-setting-content > .setting-side-bar .user-setting-nav > ul li a:hover {
+            color: #999; }

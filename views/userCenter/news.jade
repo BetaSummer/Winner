@@ -1,0 +1,87 @@
+extends userCenterLayout.jade
+block userCenterContent
+  //- type 0:新闲置 1:评论回复 2:通过审核  3:审核不通过
+  div.news-box
+    - newsList = [{type:0,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:1,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:2,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:3,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:4,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'}]
+    each item in newsList
+      case item.type
+        when 0
+          div.news-item
+            p.news-item-header
+              span.news-item-text 
+                span 我关注的用户 
+                a(href="#")= item.name
+                span 发布新闲置
+              span.news-item-time= item.time
+            a(href="/commodity/"+item.comodityid)
+              div.news-item-body
+                div.news-item-img
+                  img(src= item.img, alt="")
+                div.news-detail
+                  h2.news-title= item.title
+                  p.news-price 羊 
+                    span= item.price
+        when 1
+          div.news-item
+            p.news-item-header
+              span.news-item-text 
+                span 我的闲置 
+                a(href="#")= item.commodity
+                span 下的评论有了回复
+              span.news-item-time= item.time
+            a(href="/commodity/"+item.comodityid)
+              div.news-item-body
+                div.news-item-img
+                  img(src= item.img, alt="")
+                div.news-detail
+                  h2.news-title= item.title
+                  p.news-price 羊 
+                    span= item.price
+        when 2
+          div.news-item
+            p.news-item-header
+              span.news-item-text 
+                span 我的闲置 
+                a(href="#")= item.commodity
+                span 已经通过审核
+              span.news-item-time= item.time
+            a(href="/commodity/"+item.comodityid)
+              div.news-item-body
+                div.news-item-img
+                  img(src= item.img, alt="")
+                div.news-detail
+                  h2.news-title= item.title
+                  p.news-price 羊 
+                    span= item.price
+        when 3
+          div.news-item
+            p.news-item-header
+              span.news-item-text.fail 
+                span 我的闲置 
+                a(href="#")= item.commodity
+                span 审核失败！点击下面链接重新编辑
+              span.news-item-time= item.time
+            a(href="/commodity/"+item.comodityid)
+              div.news-item-body
+                div.news-item-img
+                  img(src= item.img, alt="")
+                div.news-detail
+                  h2.news-title= item.title
+                  p.news-price 羊 
+                    span= item.price
+        default
+          div.news-item
+            p.news-item-header
+              span.news-item-text 
+                span 我关注的用户 
+                a(href="#")= item.name
+                span 发布新闲置
+              span.news-item-time= item.time
+            a(href="/commodity/"+item.comodityid)
+              div.news-item-body
+                div.news-item-img
+                  img(src= item.img, alt="")
+                div.news-detail
+                  h2.news-title= item.title
+                  p.news-price 羊 
+                    span= item.price

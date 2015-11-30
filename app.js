@@ -4,9 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+//add
+var config = require('./config');
+var session = require('express-session');
+var redisStore = require('connect-redis')(session);
 
+// 前台展示
 var routes = require('./routes/index');
-var users = require('./routes/users');
+// 后台管理
+var admin = require('./routes/admin');
 
 var app = express();
 
@@ -22,8 +28,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+
+
+// 中间件
+// redis-session
+app.use(session({
+  secret:config.session_secret,
+  store: new redisStore({
+    port: config.redis_port,
+    port:config.redis_host,
+  }),
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use('/',routes);
+app.use('/admin',admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,7 +65,6 @@ if (app.get('env') === 'development') {
     });
   });
 }
-
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {

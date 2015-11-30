@@ -1,0 +1,79 @@
+.user-center-nav-list {
+  display: inline-block;
+  height: 40px;
+  padding: 0; }
+  .user-center-nav-list > li {
+    display: inline-block; }
+  .user-center-nav-list a {
+    display: block;
+    position: relative;
+    padding: 0 10px;
+    line-height: 40px;
+    font-size: 16px;
+    color: #000; }
+  .user-center-nav-list a.active:before {
+    display: inline-block;
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #f2711c; }
+
+.my-commodity-status {
+  height: 40px;
+  line-height: 40px;
+  float: right;
+  position: relative;
+  margin-top: 12px; }
+  .my-commodity-status a {
+    padding: 0 10px;
+    color: #000; }
+  .my-commodity-status a.active {
+    color: #f2711c; }
+
+.news-box {
+  width: 90%;
+  min-height: 300px;
+  margin: 0 auto; }
+  .news-box > .news-item {
+    width: 100%;
+    min-height: 120px;
+    margin-top: 20px;
+    border-bottom: 1px solid #ccc; }
+    .news-box > .news-item .news-item-header {
+      font-size: 14px; }
+      .news-box > .news-item .news-item-header .news-item-time {
+        float: right; }
+      .news-box > .news-item .news-item-header .fail span {
+        color: red; }
+    .news-box > .news-item .news-item-body {
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flex;
+      display: -o-flex;
+      display: flex;
+      -webkit-flex-flow: row wrap;
+      -ms-flex-flow: row wrap;
+      flex-flow: row wrap; }
+      .news-box > .news-item .news-item-body > .news-item-img {
+        display: inline-block;
+        width: 70px;
+        height: 70px;
+        overflow: hidden;
+        border-radius: 4px; }
+        .news-box > .news-item .news-item-body > .news-item-img > img {
+          width: 70px;
+          height: 70px; }
+      .news-box > .news-item .news-item-body > .news-detail {
+        flex: 1;
+        padding-left: 10px;
+        position: relative; }
+        .news-box > .news-item .news-item-body > .news-detail > .news-title {
+          color: #000;
+          font-size: 18px; }
+        .news-box > .news-item .news-item-body > .news-detail > .news-price {
+          position: absolute;
+          bottom: 0;
+          color: #f2711c; }

@@ -1,0 +1,17 @@
+extends ../public/layout.jade
+block append css
+  link(rel='stylesheet', href='/dist/css/userCenter.css')
+block content
+  include ../public/userCenterHeader
+  ul.user-center-nav-list
+    - centerList = ['最新动态','我的关注','我的闲置','我的信徒']
+    - each item in centerList
+      li
+        a(href="#" class="active")= item
+  //-  我的闲置显示
+  block userCenterCommodityStauts
+  //- 区块内容default是用户列表   我的闲置 和 最新动态 自定义
+  block userCenterContent
+    include ../public/userList
+  //-  分页
+  include ../public/pagination

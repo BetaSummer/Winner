@@ -4,8 +4,10 @@
 *.log
 *.sublime-project
 *.sublime-workspace
-
 node_modules
 dump.rdb
 npm-debug.log
-/dist
+.sass-cache
+#开发过程中将 dist 文件夹隐藏
+#public/dist
+src
