@@ -4,7 +4,6 @@ var sign = require('../controller/sign');
 var auth = require('../middlewares/auth');
 var commodity = require('../controller/commodity');
 var user = require('../controller/user');
-
 router.get('/',commodity.showIndex);
 router.get('/userTop',user.showTopUser);
 

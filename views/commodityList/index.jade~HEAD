@@ -1,0 +1,35 @@
+extends ../public/layout.jade
+block append css
+  link(rel='stylesheet', href='/dist/css/commodityList.css')
+block content
+  div.commodity-list
+    div.commodity-list-top
+      div.sort-btn.ui.dropdown
+        i.filter.icon
+        span.text 最新商品
+        .menu
+          span 优质用户
+      button.publish-btn.ui.inverted.green.button 发布闲置
+    .ui.divider
+
+  div.commodity-nav
+      div.commodity-first-nav
+          .item.active
+            i.icon.certificate
+            span 全部
+          - firstList = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具']
+          - each item in firstList
+            .item
+              i.icon.certificate
+              span= item
+      div.commodity-second-nav
+          .item.active
+            span 全部
+          - secondList = ['台式电脑','笔记本','手机','相机','手表','手表','手表','手表','手表','手表','手表','手表','手表','手表','手表']
+          - each item in secondList
+            .item
+              span= item
+
+    .commodity-cards
+     - for (var i = 0; i < 10; i++)
+        include ../public/commodityCard
