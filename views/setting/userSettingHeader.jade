@@ -5,7 +5,9 @@ block content
   div.user-setting-content
     div.user-setting-edit-box
       div.setting-top
-        span.setting-title 修改头像
+        h1.setting-title 修改头像
+        button.ui.button.orange.small(onclick="$('form').submit()") 保存
+      .ui.divider.inverted
       div.user-setting-form
         form(action="#" methods="POST")
           input(type="file",name="userHeader",id="upload-input",class="hidden")
@@ -13,6 +15,4 @@ block content
           //- 上传的控件
           div.upload-header
             
-          p.setting-line
-            input(type="submit",value="保存",class="setting-save-btn")
     include settingSideBar

@@ -4,70 +4,92 @@ block append css
 block content
   div.publish-box
     h1.box-title 发布闲置
-    form(action="#" method="POST")
+    form(action="/publish",method="POST")
       p.publish-info 必填项
       section.sub-publish-box
-        p.publish-line
+        .publish-line
           label(for="title")闲置标题
+          .ui.input(style="width:300px;")
             input(type="text" id="title" name="title")
           span.publish-info 商品关键字靠前，会提升关注度哦
-        p.publish-line
+        .publish-line
           label(for="category")商品类目
-            select(name="firstNav" id="category" class="publish-firstNav")
-              - firstList = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
-              - each item,index in firstList
-                option(value=index) #{item}
-            select(name="secondNav" class="publish-secondNav")
-              - secondList = ['台式电脑','笔记本','手机','相机','手表','其他']
-              - each item,index in secondList
-                option(value=index) #{item}
-        p.publish-line
+          .ui.selection.dropdown(style="min-width:120px")
+            input(name="firstNav" type="hidden")
+            i.dropdown.icon
+            .default.text 请选择
+              .menu
+                - firstList = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
+                - each item,index in firstList
+                  .item #{item}
+          .ui.selection.dropdown(style="min-width:120px")
+            input(name="secondNav",type="hidden")
+            i.dropdown.icon
+            .default.text 请选择
+              .menu
+                - secondList = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
+                - each item,index in secondList
+                  .item #{item}
+        .publish-line
           label(for="name")商品名称
-            input(type="text",placeholder="例：iphone6国行/优衣库白色针织衫" name="name")
+          .ui.input(style="width:150px;margin-right:20px")
+            input(type="text",placeholder="例：iphone6国行" name="name")
           span.publish-waring 非常重要，不可更改
-        p.publish-line
+        .publish-line
           label(for="fineness")成色
-            select(name="howNew",id="fineness")
-              - opList = [99,95,9,8,6,5,3,2]
-              - each item,index in opList
-                option(value=index) #{item}成新
-        p.publish-line
+          .ui.selection.dropdown(style="min-width:100px")
+            input(name="howNew",id="fineness",type="hidden")
+            i.dropdown.icon
+            .default.text 请选择
+              .menu
+                - opList = [99,95,9,8,6,5,3,2]
+                - each item,index in opList
+                  .item #{item}成新
+        .publish-line
           label(for="price")价格
+          .ui.input(style="width:60px")
             input(type="tel",id="price",name="price")
-        p.publish-line
-          div.before-upload
+        .publish-line.before-upload
             label(for="coverImage")封面图片
-              input(type="file",id="coverImage",name="coverImage")
+            input(type="file",id="coverImage",name="coverImage",width="100px")
             a(href="#")《闲置商品规则》
           //- hidden first
-          div.after-upload
-            div.preview-image
-              img(src="#", alt="#")
-            button.upload-again 重新上传
+        .publish-line.after-upload
+            label(for="coverImage")封面图片
+            span.publish-info 已上传
+            button.ui.button.basic.grey.mini(style="margin-left:20px;") 预览
+            button.ui.button.basic.grey.mini 重新上传
       p.publish-info 选填项
       section.sub-publish-box
-        p.publish-line
+        .publish-line
           label(for="getTime")入手时间
             //- 使用日历控件
-            input(type="datetime",id="getTime")
+          .ui.input
+            input(type="datetime",id="getTime",name="getTime")
           label(for="getPrice")入手价格
-            input(type="tel",name="getPrice")
+          .ui.input
+            input(type="tel",id="getPrice",name="getPrice")
           span.publish-change-info-btn 修改联系方式
+            i.icon.angle.down
         //- hidden first
-        p.publish-line
+        .publish-line
           label(for="phoneNum")手机
+          .ui.input
             input(type="tel",id="phoneNum",name="phoneNum")
           label(for="userName")姓名
+          .ui.input
             input(type="text",id="userName",name="userName")
-          label(for="qq") qq
+          label(for="qq") QQ
+          .ui.input
             input(type="tel",id="qq",name="qq")
           label(for="wechat")微信
+          .ui.input
             input(type="text",id="wechat",name="wechat")
       p.publish-info 详细信息
       //- 富文本
-
-      p.publish-line
-        input(type="submit",value="发布",class="publish-commodity-btn")
+        input(type="hidden" name="content")
+      .publish-line.publish-btn-box
+        input.publish-commodity-btn.ui.button.orange(type="submit",value="发布")
 
 
 
@@ -76,4 +98,3 @@ block content
         
 
           
-

@@ -19,7 +19,7 @@ exports.adminRequired = function(req,res,next){
 * loginRequired 需要登录
  */
 exports.loginRequired = function(req,res,next){
-	if(!req.session || !req.session.user){
+	if(!req.session.user){
 		return res.status(403).send('需要登录');
 	}
 	next();
@@ -28,7 +28,7 @@ exports.loginRequired = function(req,res,next){
 * notLoginRequired 需要还没有登录
  */
 exports.notLoginRequired = function(req,res,next){
-	if(req.session || req.session.user){
+	if(req.session && req.session.user){
 		return res.status(403).send('你已经登录');
 	}
 	next();

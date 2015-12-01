@@ -1,0 +1,158 @@
+@import 'mixin.scss';
+@import 'params.scss';
+.user-setting-content{
+	width: 100%;
+	min-height: 600px;
+	margin-top: 60px;
+	overflow: hidden;
+  	@include flex;
+  	@include justify-content(space-between);
+	.cancelBind,
+	.forget-password{
+	  color:$semantic-grey;
+	  font-size:0.9em;
+	  padding-left:5px;
+	}
+	>.user-setting-edit-box{
+	  	box-sizing:border-box;
+		width: 66%;
+	  	padding:20px 40px;
+	  	min-height: 600px;
+		border:1px solid #ccc;
+		border-radius: 4px;
+		background: #fff;
+	  .warninginfo{
+		color:$semantic-red;
+		padding-left:5px;
+		font-size:0.9em;
+	  }
+		>.setting-top{
+		  @include flex;
+		  @include justify-content(space-between);
+		  @include align-items(center);
+		  .setting-title{
+			font-size:1.2em;
+			margin:0;
+		  }
+
+		}
+		>.user-setting-form{
+		  	.ui.input input{
+			  height:30px;
+			  padding:5px 15px;
+			  margin-right:20px;
+			}
+			.setting-line{
+			  @include flex;
+			  @include align-items(center);
+			  label{
+				@include flex-basis(80px);
+			  }
+				$left:80px;
+				$inputW:120px;
+				$inputH:32px;
+			  	margin:30px 0;
+				position: relative;
+				height: $inputH;
+				line-height: $inputH;
+
+				.got-verification-btn{
+					cursor: not-allowed;
+				}
+				.bind-with-qq,
+				.bind-with-wechat{
+					display: inline-block;
+					width: 120px;
+					vertical-align: middle;
+					height: $inputH;
+					margin: 0 10px;
+				}
+			}
+		}
+	}
+	// 侧边栏
+	>.setting-side-bar{
+		width: 26%;
+		min-height: 600px;
+		>.user-setting-my-card{
+			background: #fff;
+			width: 100%;
+			height: 320px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			position: relative;
+			>.user-img{
+				$imghw:140px;
+				width: $imghw;
+				height: $imghw;
+				margin: 40px auto 0;
+				>img{
+					width: $imghw;
+					height: $imghw;
+				}
+			}
+			>.user-name{
+				width: 100%;
+				text-align: center;
+				padding: 10px 0 0 0;
+				font-size: 20px;
+				letter-spacing: 2px;
+			}
+			>.my-infos-box{
+				width: 80%;
+				margin: 0 auto;
+				text-align: center;
+				.user-center-header-info{
+		      $height:50px;
+		      display: inline-block;
+		      width: 60px;
+		      height: $height;
+		      position: relative;
+		      a{
+		        display: block;
+		        height: $height/2;
+		        line-height: $height/2;
+		        color: #000;
+		      }
+		      >.user-num-info{
+		        width: 100%;
+		      }
+		    }
+			}
+		}
+		.user-setting-nav{
+			margin-right: 2px;
+			width: 100%;
+			height: 200px;
+			background: #fff;
+			margin-top:90px;
+			border:1px solid #ccc;
+			border-radius: 4px;
+			.user-setting-nav-top{
+				width: 80%;
+				margin: 10px auto;
+				padding: 10px 0;
+				border-bottom: 1px solid #ccc;
+				font-size: 16px;
+				font-weight: bold;
+			}
+			>ul{
+				padding: 0;
+				width: 80%;
+				margin: 16px auto;
+				li{
+					list-style: none;
+					display: block;
+					height: 32px;
+					a{
+						color: $semantic-black;
+					}
+					a:hover{
+					  font-weight:bold;
+					}
+				}
+			}
+		}
+	}
+	// 各个修改页面
+}

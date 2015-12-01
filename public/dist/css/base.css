@@ -1,9 +1,15 @@
 @charset "UTF-8";
+/*****************************************
+* flex
+*****************************************/
 body {
   background-color: #faf7f7;
   background-image: url("../images/arches.png"); }
 
 .hidden {
+  display: none; }
+
+.ui.button.hidden {
   display: none; }
 
 .body-container {
@@ -25,10 +31,15 @@ body {
   border-bottom: 1px solid rgba(34, 36, 38, 0.15);
   box-sizing: border-box;
   display: -webkit-flex;
+  /* OLD - iOS 6-, Safari 3.1-6 */
   display: -moz-flex;
+  /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flex;
+  /* TWEENER - IE 10 */
   display: -o-flex;
+  /* NEW - Chrome */
   display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   align-items: center;
   justify-content: space-between;
   padding: 0 50px; }
@@ -38,19 +49,29 @@ body {
   #header .header-rightbox {
     float: right;
     display: -webkit-flex;
+    /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-flex;
+    /* OLD - Firefox 19- (buggy but mostly works) */
     display: -ms-flex;
+    /* TWEENER - IE 10 */
     display: -o-flex;
+    /* NEW - Chrome */
     display: flex;
+    /* NEW, Spec - Opera 12.1, Firefox 20+ */
     align-items: center; }
   #header .searchbox {
     margin-right: 40px; }
   #header .myinforbox {
     display: -webkit-flex;
+    /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-flex;
+    /* OLD - Firefox 19- (buggy but mostly works) */
     display: -ms-flex;
+    /* TWEENER - IE 10 */
     display: -o-flex;
+    /* NEW - Chrome */
     display: flex;
+    /* NEW, Spec - Opera 12.1, Firefox 20+ */
     align-items: flex-end; }
   #header a.message-btn {
     font-size: 24px;
@@ -104,10 +125,15 @@ body {
 *****************************************/
 .commodity-cards {
   display: -webkit-flex;
+  /* OLD - iOS 6-, Safari 3.1-6 */
   display: -moz-flex;
+  /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flex;
+  /* TWEENER - IE 10 */
   display: -o-flex;
+  /* NEW - Chrome */
   display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start; }
@@ -132,10 +158,15 @@ body {
   color: rgba(0, 0, 0, 0.87); }
 .commodity-card .content .headerbox {
   display: -webkit-flex;
+  /* OLD - iOS 6-, Safari 3.1-6 */
   display: -moz-flex;
+  /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flex;
+  /* TWEENER - IE 10 */
   display: -o-flex;
+  /* NEW - Chrome */
   display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   justify-content: space-between;
   align-items: center; }
   .commodity-card .content .headerbox .commodity-price {
@@ -247,13 +278,21 @@ body {
   width: 100%;
   min-height: 400px;
   display: -webkit-flex;
+  /* OLD - iOS 6-, Safari 3.1-6 */
   display: -moz-flex;
+  /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flex;
+  /* TWEENER - IE 10 */
   display: -o-flex;
+  /* NEW - Chrome */
   display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
   -webkit-flex-flow: row wrap;
   -ms-flex-flow: row wrap;
   flex-flow: row wrap;
+  box-pack: justify;
+  -moz-box-pack: justify;
+  -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-justify-content: space-between;
   justify-content: space-between;
@@ -262,10 +301,15 @@ body {
   align-content: flex-start; }
   .user-list > .user-item {
     display: -webkit-flex;
+    /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-flex;
+    /* OLD - Firefox 19- (buggy but mostly works) */
     display: -ms-flex;
+    /* TWEENER - IE 10 */
     display: -o-flex;
+    /* NEW - Chrome */
     display: flex;
+    /* NEW, Spec - Opera 12.1, Firefox 20+ */
     -webkit-flex-flow: row nowrap;
     -ms-flex-flow: row nowrap;
     flex-flow: row nowrap;

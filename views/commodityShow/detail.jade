@@ -1,58 +1,125 @@
 extends ../public/layout.jade
+block append css
+  link(rel='stylesheet', href='/dist/css/commodityShow.css')
 block content
-  div.commodity-detail-box
-    div.commodity-detail-post
-      h1 这是标题
-      p.commodity-sub-title
-        div.commodity-sub-title-left
-          span.commodity-category 数码相机
-          span.last-edit-time 2015-11-04
-        div.commodity-sub-title-right
-          span.visited-num 222
-          span.comment-num 222
-      //- 正文内容
-      div.commodity-post-text
-      //- 评论区
-      div.comment-box
-    div.commodity-detail-list
-      div.commodity-info-detail
-        h2 商品信息
-          a(href="#" class="to-edit-btn") 编辑
-        p.detail-line 
-          span.info-key 商品名称
-          span.info-value iphone6国行
-        p.detail-line 
-          span.info-key 价格
-          span.info-value 100
-        p.detail-line 
-          span.info-key 成色
-          span.info-value 9成新
-        p.detail-line 
-          span.info-key 入手时间
-          span.info-value 2015-10-1
-        p.detail-line
-          span.info-key 买入价格
-          span.info-value 250
+  - if(commodity){
+    div.commodity-detail-box
+      div.commodity-detail-post
+        h1.post-title #{commodity.title}
+        .ui.inverted.divider
+        .commodity-sub-title
+          div.commodity-sub-title-left
+            .commodity-category.ui.breadcrumb
+              span.section #{commodity.category.firstNav}
+              span.divider
+              span.section #{commodity.category.secondNav}
 
-      div.commodity-user-info
-        div.info-header
-          div.img-box
-            a(href="#")
-              img(src="#", alt="")
-          div.info-as-name
-            a(href="#",class="user-name") 烟树
-            p.user-num
-              a(href="#",class="user-follow-num") 信徒10
-              a(href="#",class="user-commodity-num") 闲置2
-        div.info-body
-          p.detail-line 
-            span.info-key 联系电话
-            span.info-value 123124342312
-          p.detail-line 
-            span.info-key qq
-            span.info-value 123124342312
-          p.detail-line 
-            span.info-key 微信
-            span.info-value 123124342312
-        //- 这里差一块  用户曾经售过的东西
+            span.last-edit-time #{commodity.updateTime}
+          div.commodity-sub-title-right
+            .visited-num
+              i.unhide.icon
+              span #{commodity.visitedCount}
+            .comment-num
+              i.comment.icon.outline
+              span #{commodity.replyCount}
+        //- 正文内容
+        div.commodity-post-text
+        //- 评论区
+        div.comment-box
+      div.commodity-detail-list
+        div.commodity-info-detail
+          .detail-line
+            h2 商品信息
+            // 第三方视角
+            - if(commodity.hostId !== user._id){
+              .ui.button.basic.mini
+                i.icon.heart.outline 关注该用户
+              - var status = commodity.status
+              case status
+                when 1
+                  .ui.button.mini.green 正在卖
+                when 2
+                  .ui.button.mini.black 已下架
+                default
+                  .ui.button.mini.green 正在卖
+              .ui.button.mini 编辑
+            - }else{
+              // 自己
+              // 不同状态
+              - var status = commodity.status
+              case status
+                when 0
+                  .ui.button.mini.orange 审核中
+                when 1
+                  .ui.button.mini.green 正在卖
+                when 2
+                  .ui.button.mini.black 已下架
+                when 3
+                  .ui.button.mini.red 审核未通过
+                default
+                  .ui.button.mini.orange 审核中
+            - }
+          .ui.inverted.divider
+          .detail-line
+            .info-key
+              i.icon.tag
+              商品名称
+            .info-value  #{commodity.name}
+          .detail-line
+            .info-key
+              i.icon.star.half.empty
+              价格
+            .info-value  #{commodity.price}
+          .detail-line
+            .info-key
+              i.icon.find
+              成色
+            .info-value  #{commodity.howNew}
+          .detail-line
+            .info-key
+              i.icon.wait
+              入手时间
+            .info-value  #{commodity.gotTime}
+          .detail-line
+            .info-key
+              i.icon.star
+              买入价格
+            .info-value  #{commodity.gotPrice}
 
+        div.commodity-user-info
+          div.info-header
+            a.ui.image(href="")
+              img(src="/dist/images/nan.jpg",alt="")
+            div.info-as-name
+              a.user-name(href="#") #{commodity.userName}
+              .user-num
+                .user-follow-num
+                  a(href="#") 信徒10
+                .user-commodity-num
+                  a(href="#") 闲置2
+          .ui.inverted.divider
+          div.info-body
+            .detail-line
+              span.info-key 联系电话
+              span.info-value  #{commodity.phoneNum}
+            .detail-line
+              span.info-key QQ
+              span.info-value  #{commodity.qq}
+            .detail-line
+              span.info-key 微信
+              span.info-value  #{commodity.weChat}
+        div.commodity-user-commodities
+          .detail-line
+            h2 TA的其他闲置
+          .ui.inverted.divider
+          .items-show-box
+            .left-btn
+              i.icon.angle.left
+            a.ui.image.popupele(href="",data-content="这个商品的标题1")
+              img(src="/dist/images/nan.jpg",alt="")
+            a.ui.image.popupele(href="",data-content="这个商品的标题2")
+              img(src="/dist/images/nan.jpg",alt="")
+            a.ui.image.popupele(href="",data-content="这个商品的标题3")
+              img(src="/dist/images/nan.jpg",alt="")
+            .right-btn
+  - }

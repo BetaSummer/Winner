@@ -1,3 +1,6 @@
+/*****************************************
+* flex
+*****************************************/
 .user-center-nav-list {
   display: inline-block;
   height: 40px;
@@ -50,10 +53,15 @@
         color: red; }
     .news-box > .news-item .news-item-body {
       display: -webkit-flex;
+      /* OLD - iOS 6-, Safari 3.1-6 */
       display: -moz-flex;
+      /* OLD - Firefox 19- (buggy but mostly works) */
       display: -ms-flex;
+      /* TWEENER - IE 10 */
       display: -o-flex;
+      /* NEW - Chrome */
       display: flex;
+      /* NEW, Spec - Opera 12.1, Firefox 20+ */
       -webkit-flex-flow: row wrap;
       -ms-flex-flow: row wrap;
       flex-flow: row wrap; }

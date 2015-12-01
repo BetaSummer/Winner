@@ -31,13 +31,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // 中间件
-// redis-session
+//redis-session
 app.use(session({
-  secret:config.session_secret,
   store: new redisStore({
+    host: config.redis_host,
     port: config.redis_port,
-    port:config.redis_host,
   }),
+  secret:config.session_secret,
   resave: true,
   saveUninitialized: true
 }));

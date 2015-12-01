@@ -4,6 +4,8 @@ div.setting-side-bar
       img(src="/dist/images/header.jpg", alt="")
     p.user-name 烟树
     div.my-infos-box
+      .ui.divider.inverted
+
       - numList = [{type:'关注',num:22},{type:"信徒",num:33},{type:"闲置",num:44}]
       - each item in numList
         span.user-center-header-info

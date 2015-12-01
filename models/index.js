@@ -6,15 +6,8 @@ mongoose.connect(config.db,function(err){
 		console.log('connect to %s error', config.db, err.message);
 		process.exit(1);
 	}
-})
-// models
-/
-require('./user');
-require('./commodity');
-require('./message');
-require('./reply');
-
-exports.User = mongoose.model('User');
-exports.Commodity = mongoose.model('Commodity');
-exports.Message = mongoose.model('Message');
-exports.Reply = mongoose.model('Reply');
+});
+exports.User = require('./user');
+exports.Commodity = require('./commodity');
+exports.Message = require('./message');
+exports.Reply = require('./reply');

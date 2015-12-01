@@ -1,0 +1,146 @@
+// scss重用方法
+
+
+/*****************************************
+* flex
+*****************************************/
+
+
+@mixin flex(){
+  display: -webkit-flex; /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-flex; /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flex; /* TWEENER - IE 10 */
+  display: -o-flex; /* NEW - Chrome */
+  display: flex;  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+@mixin center(){
+  position: absolute;
+  left: 0;top:0;right: 0;bottom: 0;
+  margin: auto;
+}
+@mixin direction($v:row){
+  @if $v == row {
+    -moz-box-orient:horizontal;
+    -moz-box-direction:normal;
+    -webkit-box-orient:horizontal;
+    -webkit-box-direction:normal;
+  } @else if $v == row-reverse{
+    -moz-box-orient:horizontal;
+    -moz-box-direction:reverse;
+    -webkit-box-orient:horizontal;
+    -webkit-box-direction:reverse;
+  } @else if $v == column {
+    -moz-box-orient:vertical;
+    -moz-box-direction:normal;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+  } @else if $v == column-reverse{
+    -moz-box-orient:horizontal;
+    -moz-box-direction:reverse;
+    -webkit-box-orient:horizontal;
+    -webkit-box-direction:reverse;
+  }
+  -webkit-flex-direction: $v;
+  -ms-flex-direction: $v;
+  flex-direction: $v;
+}
+@mixin wrap($v:nowrap){
+  @if $v == nowrap{
+    -webkit-box-lines:single;
+    box-lines:single;
+  }@else if $v == wrap {
+    -webkit-box-lines:multiple;
+  }
+  -webkit-flex-wrap: $v;
+  -ms-flex-wrap: $v;
+  flex-wrap: $v;
+}
+@mixin flow($d:row,$w:nowrap){
+  -webkit-flex-flow: $d $w;
+  -ms-flex-flow: $d $w;
+  flex-flow: $d $w;
+}
+
+@mixin justify-content($v:flex-start){
+  @if $v == flex-start {
+    box-pack:start;
+    -moz-box-pack:start;
+    -webkit-box-pack:start;
+  }@else if $v == flex-end {
+    box-pack:end;
+    -moz-box-pack:end;
+    -webkit-box-pack:end;
+  }@else if $v == center {
+    box-pack:center;
+    -moz-box-pack:center;
+    -webkit-box-pack:center;
+  }@else if $v == space-between{
+    box-pack:justify;
+    -moz-box-pack:justify;
+    -webkit-box-pack:justify;
+  }
+  -webkit-justify-content:$v;
+  -ms-justify-content:$v;
+  justify-content:$v;
+}
+@mixin align-items($v:flex-start){
+  @if $v == flex-start {
+    box-align:start;
+    -moz-box-align:start;
+    -webkit-box-align:start;
+  } @else if $v == flex-end {
+    box-align:end;
+    -moz-box-align:end;
+    -webkit-box-align:end;
+  } @else if $v == center {
+    box-align:center;
+    -moz-box-align:center;
+    -webkit-box-align:center;
+  } @else if $v == baseline {
+    box-align:baseline;
+    -moz-box-align:baseline;
+    -webkit-box-align:baseline;
+  } @else if $v == stretch {
+    box-align:stretch;
+    -moz-box-align:stretch;
+    -webkit-box-align:stretch;
+  }
+  -webkit-align-items:$v;
+  -ms-align-items:$v;
+  align-items:$v;
+}
+@mixin align-content($v:flex-start){
+  -webkit-align-content:$v;
+  -ms-align-content:$v;
+  align-content:$v;
+}
+@mixin align-self($v:flex-start){
+  -webkit-align-self:$v;
+  -ms-align-self:$v;
+  align-self:$v;
+}
+
+@mixin flex-order($v:0){
+  box-ordinal-group:$v;
+  -moz-box-ordinal-group:$v;
+  -webkit-box-ordinal-group:$v;
+  order:$v;
+}
+@mixin flex-grow($v:0){
+  box-flex:$v;
+  -moz-box-flex:$v;
+  flex-grow:$v;
+}
+@mixin flex-shrink($v:1){
+  flex-shrink:$v;
+}
+@mixin flex-basis($v:auto){
+  flex-basis:$v;
+}
+@mixin align-self($v:auto){
+  align-self:$v;
+}
+@mixin item-flex($v1,$v2,$v3){
+  flex:0 1 auto;
+}

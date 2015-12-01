@@ -2,7 +2,7 @@ var config = {
 	name:'杭电良品',
 	host:'betahouse.us', // 域名
 	// mongoose 配置
-	db: 'mongodb://127.0.0.1/hdulp',
+	db: 'mongodb://localhost/hdulp',
 	// redis 配置
 	redis_host: '127.0.0.1',
 	redis_port: 6379,

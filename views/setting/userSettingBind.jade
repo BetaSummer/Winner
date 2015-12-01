@@ -5,19 +5,21 @@ block content
   div.user-setting-content
     div.user-setting-edit-box
       div.setting-top
-        span.setting-title 第三方绑定
+        h1.setting-title 第三方绑定
+        button.ui.button.orange.small(onclick="$('form').submit()") 保存
+      .ui.divider.inverted
       div.user-setting-form
         form(action="#" methods="POST")
-          p.setting-line
+          .setting-line
             label(for="oldPassword") 绑定
-            a(href="#",class="bind-with-qq")
-              img(src="/dist/images/qq.jpg", alt="")
-            a(href="#",class="cancelBind") 取消绑定
-          p.setting-line
+            a.ui.button.qq.blue.small
+              i.icon.qq
+              腾讯 Q Q
+            a.cancelBind(href="#") 取消绑定
+          .setting-line
             label(for="newPassword") 绑定
-            a(href="#",class="bind-with-wechat")
-              img(src="/dist/images/wechat.jpg", alt="")
-            a(href="#",class="cancelBind") 取消绑定
-          p.setting-line
-            input(type="submit",value="保存",class="setting-save-btn")
+            a.ui.button.weibo.red.small
+              i.icon.weibo
+              新浪微博
+            a.cancelBind(href="#") 取消绑定
     include settingSideBar

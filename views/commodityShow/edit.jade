@@ -1,78 +1,99 @@
 extends ../public/layout.jade
+block append css
+  link(rel='stylesheet', href='/dist/css/commodityShow.css')
 block content
-  div.edit-big-box
-    h2 修改闲置
-    form(action="#" method="POST")
-      p.edit-info 为了保证信息可靠性，修改成功后将重新进入审核状态，让我们携手努力，维护杭电良品的优质信息
-      section.sub-edit-box
-        p.edit-line
-          label(for="title")闲置标题
-          input(type="text" id="title" name="title" value="我是原来的标题")
-          span.edit-info 商品关键字靠前，会提升关注度哦
-      p.edit-info 详细信息
-      //- 富文本
-      p.edit-line
-        input(type="submit",value="保存修改",class="edit-commodity-btn")
-  div.edit-box-list
-    div.edit-commodity-info
-      form(action="#" method="POST")
-        h2 商品信息
-        p.edit-line 
-          span.info-key 商品名称
-          span.info-value iphone6国行
-        p.edit-line
-          label(for="category")商品类目
-            select(name="firstNav" id="category" class="edit-firstNav")
-              - firstList = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
-              - each item,index in firstList
-                option(value=index) #{item}
-            select(name="secondNav" class="edit-secondNav")
-              - secondList = ['台式电脑','笔记本','手机','相机','手表','其他']
-              - each item,index in secondList
-                option(value=index) #{item}
-        p.edit-line
-          label(for="fineness")成色
-            select(name="howNew",id="fineness")
-              - opList = [99,95,9,8,6,5,3,2]
-              - each item,index in opList
-                option(value=index) #{item}成新
-        p.edit-line
-          label(for="price")价格
-          input(type="tel",id="price",name="price")
-        p.edit-line
-          label(for="getPrice")入手价格
-          input(type="tel",name="getPrice")
-        p.edit-line
-          label(for="getTime")
-          //- 使用日历控件
-          input(type="datetime",id="getTime")
-        p.edit-line
-          input(type="submit",value="保存修改",class="edit-commodity-btn")
-    div.edit-img
-      form(action="#" method="POST")
-        h2 封面图片
-        //- 文件上传按钮需要美化
-        input(type="file" name="newImg")
-        //- 上传之后 显示保存按钮
-        input(type="submit",value="保存修改",class="edit-commodity-btn")
-        div.old-img-box
-          img(src="#", alt="")
+  -if(commodity){
+    .edit-container
+      div.edit-big-box
+        .edit-line.edit-big-box-title-box
+          h2.edit-box-title 修改闲置
+          buttons
+            .ui.button.basic.small 取消
+            .ui.button.small.orange 保存修改
+        form(action="/edit/"+commodity._id method="POST")
+          p.edit-info.tip 为了保证信息可靠性，修改成功后将重新进入审核状态，让我们携手努力，维护杭电良品的优质信息
+          section.sub-edit-box
+            .edit-line
+              label(for="title")闲置标题
+              .ui.input(style="width:500px;")
+                input(type="text" id="title" name="title",value=commodity.title)
+            .edit-line
+              label
+              span.edit-info 商品关键字靠前，会提升关注度哦
 
-    div.edit-concat-info
-      form(action="#" method="POST")
-        h2 联系信息
-        p.edit-line
-          label(for="phoneNum")手机
-            input(type="tel",id="phoneNum",name="phoneNum" value="123212123")
-        p.edit-line
-          label(for="userName")姓名
-            input(type="text",id="userName",name="userName")
-        p.edit-line
-          label(for="qq") qq
-            input(type="tel",id="qq",name="qq")
-        p.edit-line
-          label(for="wechat")微信
-            input(type="text",id="wechat",name="wechat")
-        p.edit-line
-          input(type="submit",value="保存修改",class="edit-commodity-btn")
-       
+          //- 富文本
+          #rich-text-box
+          .edit-line.center
+            input.edit-commodity-btn.ui.button.orange(type="submit",value="保存修改")
+      div.edit-box-list
+        div.edit-commodity-info
+          form(action="#" method="POST")
+            .edit-line
+              h2.edit-box-title 商品信息
+            .edit-line
+              span.info-key 商品名称
+              span.info-value #{commodity.name}
+            .edit-line
+              label(for="category") 商品类目
+              .ui.selection.dropdown(style="min-width:180px")
+                input(name="secondNav",type="hidden",value=commodity.category.secondNav)
+                i.dropdown.icon
+                .default.text 请选择
+                  .menu
+                    - secondList = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
+                    - each item,index in secondList
+                      .item #{item}
+            .edit-line
+              label(for="fineness") 成色
+              .ui.selection.dropdown(style="min-width:100px")
+                input(name="howNew",id="fineness",type="hidden",value=commodity.howNew)
+                i.dropdown.icon
+                .default.text 请选择
+                  .menu
+                    - opList = [99,95,9,8,6,5,3,2]
+                    - each item,index in opList
+                      .item #{item}成新
+            .edit-line
+              label(for="price") 价格
+              .ui.input
+                input(type="tel",id="price",name="price",value=commodity.price)
+            .edit-line
+              label(for="getPrice") 入手价格
+              .ui.input
+                input(type="tel",name="getPrice",value=commodity.getPrice)
+            .edit-line
+              label(for="getTime") 入手时间
+              //- 使用日历控件
+              .ui.input
+                input(type="datetime",id="getTime",value=commodity.getTime)
+              input.edit-commodity-btn.hidden(type="submit",value="保存修改")
+        div.edit-img
+          form(action="#" method="POST")
+            .edit-line
+              h2.edit-box-title 封面图片
+              button.ui.button.mini.basic 更改
+            input.edit-commodity-btn.hidden(type="submit",value="保存修改")
+            div.img-box
+              img(src=commodity.coverImg, alt="")
+
+        div.edit-concat-info
+          form(action="#" method="POST")
+            h2.edit-box-title 联系信息
+            .edit-line
+              label(for="phoneNum")手机
+              .ui.input
+                input(type="tel",id="phoneNum",name="phoneNum",value=commodity.phoneNum)
+            .edit-line
+              label(for="userName")姓名
+              .ui.input
+                input(type="text",id="userName",name="userName",value=commodity.userName)
+            .edit-line
+              label(for="qq") QQ
+              .ui.input
+                input(type="tel",id="qq",name="qq",value=commodity.qq)
+            .edit-line
+              label(for="wechat")微信
+              .ui.input
+                input(type="text",id="wechat",name="weChat",value=commodity.weChat)
+            input.edit-commodity-btn.hidden(type="submit",value="保存修改")
+  - }

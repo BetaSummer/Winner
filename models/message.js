@@ -20,4 +20,5 @@ var MessageSchema = new Schema({
 
 MessageSchema.index({hasRead:-1,createTime:-1});
 
-mongoose.model('Message',MessageSchema);
+var Message = mongoose.model('Message',MessageSchema);
+module.exports = Message;

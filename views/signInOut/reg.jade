@@ -1,2 +1,21 @@
 extends ../public/layout.jade
 block content
+  div.reg-box
+    div.reg-error
+    form(action="/reg" method="POST")
+      p.reg-line
+        label(for="userPhone") 手机号
+          input(type="text",id="userPhone",name="phone")
+      p.reg-line
+        label(for="password") 密码
+          input(type="password",id="password",name="password")
+      p.reg-line
+        label(for="rePassword") 确认密码
+          input(type="password",id="rePassword",name="rePassword")
+      p.reg-line
+        label(for="nickName") 昵称
+          input(type="text",id="nickName",name="nickName")
+      p.reg-line
+        input(type="submit",value="注册")
+      p.reg-line
+        a(href="#" class="to-login-btn")已有帐号？直接登录

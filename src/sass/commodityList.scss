@@ -1,0 +1,45 @@
+@import 'mixin.scss';
+@import 'params.scss';
+.commodity-list{
+  padding-top:50px;
+  .commodity-list-top{
+    color:#767676;
+    @include flex();
+    justify-content:space-between;
+    align-items:flex-end;
+  }
+}
+.commodity-nav{
+  cursor:default;
+}
+.commodity-first-nav{
+  padding:0 10px;
+  @include flex();
+  justify-content:space-between;
+  .item.active{
+    color:#F2711C;
+  }
+}
+.commodity-second-nav{
+  font-size:0.9em;
+  margin:20px;
+  @include flex();
+  flex-wrap:wrap;
+  .item{
+    margin:3px 10px;
+    padding:5px 10px;
+  }
+  .item.active,
+  .item:hover{
+    color:#fff;
+    background:#F2711C;
+  }
+}
+// list 抽取到base里面去了
+// .commodity-cards{
+//   @include flex();
+//   flex-wrap:wrap;
+//   justify-content:space-between;
+//   align-items:flex-start;
+//   .commodity-card{  }
+// }

@@ -15,4 +15,5 @@ var ReplySchema = new Schema({
 ReplySchema.index({commodityId:1});
 ReplySchema.index({authorId:1,createTime:-1});
 
-mongoose.model('Reply', ReplySchema);
+var Reply = mongoose.model('Reply', ReplySchema);
+module.exports = Reply;

@@ -5,40 +5,62 @@ block content
   div.user-setting-content
     div.user-setting-edit-box
       div.setting-top
-        span.setting-title 个人资料
+        h1.setting-title 个人资料
+        button.ui.button.orange.small(onclick="$('form').submit()") 保存
+      .ui.divider.inverted
       div.user-setting-form
         form(action="#" methods="POST")
-          p.setting-line
-            label(for="nickName")暱称
+          .setting-line
+            label(for="nickName") 昵称
+            .ui.input.error
               input(type="text",id="nickName",name="nickName")
-          p.setting-line
-            label(for="phoneNum")手机号
+              span.warninginfo 含有非法字符
+          .setting-line
+            label(for="phoneNum") 手机号
+            .ui.input
               input(type="tel")
-              span.get-verification-btn.hidden 获取验证码
-            //- 点击获取验证码 显示
-            span.got-verification-btn
-              span.second-time 20
-              span s之后再次获取
-          p.setting-line
-            label(for="realName")真实姓名
+              button.get-verification-btn.ui.button.blue.tiny.hidden 获取验证码
+              //- 点击获取验证码 显示
+              button.got-verification-btn.ui.button.tiny.disabled 20s之后再次获取
+              //span.second-time 20
+              //span s之后再次获取
+          .setting-line
+            label 验证码
+            .ui.input
+              input(name="identifyingCode")
+              button.ui.button.red.tiny 确认
+              span.warninginfo 验证码错误
+
+
+
+          .setting-line
+            label(for="realName") 真实姓名
+            .ui.input
               input(type="text",id="realName",name="realName")
-          p.setting-line
-            label(for="qq") qq
+              span.warninginfo 含有非法字符
+          .setting-line
+            label(for="qq") QQ
+            .ui.input
               input(type="tel",id="qq",name="qq")
-          p.setting-line
+              span.warninginfo 这不是QQ号
+
+          .setting-line
             label(for="wechat") 微信
+            .ui.input
               input(type="text",id="wechat",name="wechat")
-          p.setting-line
+              span.warninginfo 这不是微信号
+          .setting-line
             label(for="sex") 性别
-              select(name="sex",id="sex",class="setting-sex")
-                - sexList = ['男子汉','小娘子']
-                - each item,index in sexList
-                  option(value=index) #{item}
-          p.setting-line
+            .ui.dropdown
+              #sex.text 男子汉
+              i.dropdown.icon
+              .menu
+                .item 男子汉
+                .item 小娘子
+          .setting-line
             //- 日历控件
             label(for="brithday") 生日
+            .ui.input
               input(type="datetime",id="brithday",name="brithday")
-          p.setting-line
-            input(type="submit",value="保存",class="setting-save-btn")
     include settingSideBar
     
