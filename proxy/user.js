@@ -1,6 +1,7 @@
 //操作用户的方法。
 var models = require('../models');
 var User = models.User;
+var Commodity = models.Commodity;
 /*
 * 根据用户id 返回用户
 *  @param {String} id 用户id
@@ -54,6 +55,10 @@ exports.getUserByPhone = function(phone,cb){
 * getUserFocusById 通过用户id来获取用户关注的用户
 * @param { String} 用户的id
 * @param { Function} 回调函数
+* cb:
+*   - err
+*   - document 查找返回的文档
+*   	- follows
  */
 exports.getUserFocusById = function(id,cb){
 	User.findOne({_id:id})
@@ -69,6 +74,10 @@ exports.getUserFocusById = function(id,cb){
 * getUserFollowsById 通过用户id来获取用户的粉丝
 * @param { String} 用户的id
 * @param { Function} 回调函数
+*  cb:
+*   - err
+*   - document 查找返回的文档
+*   	- follows
  */
 exports.getUserFollowsById = function(id,cb){
 	User.findOne({_id:id})
@@ -85,6 +94,11 @@ exports.getUserFollowsById = function(id,cb){
 * getUserCommoditiesById 通过用户id获取商品
 * @param { String} id
 * @param { Function} 回调函数
+* cb:
+*  - err
+*  - document 查找返回的文档
+*  	 -  myCommodity {array}  可以理解为id被id对应的对象取代
+*  	 -  hostId {array}
 */
 exports.getUserCommoditiesById = function(id,cb){
 	User.findOne({_id:id})
@@ -95,9 +109,79 @@ exports.getUserCommoditiesById = function(id,cb){
 		coverImg:1,
 		updateTime:1,
 		replyCount:1,
-		visitedCount:1
+		visitedCount:1,
 	},options:{sort:{
 		updateTime:-1
 	}}})
 	.exec(cb)
-}
+};
+
+/*
+*getCommodityHosterById 通过商品id 查找用户信息
+* @params {Number} 商品id
+* @params {Function} 回调函数
+* - err/null
+* - user 返回的用户
+ */
+exports.getCommodityHosterById = function(id,cb){
+	Commodity.findOne({_id:id},function(err,commodity){
+		if(err){
+			cb(err)
+		}
+		var hostId = commodity.hostId;
+		exports.getUserById(hostId,cb);
+	});
+};
+/*
+* getTopUser 获取前30名用户
+*
+* @param {Function} 回调函数
+* - err
+* - users  返回的用户
+ */
+exports.getTopUser = function(cb){
+	User.find({})
+	.sort({level:-1})  //level降序
+	.limit(30)
+	.exec(cb)
+};
+
+/*
+* addFollow添加关注用户
+* @param {Number} 被更新帐号id
+* @param {Number} 需要添加的用户id
+* @param {Function} 回调
+*
+* @link unique array values in Mongoose
+* http://stackoverflow.com/questions/9640233/unique-array-values-in-mongoose
+* https://docs.mongodb.org/manual/reference/operator/update/addToSet/
+ */
+exports.addFocus = function(id,userId,cb){
+	User.update({_id:id},
+		{$addToSet: {focus:userId}},cb);
+};
+
+/*
+* rmFocus 取消关注用户
+* @param {Number} 被更新帐号id
+* @param {Number} 取消关注的用户id
+* @param {Function} 回调
+ */
+exports.rmFocus = function(id,userId,cb){
+	User.update({_id:id},
+		//先将取消关注的id添加到hadFocus 字段里
+		{$addToSet: {hadFocus:userId}},function(err){
+			if(err){
+				return console.log(err)
+			}
+			// 再将该id从focus里面删除
+			User.update({_id:id},
+				{$pull:{focus:userId}},cb);
+		});
+};
+
+exports.updateUserInfo = function(obj,cb){
+};
+
+
+

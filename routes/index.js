@@ -18,15 +18,23 @@ router.get('/forgetPass',function(req,res,next){
 });
 // 个人中心i
 router.get('/user/:id',auth.loginRequired,user.showUserCenterIndex);
-router.get('/user/:id/myFollows',auth.loginRequired,user.showMyFollows);
-router.get('/user/:id/myFocus',auth.loginRequired,user.showMyFocus);
-router.get('/user/:id/myCommodity',auth.loginRequired,user.showMyCommodity);
+router.get('/user/:id/follows',auth.loginRequired,user.showMyFollows);
+router.get('/user/:id/focus',auth.loginRequired,user.showMyFocus);
+router.get('/user/:id/commodity',auth.loginRequired,user.showMyCommodity);
+// 添加取消关注
+router.get('/addFocus/:id',auth.loginRequired,user.addFocus);
+router.get('/rmFocus/:id',auth.loginRequired,user.rmFocus);
 
 // 用户信息设置
 router.get('/setting',auth.loginRequired,user.showSettingIndex);
 router.get('/settingHeader',auth.loginRequired,user.showSettingHeader);
 router.get('/settingPass',auth.loginRequired,user.showSettingPass);
 router.get('/settingBind',auth.loginRequired,user.showSettingBind);
+
+router.post('/setting',auth.loginRequired,user.settingIndex);
+router.post('/settingHeader',auth.loginRequired,user.settingHeader);
+router.post('/settingPass',auth.loginRequired,user.settingPass);
+router.post('/settingBind',auth.loginRequired,user.settingBind);
 
 // 商品
 router.get('/publish',auth.loginRequired,commodity.showPublish);

@@ -9,7 +9,7 @@ block content
         button.ui.button.orange.small(onclick="$('form').submit()") 保存
       .ui.divider.inverted
       div.user-setting-form
-        form(action="#" methods="POST")
+        form(action="/setting" method="POST")
           .setting-line
             label(for="nickName") 昵称
             .ui.input.error
@@ -18,7 +18,7 @@ block content
           .setting-line
             label(for="phoneNum") 手机号
             .ui.input
-              input(type="tel")
+              input(type="tel",id="phoneNum",name="phoneNum")
               button.get-verification-btn.ui.button.blue.tiny.hidden 获取验证码
               //- 点击获取验证码 显示
               button.got-verification-btn.ui.button.tiny.disabled 20s之后再次获取
@@ -27,7 +27,7 @@ block content
           .setting-line
             label 验证码
             .ui.input
-              input(name="identifyingCode")
+              input(type="text")
               button.ui.button.red.tiny 确认
               span.warninginfo 验证码错误
 
@@ -51,6 +51,7 @@ block content
               span.warninginfo 这不是微信号
           .setting-line
             label(for="sex") 性别
+            input(type="hidden",id="sex",name="sex",value="男子汉")
             .ui.dropdown
               #sex.text 男子汉
               i.dropdown.icon

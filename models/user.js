@@ -17,6 +17,7 @@ var UserSchema = new Schema({
 	createTime: { type: Date, default:Date.now()},
 	focus: [{ type: ObjectId, ref:'User'}],
 	follows: [{ type: ObjectId, ref:'User'}],
+	hadFocus: [{ type: ObjectId, ref:'User'}], //取消关注的
 	myCommodity: [{type: ObjectId, ref:'Commodity'}],
 	reply: [{ type:ObjectId, ref:'Commodity'}],
 	active: { type:Boolean, default:false},
