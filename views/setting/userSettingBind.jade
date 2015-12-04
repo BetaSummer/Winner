@@ -9,7 +9,7 @@ block content
         button.ui.button.orange.small(onclick="$('form').submit()") 保存
       .ui.divider.inverted
       div.user-setting-form
-        form(action="#" methods="POST")
+        form(action="/settingBind" method="POST")
           .setting-line
             label(for="oldPassword") 绑定
             a.ui.button.qq.blue.small

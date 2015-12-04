@@ -1,14 +1,18 @@
 var config = require('../config');
-var user = require('../proxy/user');
+var User = require('../proxy/user');
 var auth = require('../middlewares/auth');
-
+var validator = require('validator'); // 验证
+var crypto = require('crypto');
+var hash = function(psw){
+	return crypto.createHash('sha1').update(psw).digest('hex');
+};
 /*
 * showUserCenterIndex 显示用户个人中心的首页 最新动态
  */
 exports.showUserCenterIndex = function(req,res,next){
 	var userId = req.params.id;
 	var isSelf = userId === req.session.user._id ? true : false;
-	user.getUserById(userId,function(err,user){
+	User.getUserById(userId,function(err,user){
 		if(err){
 			console.log(err)
 		}
@@ -23,7 +27,7 @@ exports.showUserCenterIndex = function(req,res,next){
 * showUserTop 首页显示优质用户
  */
 exports.showTopUser= function(req,res,next){
-	user.getUserById(function(err,users){
+	User.getUserById(function(err,users){
 		if(err){
 			return console.log(err)
 		}
@@ -40,7 +44,7 @@ exports.showTopUser= function(req,res,next){
 exports.showMyFollows = function(req,res,next){
 	var userId = req.params.id;
 	var isSelf = userId === req.session.user._id ? true : false;
-	user.getUserFollowsById(userId,function(err,user){
+	User.getUserFollowsById(userId,function(err,user){
 		console.log(user);
 		res.render('userCenter/myFollows',{
 			user:req.session.user,
@@ -56,7 +60,7 @@ exports.showMyFocus = function(req,res,next){
 	var userId = req.params.id;
 	console.log(userId)
 	var isSelf = userId === req.session.user._id ? true : false;
-	user.getUserFocusById(userId,function(err,user){
+	User.getUserFocusById(userId,function(err,user){
 		if(err){
 			return console(err);
 		}
@@ -73,7 +77,7 @@ exports.showMyFocus = function(req,res,next){
 exports.addFocus = function(req,res,next){
 	var selfId = req.session.user._id;
 	var userId = req.params.id;
-	user.addFocus(selfId,userId,function(err){
+	User.addFocus(selfId,userId,function(err){
 		if(err){
 			return console.log(err)
 		}
@@ -86,7 +90,7 @@ exports.rmFocus = function(req,res,next){
 	var userId = req.params.id;
 	console.log(selfId);
 	console.log(userId);
-	user.rmFocus(selfId,userId,function(err){
+	User.rmFocus(selfId,userId,function(err){
 		if(err){
 			return console.log(err)
 		}
@@ -102,13 +106,13 @@ exports.rmFocus = function(req,res,next){
 exports.showMyCommodity = function(req,res,next){
 	var userId = req.params.id;
 	var isSelf = userId === req.session.user._id ? true : false;
-	user.getUserCommoditiesById(userId,function(err,doc){
+	User.getUserCommoditiesById(userId,function(err,doc){
 		if(err){
 			return console.log(err);
 		}
 		console.log(doc.myCommodity);// 商品信息
 		//查找卖家信息。
-		user.getUserById(userId,function(err,user){
+		User.getUserById(userId,function(err,user){
 			res.render('userCenter/myCommodity',{
 				user:req.session.user,
 				theUser:user,
@@ -131,8 +135,27 @@ exports.showSettingIndex = function(req,res,next){
 * 个人资料更新
  */
 exports.settingIndex = function(req,res,next){
+	var userId = req.session.user._id;
 	var body = req.body;
-	console.log(body);
+	// if(!validator.isDate(body.brithday)){
+	// 	return console.log('生日信息不合法')
+	// }
+	var userInfo = {
+		nickName:validator.trim(body.nickName),
+		phoneNum:validator.trim(body.phoneNum),
+		realName:validator.trim(body.realName),
+		qq:validator.trim(body.qq),
+		weChat:validator.trim(body.weChat),
+		sex:validator.trim(body.sex),
+		birthday:validator.trim(body.birthday)
+	};
+	console.log(userInfo);
+	User.updateUserInfo(userId,userInfo,function(err){
+		if(err){
+			return console.log(err)
+		}
+		console.log('信息更新成功')
+	})
 };
 
 /*
@@ -162,7 +185,32 @@ exports.showSettingPass = function(req,res,next){
 * 密码更新
  */
 exports.settingPass = function(req,res,next){
-	
+	var userId = req.session.user._id;
+	var oldPass = validator.trim(req.body.oldPassword);
+	var newPass = validator.trim(req.body.newPassword)
+	var reNewPass = validator.trim(req.body.reNewPassword);
+	if(newPass!==reNewPass){
+		return console.log('两次密码输入不一致')
+	}
+	User.getUserById(userId,function(err,user){
+		// 加密原密码
+		oldPass = hash(oldPass);
+		console.log(oldPass);
+		if(oldPass!==user.password){
+			return console.log('原密码不正确')
+		}
+		//加密新密码
+		newPass = hash(newPass);
+		console.log('---new password---')
+		console.log(newPass)
+		User.updateUserPass(userId,newPass,function(err,info){
+			if(err){
+				return console.log(err)
+			}
+			console.log(info);
+			console.log('密码更新成功')
+		});
+	})
 };
 /*
 * showSettingBind 显示用户信息设置绑定

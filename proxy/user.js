@@ -19,7 +19,7 @@ exports.getUserById = function(id,cb){
 
 /*
 * 创建新用户
-*  @param {Number} phone 用户手机号码
+*  @param {Number} phoneNum 用户手机号码
 *  @param {String}  password 用户密码
 *  @param {String} nickName 用户暱称
 *  @param {Function} cb 回调函数
@@ -27,9 +27,9 @@ exports.getUserById = function(id,cb){
 *  - err
 *  - user
  */
-exports.newAndSave = function(phone,password,nickName,cb){
+exports.newAndSave = function(phoneNum,password,nickName,cb){
 	var user = new User();
-	user.phone = phone;
+	user.phoneNum = phoneNum;
 	user.password = password;
 	user.nickName = nickName;
 	user.save(cb);
@@ -43,12 +43,12 @@ exports.getUserByEmail = function(email,cb){
 	User.finfOne({email:email},cb);
 };
 /*
-* getUserByPhone 通过电话查找用户
+* getUserByphone 通过电话查找用户
 * @param { Number} 查找的电话
 * @param { Function} cb 回调函数
  */
-exports.getUserByPhone = function(phone,cb){
-	User.findOne({phone:phone},cb);
+exports.getUserByPhone = function(phoneNum,cb){
+	User.findOne({phoneNum:phoneNum},cb);
 };
 
 /*
@@ -180,7 +180,38 @@ exports.rmFocus = function(id,userId,cb){
 		});
 };
 
-exports.updateUserInfo = function(obj,cb){
+/*
+* updateUserInfo 用户基本资料更新
+* @param { String} 更新用户的id
+* @param { Object} 更新用户的信息对象
+* @param { Function} 回调函数
+ */
+exports.updateUserInfo = function(id,obj,cb){
+	User.update({_id:id},
+		{$set:{
+			birthday:obj.birthday,
+			nickName:obj.nickName,
+			phoneNum:obj.phoneNum,
+			realName:obj.realName,
+			weChat:obj.weChat,
+			sex:obj.sex,
+			qq:obj.qq,
+		}},
+		{ upsert:true, multi: true },cb);
+};
+/*
+* updateUserPass 根据id更新密码
+* @param { String} 用户id
+* @param { String} 用户新密码
+* @param { Function} 回调函数
+*   - err
+*   - info 操作结果信息
+ */
+exports.updateUserPass = function(id,newPass,cb){
+	User.update({_id:id},
+		{$set:{
+			password:newPass
+		}},cb);
 };
 
 
