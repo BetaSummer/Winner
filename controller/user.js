@@ -45,10 +45,10 @@ exports.showMyFollows = function(req,res,next){
 	var userId = req.params.id;
 	var isSelf = userId === req.session.user._id ? true : false;
 	User.getUserFollowsById(userId,function(err,user){
-		console.log(user);
+		// console.log(user);
 		res.render('userCenter/myFollows',{
 			user:req.session.user,
-			theUser:user,
+			follows:user.follows,
 			isSelf:isSelf
 		});
 	});
@@ -58,15 +58,26 @@ exports.showMyFollows = function(req,res,next){
  */
 exports.showMyFocus = function(req,res,next){
 	var userId = req.params.id;
-	console.log(userId)
 	var isSelf = userId === req.session.user._id ? true : false;
 	User.getUserFocusById(userId,function(err,user){
+		/*
+		focus:
+   [ { header: '/dist/images/nan.jpg',
+       nickName: '111',
+       _id: 56614af2ce4976290de02140 },
+     { header: '/dist/images/nan.jpg',
+       nickName: '222',
+       _id: 56614b06ce4976290de02141 },
+     { header: '/dist/images/nan.jpg',
+       nickName: '333',
+       _id: 56614b1ace4976290de02142 } ],
+		 */
 		if(err){
 			return console(err);
 		}
 		res.render('userCenter/myFocus',{
 			user:req.session.user,
-			theUser:user,
+			focus:user.focus,
 			isSelf:isSelf
 		});
 	});
@@ -81,7 +92,10 @@ exports.addFocus = function(req,res,next){
 		if(err){
 			return console.log(err)
 		}
-		//  数据操作之后应该及时更新session
+		//数据操作之后应该及时更新session
+		//不过这里就前端模拟好了点一下关注就显示关注成功
+		//如果后台关注成功请求执行没成功
+		//再把没有关注成功信息返回  或者 重新刷新
 		console.log('关注成功');
 	})
 };
@@ -195,14 +209,11 @@ exports.settingPass = function(req,res,next){
 	User.getUserById(userId,function(err,user){
 		// 加密原密码
 		oldPass = hash(oldPass);
-		console.log(oldPass);
 		if(oldPass!==user.password){
 			return console.log('原密码不正确')
 		}
 		//加密新密码
 		newPass = hash(newPass);
-		console.log('---new password---')
-		console.log(newPass)
 		User.updateUserPass(userId,newPass,function(err,info){
 			if(err){
 				return console.log(err)

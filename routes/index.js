@@ -16,7 +16,7 @@ router.get('/logout',sign.logout);
 router.get('/forgetPass',function(req,res,next){
 	res.render('index',{title:'忘记密码界面'})
 });
-// 个人中心i
+// 个人中心
 router.get('/user/:id',auth.loginRequired,user.showUserCenterIndex);
 router.get('/user/:id/follows',auth.loginRequired,user.showMyFollows);
 router.get('/user/:id/focus',auth.loginRequired,user.showMyFocus);
@@ -36,12 +36,13 @@ router.post('/settingHeader',auth.loginRequired,user.settingHeader);
 router.post('/settingPass',auth.loginRequired,user.settingPass);
 router.post('/settingBind',auth.loginRequired,user.settingBind);
 
-// 商品
+// 展示商品
 router.get('/publish',auth.loginRequired,commodity.showPublish);
-router.post('/publish',auth.loginRequired,commodity.publish)
-router.get('/edit/:id',auth.loginRequired,commodity.editCommodity);
-router.post('/edit/:id',auth.loginRequired,commodity.edit);
-router.get('/commodity/:id',auth.loginRequired,commodity.commodityDetail);
+router.get('/edit/:id',auth.loginRequired,commodity.showEditCommodity);
+router.get('/commodity/:id',auth.loginRequired,commodity.showCommodityDetail);
+// 操作商品
+router.post('/publish',auth.loginRequired,commodity.publish);
+router.post('/edit/:id/hostId/:hostId',auth.loginRequired,commodity.edit);
 
 
 

@@ -10,7 +10,7 @@ block content
           buttons
             .ui.button.basic.small 取消
             .ui.button.small.orange 保存修改
-        form(action="/edit/"+commodity._id method="POST")
+        form(action="/edit/"+commodity._id+"/hostId/"+commodity.hostId method="POST")
           p.edit-info.tip 为了保证信息可靠性，修改成功后将重新进入审核状态，让我们携手努力，维护杭电良品的优质信息
           section.sub-edit-box
             .edit-line

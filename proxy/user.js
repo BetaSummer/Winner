@@ -158,7 +158,14 @@ exports.getTopUser = function(cb){
  */
 exports.addFocus = function(id,userId,cb){
 	User.update({_id:id},
-		{$addToSet: {focus:userId}},cb);
+		{$addToSet: {focus:userId}},function(err){
+			if(err){
+				return console.log(err)
+			}
+			// 更新被关注者的follows
+			User.update({_id:userId},
+				{$addToSet:{follows:id}},cb)
+		});
 };
 
 /*
@@ -176,7 +183,14 @@ exports.rmFocus = function(id,userId,cb){
 			}
 			// 再将该id从focus里面删除
 			User.update({_id:id},
-				{$pull:{focus:userId}},cb);
+				{$pull:{focus:userId}},function(err){
+					if(err){
+						return console.log(err)
+					}
+					// 再用户从原来被关注的人的follows字段里删除
+					User.update({_id:userId},
+						{$pull:{follows:id}},cb)
+				});
 		});
 };
 
@@ -213,6 +227,17 @@ exports.updateUserPass = function(id,newPass,cb){
 			password:newPass
 		}},cb);
 };
+
+/*
+*addMyCommodity 用户发布新商品之后 将商品id更新到myCommodity字段里面来
+* @param {String} 用户的id
+* @param {String} 新添加商品的id
+* @param { Function} 回调函数
+ */
+exports.addMyCommodity = function(userId,commodityId,cb){
+	User.update({_id:userId},
+		{$addToSet: {myCommodity:commodityId}},cb);
+}
 
 
 

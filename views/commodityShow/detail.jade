@@ -31,7 +31,7 @@ block content
           .detail-line
             h2 商品信息
             // 第三方视角
-            - if(commodity.hostId !== user._id){
+            - if(commodity.hostId[0] != user._id){
               .ui.button.basic.mini
                 i.icon.heart.outline 关注该用户
               - var status = commodity.status
@@ -41,8 +41,8 @@ block content
                 when 2
                   .ui.button.mini.black 已下架
                 default
-                  .ui.button.mini.green 正在卖
-              .ui.button.mini 编辑
+                  .ui.button.mini.black 已下架
+              
             - }else{
               // 自己
               // 不同状态
@@ -58,6 +58,7 @@ block content
                   .ui.button.mini.red 审核未通过
                 default
                   .ui.button.mini.orange 审核中
+              .ui.button.mini 编辑
             - }
           .ui.inverted.divider
           .detail-line

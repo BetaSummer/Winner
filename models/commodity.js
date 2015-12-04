@@ -6,7 +6,7 @@ var CommoditySchema = new Schema({
 	title: { type: String}, // 商品标题
 	category: { type: Mixed}, // 商品分类
 	name: { type:String},  // 商品名称
-	hostId: { type: ObjectId, ref:'User'}, // 商品主人
+	hostId: [{ type: ObjectId, ref:'User'}], // 商品主人
 	howNew: { type: Number}, // 成色
 	price: { type: Number},  // 价格
 	coverImg: { type:String, default:'/dist/images/image.png'},  // 封面图片
