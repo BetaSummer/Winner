@@ -8,17 +8,36 @@ var authMiddleWare = require('../middlewares/auth');
  */
 exports.showIndex = function(req,res,next){
 	var p = req.params.page||0;
-	var limit = 2;
+	var limit = 10;
 	var skip = p*limit;
 	Commodity.getCommodities(skip,limit,function(err,commodities){
-		var usersInfo = [];
-		console.log(commodities);
-		//如何关联用户 将用户信息(头像)提取出来
-		res.render('commodityList/index',{
-			user:req.session.user,
-			commodities:commodities,
-			usersInfo:usersInfo
-		});
+		var getUserInfo = function(item){
+			var promise = new Promise(function(resolve,reject){
+				var hostId = item.hostId[0];
+				User.getUserById(hostId,function(err,user){
+					if(err){
+						reject(err);
+						return console.log(err);
+					}
+					resolve(user);
+				});
+			});
+			return promise;
+		};
+		var promises = commodities.map(function(item){
+			return getUserInfo(item)
+		})
+		Promise.all(promises).then(function(users){
+			res.render('commodityList/index',{
+				user:req.session.user,
+				commodities:commodities,
+				users:users
+			});
+			// console.log(users)
+			// console.log(commodities)
+		}).catch(function(err){
+			return console.log(err)
+		})
 	});
 };
 /*

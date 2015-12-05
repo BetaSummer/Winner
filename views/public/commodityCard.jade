@@ -1,30 +1,3 @@
-//.commodity-card.ui.card
-    .image
-        img(src="" alt="")
-    .content
-        .headerbox
-            .commodity-price $53
-                //其他用户的商品卡（关注）
-            .extrabox.fellow-user
-                i.heart.icon.link.outline
-                span 关注用户
-
-            //    其他用户的商品卡（取消关注）
-            //.extrabox.disfellow-user
-            //    i.heart.icon.link
-            //    span 取消关注
-
-        .introbox
-            a(href="")
-                img.mini.ui.image.floated.left(src="/dist/images/nan.jpg")
-            p.header
-                a(href="") 标题起那么长的商品要怎么卖啊啊啊啊啊啊
-            p.meta  描述一下～描述一下描述一下描述一下描述一下描述一下描述一下
-        .extra
-            span 2015.11.04
-            span.right.floated 评论20/翻阅90
-
-
 .commodity-card.ui.card.mycommodity-card
     .image.blurring.dimmable
         .ui.dimmer
@@ -35,15 +8,15 @@
         img(src="" alt="")
     .content
         .headerbox
-            .commodity-price $53
+            .commodity-price $#{commodities[i].price}
             .extrabox.mycommodity
                 a(href="") 查看
         .introbox
             a(href="")
-                img.mini.ui.image.floated.left(src="/dist/images/nan.jpg")
+                img.mini.ui.image.floated.left(src= users[i].header)
             p.header
-                a(href="") 标题起那么长的商品要怎么卖啊啊啊啊啊啊
+                a(href="") #{commodities[i].title}
             p.meta  描述一下～描述一下描述一下描述一下描述一下描述一下描述一下
         .extra
-            span 2015.11.04
-            span.right.floated 评论20/翻阅90
+            span #{commodities[i].updateTime}
+            span.right.floated 评论#{commodities[i].reply.length}/翻阅#{commodities[i].visitedCount}
