@@ -1,5 +1,5 @@
 .commodity-card.ui.card.mycommodity-card
-    .image.blurring.dimmable
+    a(href="/commodity/"+commodities[i]._id,class="image blurring dimmable")
         .ui.dimmer
             .content
                 .content
@@ -10,13 +10,17 @@
         .headerbox
             .commodity-price $#{commodities[i].price}
             .extrabox.mycommodity
-                a(href="") 查看
+                a(href="/commodity/"+commodities[i]._id) 查看
         .introbox
             a(href="")
+              - if(theUser){
+                img.mini.ui.image.floated.left(src= theUser.header)
+              - }else{
                 img.mini.ui.image.floated.left(src= users[i].header)
+              - }
             p.header
                 a(href="") #{commodities[i].title}
             p.meta  描述一下～描述一下描述一下描述一下描述一下描述一下描述一下
         .extra
             span #{commodities[i].updateTime}
-            span.right.floated 评论#{commodities[i].reply.length}/翻阅#{commodities[i].visitedCount}
+            span.right.floated 评论#{commodities[i].replyCount}/翻阅#{commodities[i].visitedCount}

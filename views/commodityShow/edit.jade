@@ -71,9 +71,10 @@ block content
           form(action="#" method="POST")
             .edit-line
               h2.edit-box-title 封面图片
-              button.ui.button.mini.basic 更改
+              a.ui.button.mini.basic#inputBtn 更改
+              input(type="file",id="hiddenInput",name="coverImage",width="100px",accept="image/*",class="hidden")
             input.edit-commodity-btn.hidden(type="submit",value="保存修改")
-            div.img-box
+            div.img-box#img-preview
               img(src=commodity.coverImg, alt="")
 
         div.edit-concat-info

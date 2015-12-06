@@ -10,9 +10,13 @@ block content
       .ui.divider.inverted
       div.user-setting-form
         form(action="settingHeader" method="POST")
-          input(type="file",name="userHeader",id="upload-input",class="hidden")
+
           p.setting-line 巴拉巴拉的一些上传说明(图片大小，格式要求等等)
+          p.setting-line
+            // - 这里的a便签用来美化input
+            a.ui.button.mini.basic#inputBtn 修改头像
+            input(type="file",id="hiddenInput",name="userHeader",accept="image/*",class="hidden")
           //- 上传的控件
-          div.upload-header
-            
+          div#img-preview
+            img(src="/dist/images/nan.jpg", alt="")
     include settingSideBar

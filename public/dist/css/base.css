@@ -202,81 +202,11 @@ body {
   margin-top: 10px; }
 
 /*****************************************
-*userCenterHeader  个人中心头部部分
-*****************************************/
-.user-center-header {
-  width: 100%;
-  height: 360px;
-  background: #fff;
-  border-radius: 0 0 10px 10px;
-  position: relative; }
-  .user-center-header .my-infos-box {
-    width: 100%;
-    height: 280px;
-    background: url("http://hbfile.b0.upaiyun.com/img/home/banner/d9fa5c7837d5adba3c9368819526878e31166847b19c3") no-repeat 0 0;
-    text-align: center; }
-    .user-center-header .my-infos-box .user-center-header-info {
-      margin-top: 100px;
-      display: inline-block;
-      width: 60px;
-      height: 50px;
-      position: relative; }
-      .user-center-header .my-infos-box .user-center-header-info:before {
-        display: inline-block;
-        content: '';
-        width: 1px;
-        height: 50px;
-        background: #fff;
-        position: absolute;
-        left: 0; }
-      .user-center-header .my-infos-box .user-center-header-info a {
-        display: block;
-        height: 25px;
-        line-height: 25px;
-        color: #fff; }
-      .user-center-header .my-infos-box .user-center-header-info > .user-num-info {
-        width: 100%; }
-    .user-center-header .my-infos-box .user-center-header-info:first-child:before {
-      display: none; }
-    .user-center-header .my-infos-box .to-publish-new {
-      display: block;
-      width: 160px;
-      height: 36px;
-      text-align: center;
-      margin: 10px auto;
-      background: #ccc;
-      line-height: 36px;
-      border-radius: 4px; }
-  .user-center-header .my-header-box {
-    height: 200px;
-    position: absolute;
-    left: 40px;
-    bottom: 10px; }
-    .user-center-header .my-header-box > img {
-      width: 200px;
-      height: 200px;
-      border-radius: 8px;
-      border: 4px solid #fff; }
-    .user-center-header .my-header-box > .user-name {
-      display: inline-block;
-      width: 200px;
-      height: 40px;
-      position: absolute;
-      left: 200px;
-      bottom: 0;
-      border-bottom: 100px;
-      z-index: 2333;
-      line-height: 40px;
-      font-size: 20px;
-      letter-spacing: 2px;
-      padding-left: 20px; }
-
-/*****************************************
 *user-List
 *****************************************/
 .user-list {
   width: 100%;
-  min-height: 400px;
+  padding: 0 10px;
   display: -webkit-flex;
   /* OLD - iOS 6-, Safari 3.1-6 */
   display: -moz-flex;
@@ -354,3 +284,23 @@ body {
       .user-list > .user-item .user-item-info .user-unfollow-btn:hover {
         background-image: linear-gradient(#FF3300, #FF3333);
         color: #fff; }
+
+/*****************************************
+* #richEditor
+*****************************************/
+#richEditor {
+  width: 100%;
+  height: 300px; }
+
+/*****************************************
+* #图片预览
+*****************************************/
+#img-preview {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  margin-right: 10px; }
+  #img-preview > img {
+    width: 100%;
+    height: 100%; }

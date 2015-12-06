@@ -1,16 +1,18 @@
 extends userCenterLayout.jade
 block userCenterCommodityStauts
-  p.my-commodity-status
-    a(href="#" class="active")
-      span  在售
-      span 22
-    a(href="#")
-      span 待审核
-      span 2  
-    a(href="#")
-      span 已售
-      span 3
+  - if(isSelf){
+    p.my-commodity-status
+      a(href="#" class="active")
+        span  在售
+        span 22
+      a(href="#")
+        span 待审核
+        span 2  
+      a(href="#")
+        span 已售
+        span 3
+  - }
 block userCenterContent
   .commodity-cards
-   - for (var i = 0; i < 9; i++)
+    - for (var i = 0,len = commodities.length;i < len; i++)
       include ../public/commodityCard

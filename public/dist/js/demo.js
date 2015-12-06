@@ -9,4 +9,9 @@
             variation:'tiny'
         })
     ;
+    var um = UM.getEditor('richEditor',{
+        autoHeightEnabled:true
+    });
+
 })(jQuery);
+

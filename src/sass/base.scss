@@ -208,96 +208,11 @@ body{
 }
 
 /*****************************************
-*userCenterHeader  个人中心头部部分
-*****************************************/
-.user-center-header{
-  $height:360px;
-  width: 100%;
-  height: $height;
-  background: #fff;
-  border-radius: 0 0 10px 10px;
-  position: relative;
-  .my-infos-box{
-    width: 100%;
-    height: 280px;
-    background: url('http://hbfile.b0.upaiyun.com/img/home/banner/d9fa5c7837d5adba3c9368819526878e31166847b19c3') no-repeat 0 0;
-    text-align: center;
-    .user-center-header-info{
-      $height:50px;
-      margin-top: 100px;
-      display: inline-block;
-      width: 60px;
-      height: $height;
-      position: relative;
-      &:before{
-        display: inline-block;
-        content: '';
-        width: 1px;
-        height: $height;
-        background: #fff;
-        position: absolute;
-        left: 0;
-      }
-      a{
-        display: block;
-        height: $height/2;
-        line-height: $height/2;
-        color: #fff;
-      }
-      >.user-num-info{
-        width: 100%;
-      }
-    }
-    .user-center-header-info:first-child{
-      &:before{
-        display: none
-      }
-    }
-    .to-publish-new{
-      display: block;
-      width: 160px;
-      height: 36px;
-      text-align: center;
-      margin: 10px auto;
-      background: #ccc;
-      line-height: 36px;
-      border-radius: 4px;
-    }
-  }
-  .my-header-box{
-    height: 200px;
-    position: absolute;
-    left:40px;
-    bottom: 10px;
-    >img{
-      width: 200px;
-      height: 200px;
-      border-radius: 8px;
-      border: 4px solid #fff;
-    }
-    >.user-name{
-      display: inline-block;
-      width: 200px;
-      height: 40px;
-      position: absolute;
-      left: 200px;
-      bottom: 0;
-      border-bottom: 100px;
-      z-index: 2333;
-      line-height: 40px;
-      font-size: 20px;
-      letter-spacing: 2px;
-      padding-left: 20px;
-    }
-  }
-}
-
-/*****************************************
 *user-List
 *****************************************/
 .user-list{
   width: 100%;
-  min-height: 400px;
+  padding:0 10px;
   @include flex();
   @include flow(row,wrap);
   @include justify-content(space-between);
@@ -356,5 +271,30 @@ body{
         color: #fff;
       }
     }
+  }
+}
+
+
+/*****************************************
+* #richEditor
+*****************************************/
+
+#richEditor{
+  width:100%;
+  height:300px;
+}
+
+/*****************************************
+* #图片预览
+*****************************************/
+#img-preview{
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  margin-right: 10px;
+  >img{
+    width: 100%;
+    height: 100%;
   }
 }

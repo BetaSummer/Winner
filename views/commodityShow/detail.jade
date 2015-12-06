@@ -1,6 +1,9 @@
 extends ../public/layout.jade
 block append css
   link(rel='stylesheet', href='/dist/css/commodityShow.css')
+block append script
+  script(charset="utf-8",type="text/javascript",src="http://changyan.sohu.com/upload/changyan.js")
+  script(src="/dist/js/getChangyan.js")
 block content
   - if(commodity){
     div.commodity-detail-box
@@ -9,41 +12,34 @@ block content
         .ui.inverted.divider
         .commodity-sub-title
           div.commodity-sub-title-left
-            .commodity-category.ui.breadcrumb
-              span.section #{commodity.category.firstNav}
-              span.divider
-              span.section #{commodity.category.secondNav}
-
             span.last-edit-time #{commodity.updateTime}
+            .commodity-category.ui.breadcrumb
+              span.section 数码产品
+              span.divider /
+              span.section 相机及其周边
           div.commodity-sub-title-right
             .visited-num
               i.unhide.icon
               span #{commodity.visitedCount}
             .comment-num
               i.comment.icon.outline
-              span #{commodity.replyCount}
+              span(id = "sourceId::14562",class="cy_cmt_count")
         //- 正文内容
+        div.topimage
+          img(src="/dist/images/nan.jpg")
         div.commodity-post-text
+          p 不是说这里是正文嘛！！ 字呢！！
+        .btn-hate
+          .ui.button.circular.icon
+            i.icon.thumbs.down.outline
+        .ui.divider
         //- 评论区
-        div.comment-box
+        div.comment-box#SOHUCS(sid="14562")
       div.commodity-detail-list
         div.commodity-info-detail
           .detail-line
             h2 商品信息
-            // 第三方视角
-            - if(commodity.hostId[0] != user._id){
-              .ui.button.basic.mini
-                i.icon.heart.outline 关注该用户
-              - var status = commodity.status
-              case status
-                when 1
-                  .ui.button.mini.green 正在卖
-                when 2
-                  .ui.button.mini.black 已下架
-                default
-                  .ui.button.mini.black 已下架
-              
-            - }else{
+            - if(isSelf){
               // 自己
               // 不同状态
               - var status = commodity.status
@@ -58,57 +54,69 @@ block content
                   .ui.button.mini.red 审核未通过
                 default
                   .ui.button.mini.orange 审核中
-              .ui.button.mini 编辑
+              a(href="/edit/"+ commodity._id)
+                .ui.button.mini编辑
+            - }else{
+              .ui.button.basic.mini
+                i.icon.heart.outline 关注该用户
+              - var status = commodity.status
+              case status
+                when 1
+                  .ui.button.mini.green 正在卖
+                when 2
+                  .ui.button.mini.black 已下架
+                default
+                  .ui.button.mini.black 已下架
             - }
           .ui.inverted.divider
           .detail-line
             .info-key
               i.icon.tag
               商品名称
-            .info-value  #{commodity.name}
+            .info-value #{commodity.name}
           .detail-line
             .info-key
               i.icon.star.half.empty
               价格
-            .info-value  #{commodity.price}
+            .info-value #{commodity.price}
           .detail-line
             .info-key
               i.icon.find
               成色
-            .info-value  #{commodity.howNew}
+            .info-value #{commodity.howNew}成新
           .detail-line
             .info-key
               i.icon.wait
               入手时间
-            .info-value  #{commodity.gotTime}
+            .info-value #{commodity.gotTime}
           .detail-line
             .info-key
               i.icon.star
               买入价格
-            .info-value  #{commodity.gotPrice}
+            .info-value #{commodity.gotPrice}
 
         div.commodity-user-info
           div.info-header
-            a.ui.image(href="")
-              img(src="/dist/images/nan.jpg",alt="")
+            a.ui.image(href="/user/"+commodity.hostId)
+              img(src=hoster.header,alt="")
             div.info-as-name
-              a.user-name(href="#") #{commodity.userName}
+              a.user-name(href="/user/"+commodity.hostId) 烟树
               .user-num
                 .user-follow-num
-                  a(href="#") 信徒10
+                  a(href="/user/"+commodity.hostId+"/follows") 信徒 #{hoster.follows.length}
                 .user-commodity-num
-                  a(href="#") 闲置2
+                  a(href="/user/"+commodity.hostId+"/commodity") 闲置 #{hoster.myCommodity.length}
           .ui.inverted.divider
           div.info-body
             .detail-line
               span.info-key 联系电话
-              span.info-value  #{commodity.phoneNum}
+              span.info-value #{commodity.phoneNum}
             .detail-line
               span.info-key QQ
-              span.info-value  #{commodity.qq}
+              span.info-value #{commodity.qq}
             .detail-line
               span.info-key 微信
-              span.info-value  #{commodity.weChat}
+              span.info-value #{commodity.weChat}
         div.commodity-user-commodities
           .detail-line
             h2 TA的其他闲置
@@ -123,4 +131,5 @@ block content
             a.ui.image.popupele(href="",data-content="这个商品的标题3")
               img(src="/dist/images/nan.jpg",alt="")
             .right-btn
+              i.icon.angle.right
   - }

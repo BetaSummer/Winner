@@ -160,17 +160,26 @@
   .commodity-detail-post{
     @include flex-basis(700px);
     background:#fff;
-    height:1300px;
+    min-height:650px;
     padding:20px 40px;
     border-radius:5px;
     .post-title{
       text-align:center;
       font-size:1.2em;
     }
+    .topimage{
+      margin:auto;
+      text-align:center;
+      max-width:620px;
+      img{
+        width:100%;
+      }
+    }
     .commodity-sub-title{
       @include flex;
       @include justify-content(space-between);
       color:$semantic-grey;
+      margin-bottom:20px;
       .commodity-category{
         margin-right:20px;
       }
@@ -181,6 +190,17 @@
         margin-right:10px;
       }
     }
+  }
+  .btn-hate{
+    font-size:30px;
+    text-align:center;
+    margin:60px 0;
+    .ui{
+      font-size:24px;
+    }
+  }
+  .commodity-post-text{
+    margin:20px 0;
   }
   .commodity-detail-list{
     @include flex-basis(300px);

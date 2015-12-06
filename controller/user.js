@@ -36,7 +36,7 @@ exports.showTopUser= function(req,res,next){
 			users:users
 		});
 	});
-	
+
 }
 /*
 * showMyFollows 显示用户个人中心 我的粉丝
@@ -124,13 +124,16 @@ exports.showMyCommodity = function(req,res,next){
 		if(err){
 			return console.log(err);
 		}
+		console.log('商品信息')
 		console.log(doc.myCommodity);// 商品信息
 		//查找卖家信息。
 		User.getUserById(userId,function(err,user){
+			console.log('查找卖家信息。')
+			console.log(user)
 			res.render('userCenter/myCommodity',{
 				user:req.session.user,
 				theUser:user,
-				commodity:doc.myCommodity,
+				commodities:doc.myCommodity,
 				isSelf:isSelf
 			});
 		});
@@ -184,7 +187,7 @@ exports.showSettingHeader = function(req,res,next){
 * 头像更新
  */
 exports.settingHeader = function(req,res,next){
-	
+
 };
 
 /*
@@ -235,5 +238,5 @@ exports.showSettingBind = function(req,res,next){
 * 帐号绑定更新
  */
 exports.settingBind = function(req,res,next){
-	
+
 };

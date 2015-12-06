@@ -1,67 +1,29 @@
 @import 'mixin.scss';
 @import 'params.scss';
-.user-center-nav-list{
-	$height: 40px;
-	display: inline-block;
-	height: $height;
-	padding: 0;
-	>li{
-		display: inline-block;
-	}
-	a{
-		display: block;
-		position: relative;
-		padding: 0 10px;
-		line-height: $height;
-		font-size: 16px;
-		color: #000;
-	}
-	a.active{
-		&:before{
-			display: inline-block;
-			content: '';
-			position: absolute;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-			height: 2px;
-			background: $orange;
-		}
-	}
-}
-.my-commodity-status{
-	$height: 40px;
-	height: $height;
-	line-height: $height;
-	float: right;
-	position: relative;
-	margin-top: 12px;
-	a{
-		padding: 0 10px;
-		color: #000;
-	}
-	a.active{
-		color:$orange;
-	}
+.usercenter-container{
+  background:#fff;
+  padding:100px 20px 20px;
 }
 
+.user-center-nav-list{ }
+.my-commodity-status{
+	font-size:1em;
+}
 .news-box{
-	width: 90%;
-	min-height: 300px;
+	width:100%;
 	margin: 0 auto;
 	>.news-item{
 		width: 100%;
-		min-height: 120px;
-		margin-top: 20px;
+	  	padding:15px;
 		border-bottom: 1px solid #ccc;
 		.news-item-header{
-			font-size: 14px;
 			.news-item-time{
 				float: right;
+			  	color:$semantic-grey;
 			}
 			.fail{
 				span{
-					color: red;
+					color: $semantic-red;
 				}
 			}
 		}
@@ -69,7 +31,7 @@
 			@include flex();
 			@include flow(row,wrap);
 			>.news-item-img{
-				$imghw:70px;
+				$imghw:50px;
 				display: inline-block;
 				width: $imghw;
 				height: $imghw;
@@ -86,7 +48,8 @@
 				position: relative;
 				>.news-title{
 					color: #000;
-					font-size: 18px;
+					font-size: 1.2em;
+				  	font-weight:500;
 				}
 				>.news-price{
 					position: absolute;
@@ -97,4 +60,80 @@
 		}
 	}
 
+}
+
+/*****************************************
+*userCenterHeader  个人中心头部部分
+*****************************************/
+.user-center-header{
+  $height:260px;
+  width: 100%;
+  height: $height;
+  background: #fff;
+  border-radius: 0 0 10px 10px;
+  position: relative;
+  z-index:22;
+  .my-infos-box{
+	width: 100%;
+	height: $height;
+	background: url('/dist/images/dark-geometric.png');
+	text-align: center;
+	.user-center-header-info{
+	  $height:50px;
+	  margin-top: 100px;
+	  display: inline-block;
+	  height: $height;
+	  padding:0 20px;
+	  position: relative;
+	  &:before{
+		display: inline-block;
+		content: '';
+		width: 1px;
+		height: $height;
+		background: #fff;
+		position: absolute;
+		left: 0;
+	  }
+	  a{
+		display: block;
+		height: $height/2;
+		line-height: $height/2;
+		color: #fff;
+	  }
+	  .user-num-info{
+//		width: 100%;
+		font-size:24px;
+	  }
+	}
+	.user-center-header-info:first-child{
+	  &:before{
+		display: none
+	  }
+	}
+	.to-publish-new{
+	  width:170px;
+	  margin:20px auto;
+	  display: block;
+	}
+  }
+  .my-header-box{
+	width:$bodyWidth;
+	margin:0 auto;
+	padding:0 30px;
+	margin-top:-140px;
+	img{
+	  vertical-align:bottom;
+	  width: 200px;
+	  height: 200px;
+	  border-radius: 8px;
+	  border: 4px solid #fff;
+	}
+	.user-name{
+	  display: inline-block;
+	  border-bottom: 100px;
+	  font-size:24px;
+	  letter-spacing: 5px;
+	  padding:8px 20px;
+	}
+  }
 }

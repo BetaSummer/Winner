@@ -33,7 +33,7 @@ exports.showIndex = function(req,res,next){
 				commodities:commodities,
 				users:users
 			});
-			// console.log(users)
+			console.log(users)
 			// console.log(commodities)
 		}).catch(function(err){
 			return console.log(err)
@@ -162,7 +162,7 @@ exports.showCommodityDetail = function(req,res,next){
 		var visitedCount = commodity.visitedCount;
 		var hostId = commodity.hostId[0];
 		console.log(visitedCount);
-		isSelf = hostId == userId ? true : false; 
+		isSelf = hostId == userId ? true : false;
 		// 取商品主人的信息  头像 信徒 闲置...
 		User.getUserCommoditiesById(hostId,function(err,hoster){
 			if(err){
@@ -175,6 +175,7 @@ exports.showCommodityDetail = function(req,res,next){
 				if(err){
 					return console.log(err)
 				}
+				console.log(hoster);
 				res.render('commodityShow/detail',{
 					user:req.session.user,
 					hoster:hoster,

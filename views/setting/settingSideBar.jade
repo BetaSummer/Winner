@@ -15,7 +15,8 @@ div.setting-side-bar
     div.user-setting-nav-top
       span.setting-title 设置
     ul
-      - settingList = ['修改头像','个人资料','帐号安全','第三方绑定']
-      - each item in settingList
+      - settingList = ['个人资料','修改头像','帐号安全','第三方绑定']
+      - settingNav = ['/setting','settingHeader','/settingPass','/settingBind']
+      - each item,index in settingList
         li
-          a(href="#",class="user-setting-nav-item")= item
+          a(href=settingNav[index],class="user-setting-nav-item")= item

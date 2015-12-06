@@ -1,0 +1,66 @@
+@import 'mixin.scss';
+@import 'params.scss';
+
+.login-box,
+.login-box.ui.segments,
+.reg-box,
+.reg-box.ui.segments{
+  background:#fff;
+  width:520px;
+  padding:20px 70px 2em;
+  margin:30px auto 0;
+  position:relative;
+  .ui.input input{
+    padding:5px 15px;
+    margin-right:5px;
+  }
+  .ui.input{
+    position:absolute;
+    left:60px;
+    top:-5px;
+    min-width:300px;
+    i.icon.tag{
+      font-size:25px;
+      margin-top:3px;
+    }
+  }
+  .login-error{
+    color:$semantic-red;
+    position:absolute;
+  }
+  .login-line,
+  .reg-line{
+    margin:40px 0;
+    position:relative;
+  }
+  label{
+    width:300px;
+  }
+  form{
+    margin-top:60px;
+  }
+  .forget-password{
+    color:$semantic-grey;
+    font-size:0.9em;
+    padding-left:40px;
+    &:hover{
+      text-decoration:underline;
+    }
+  }
+  .quick-login .buttons{
+    float:right;
+    margin-top:-5px;
+    button{
+      font-size:1.2em;
+      margin:0 10px;
+      background:transparent;
+    }
+  }
+  .link-login-box{
+    float:right;
+    margin-top:10px;
+  }
+}
+
+
+
