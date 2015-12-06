@@ -57,7 +57,7 @@ block content
         .publish-line.before-upload
             label(for="coverImage")封面图片
             // - 这里的a便签用来美化input
-            a.ui.button.mini.basic#inputBtn 修改头像
+            a.ui.button.mini.basic#inputBtn 上传封面
             input(type="file",id="hiddenInput",name="coverImage",accept="image/*",class="hidden")
             a(href="#")《闲置商品规则》
           //- hidden first
@@ -67,8 +67,8 @@ block content
             //- 预览框应该处理成绝对定位  脱离文档流
             div#img-preview
               img(src="/dist/images/nan.jpg", alt="")
-            button.ui.button.basic.grey.mini 重新上传
-            span.publish-info 已上传
+            //button.ui.button.basic.grey.mini 重新上传
+            //span.publish-info 已上传
       p.publish-info 选填项
       section.sub-publish-box
         .publish-line

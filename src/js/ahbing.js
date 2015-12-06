@@ -67,7 +67,10 @@
 		// 支持fileAPI的就直接这么显示预览
 		handleInput(oInput,preview,function(){});
 	}else{
+		// 不支持ie
 		console.log('不支持File')
+		var url = oInput.value;
+		console.log(url)
 	}
 	beautifyInput();
 	window.ahbing = ahbing;
