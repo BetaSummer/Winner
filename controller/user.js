@@ -1,6 +1,8 @@
 var config = require('../config');
 var User = require('../proxy/user');
 var auth = require('../middlewares/auth');
+var path = require('path');
+var fs = require('fs');
 var validator = require('validator'); // 验证
 var crypto = require('crypto');
 var hash = function(psw){
@@ -187,7 +189,27 @@ exports.showSettingHeader = function(req,res,next){
 * 头像更新
  */
 exports.settingHeader = function(req,res,next){
-
+	var userId = req.session.user._id;
+	var isFormData = req.body.isFormData || false;
+	var filename =Date.now()+req.files.userHeader.originalFilename;
+	var targetPath = './public/upload/images/userHeader/'+filename;
+	fs.createReadStream(req.files.userHeader.path).pipe(fs.createWriteStream(targetPath));
+	;
+	var headerSrc =  '/upload/images/userHeader/'+filename;
+	// 更新数据库图像
+	User.updateUserHeader(userId,headerSrc,function(err){
+		if(err){
+			return console.log(err);
+		}
+		//及时更新session的头像
+		req.session.user.header = headerSrc;
+		if(!isFormData){
+			// 如果不是formaData方式上传的话就跳转
+			res.redirect('/settingHeader');
+		}else {
+			res.json({code: 200, msg: {url: 'http://' + req.headers.host + headerSrc}})
+		}
+	})
 };
 
 /*

@@ -10,7 +10,7 @@ block content
           buttons
             .ui.button.basic.small 取消
             .ui.button.small.orange 保存修改
-        form(action="/edit/"+commodity._id+"/hostId/"+commodity.hostId method="POST")
+        form(action="/edit/"+commodity._id+"/hostId/"+commodity.hostId enctype="multipart/form-data" method="POST")
           p.edit-info.tip 为了保证信息可靠性，修改成功后将重新进入审核状态，让我们携手努力，维护杭电良品的优质信息
           section.sub-edit-box
             .edit-line
@@ -68,10 +68,12 @@ block content
                 input(type="datetime",id="getTime",value=commodity.getTime)
               input.edit-commodity-btn.hidden(type="submit",value="保存修改")
         div.edit-img
-          form(action="#" method="POST")
+          
+          form(action="/editImg/"+commodity._id+"/hostId/"+commodity.hostId  enctype="multipart/form-data" method="POST" id="uploadForm")
             .edit-line
               h2.edit-box-title 封面图片
               a.ui.button.mini.basic#inputBtn 更改
+              button.ui.button.orange.small#uploadImgBtn(onclick="$('form').submit()") 保存
               input(type="file",id="hiddenInput",name="coverImage",width="100px",accept="image/*",class="hidden")
             input.edit-commodity-btn.hidden(type="submit",value="保存修改")
             div.img-box#img-preview

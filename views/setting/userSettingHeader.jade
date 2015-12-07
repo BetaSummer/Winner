@@ -6,11 +6,10 @@ block content
     div.user-setting-edit-box
       div.setting-top
         h1.setting-title 修改头像
-        button.ui.button.orange.small(onclick="$('form').submit()") 保存
+        button.ui.button.orange.small#uploadImgBtn(onclick="$('form').submit()") 保存
       .ui.divider.inverted
       div.user-setting-form
-        form(action="settingHeader" method="POST")
-
+        form(action="/settingHeader" enctype="multipart/form-data" method="POST" id="uploadForm")
           p.setting-line 巴拉巴拉的一些上传说明(图片大小，格式要求等等)
           p.setting-line
             // - 这里的a便签用来美化input
@@ -18,5 +17,6 @@ block content
             input(type="file",id="hiddenInput",name="userHeader",accept="image/*",class="hidden")
           //- 上传的控件
           div#img-preview
-            img(src="/dist/images/nan.jpg", alt="")
+            img(src=user.header, alt="")
+          //- input(type="submit" value="上传")
     include settingSideBar

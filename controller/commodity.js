@@ -2,6 +2,8 @@ var validator = require('validator'); // 验证
 var config = require('../config');
 var Commodity = require('../proxy').Commodity;
 var User = require('../proxy').User;
+var fs = require('fs');
+var path = require('path');
 var authMiddleWare = require('../middlewares/auth');
 /*
 * showIndex 显示首页
@@ -55,6 +57,13 @@ exports.publish = function(req,res,next){
 	var body = req.body;
 	var user = req.session.user;
 	var userId = user._id;
+	console.log(body);
+	console.log(req.files);
+	var filename =Date.now()+req.files.coverImage.originalFilename;
+	var targetPath = './public/upload/images/coverImage/'+filename;
+	fs.createReadStream(req.files.coverImage.path).pipe(fs.createWriteStream(targetPath));
+	;
+	var coverImage =  '/upload/images/coverImage/'+filename;
 	var publishObj = {
 		title : validator.trim(body.title),
 		category : {
@@ -65,7 +74,7 @@ exports.publish = function(req,res,next){
 		name: validator.trim(body.name),
 		howNew: validator.trim(body.howNew),
 		price : validator.trim(body.price),
-		coverImage : validator.trim(body.coverImage),
+		coverImage : validator.trim(coverImage),
 		getTime : validator.trim(body.getTime),
 		getPrice : validator.trim(body.getPrice),
 		phoneNum : validator.trim(body.phoneNum),
@@ -123,7 +132,7 @@ exports.edit = function(req,res,next){
 	var body = req.body;
 	var commodityId = req.params.id;
 	var hostId = req.params.hostId;
-	console.log(commodityId,hostId);
+	// console.log(commodityId,hostId);
 	var userId = req.session.user._id;
 	if(hostId!=userId){
 		return console.log('不是本人提交 无权修改');
@@ -149,6 +158,35 @@ exports.edit = function(req,res,next){
 	});
 };
 
+/*
+* editImg
+ */
+exports.editImg = function(req,res,next){
+	var body = req.body;
+	var commodityId = req.params.id;
+	var hostId = req.params.hostId;
+	var userId = req.session.user._id;
+	if(hostId!=userId){
+		return console.log('不是本人提交 无权修改');
+	}
+	var isFormData = req.body.isFormData || false;
+	var filename =Date.now()+req.files.coverImage.originalFilename;
+	var targetPath = './public/upload/images/coverImage/'+filename;
+	fs.createReadStream(req.files.coverImage.path).pipe(fs.createWriteStream(targetPath));
+	;
+	var coverImg =  '/upload/images/coverImage/'+filename;
+	var obj = {
+		coverImg:coverImg
+	};
+	Commodity.updateByCommodityId(commodityId,obj,function(err,info){
+		if(err){
+			return console.log(err);
+		}
+		console.log(info);
+		console.log('更新成功');
+		res.redirect('back');
+	})
+};
 /*
 * showCommodityDetail 展示商品详情
  */

@@ -239,5 +239,17 @@ exports.addMyCommodity = function(userId,commodityId,cb){
 		{$addToSet: {myCommodity:commodityId}},cb);
 }
 
-
-
+ /*
+ * updateUserHeader 根据id更新用户头像
+ * @param { String} 用户id
+ * @param { String} 用户头像路径
+ * @param { Function} 回调函数
+ *   - err
+ *   - info 操作结果信息
+  */
+ exports.updateUserHeader= function(id,headerSrc,cb){
+ 	User.update({_id:id},
+ 		{$set:{
+ 			header:headerSrc
+ 		}},cb);
+ };

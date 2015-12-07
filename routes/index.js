@@ -4,6 +4,8 @@ var sign = require('../controller/sign');
 var auth = require('../middlewares/auth');
 var commodity = require('../controller/commodity');
 var user = require('../controller/user');
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 router.get('/',commodity.showIndex);
 // router.get('/userTop',user.showTopUser);
@@ -32,7 +34,7 @@ router.get('/settingPass',auth.loginRequired,user.showSettingPass);
 router.get('/settingBind',auth.loginRequired,user.showSettingBind);
 
 router.post('/setting',auth.loginRequired,user.settingIndex);
-router.post('/settingHeader',auth.loginRequired,user.settingHeader);
+router.post('/settingHeader',auth.loginRequired,multipartMiddleware,user.settingHeader);
 router.post('/settingPass',auth.loginRequired,user.settingPass);
 router.post('/settingBind',auth.loginRequired,user.settingBind);
 
@@ -41,8 +43,9 @@ router.get('/publish',auth.loginRequired,commodity.showPublish);
 router.get('/edit/:id',auth.loginRequired,commodity.showEditCommodity);
 router.get('/commodity/:id',auth.loginRequired,commodity.showCommodityDetail);
 // 操作商品
-router.post('/publish',auth.loginRequired,commodity.publish);
-router.post('/edit/:id/hostId/:hostId',auth.loginRequired,commodity.edit);
+router.post('/publish',auth.loginRequired,multipartMiddleware,commodity.publish);
+router.post('/edit/:id/hostId/:hostId',auth.loginRequired,multipartMiddleware,commodity.edit);
+router.post('/editImg/:id/hostId/:hostId',auth.loginRequired,multipartMiddleware,commodity.editImg);
 
 
 

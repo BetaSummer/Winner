@@ -9,7 +9,7 @@ block append script
 block content
   div.publish-box
     h1.box-title 发布闲置
-    form(action="/" method="POST")
+    form(action="/publish" enctype="multipart/form-data" method="POST")
       p.publish-info 必填项
       section.sub-publish-box
         .publish-line

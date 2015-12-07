@@ -9,7 +9,7 @@ var CommoditySchema = new Schema({
 	hostId: [{ type: ObjectId, ref:'User'}], // 商品主人
 	howNew: { type: Number}, // 成色
 	price: { type: Number},  // 价格
-	coverImg: { type:String, default:'/dist/images/image.png'},  // 封面图片
+	coverImage: { type:String, default:'/dist/images/image.png'},  // 封面图片
 	gotTime: { type: Date},  // 入手时间
 	gotPrice: { type:Number},  // 入手价格
 	content: { type: String},  // 商品详情

@@ -25,20 +25,9 @@ exports.getCommodityById = function(id,cb){
  */
 exports.newAndSave = function(obj,cb){
 	var commodity = new Commodity();
-	commodity.title = obj.title;
-	commodity.category = obj.category;
-	commodity.name = obj.name;
-	commodity.howNew = obj.howNew;
-	commodity.price = obj.price;
-	commodity.coverImg = obj.coverImg;
-	commodity.getTime = obj.getTime;
-	commodity.getPrice = obj.getPrice;
-	commodity.phoneNum = obj.phoneNum;
-	commodity.userName = obj.userName;
-	commodity.qq = obj.qq;
-	commodity.weChat = obj.weChat;
-	commodity.content = obj.content;
-	commodity.hostId = obj.hostId;
+	Object.keys(obj).forEach(function(k){
+		commodity[k] = obj[k];
+	});
 	commodity.save(cb);
 };
 
@@ -88,19 +77,20 @@ exports.getCommodityHoster = function(commodityId,cb){
  */
 exports.updateByCommodityId = function(id,obj,cb){
 	Commodity.update({_id:id},
-		{$set:{
-			// title:obj.title,
-			// content:obj.content,
-			// category:obj.category,
-			// howNew:obj.howNew,
-			// price:obj.price,
-			// gotPrice:obj.gotPrice,
-			// gotTime:obj.gotTime,
-			// phoneNum:obj.phoneNum,
-			// weChat:obj.weChat,
-			// sex:obj.sex,
-			// qq:obj.qq,
-		}},
+		{$set:obj},
+		// {$set:{
+		// 	title:obj.title,
+		// 	content:obj.content,
+		// 	category:obj.category,
+		// 	howNew:obj.howNew,
+		// 	price:obj.price,
+		// 	gotPrice:obj.gotPrice,
+		// 	gotTime:obj.gotTime,
+		// 	phoneNum:obj.phoneNum,
+		// 	weChat:obj.weChat,
+		// 	sex:obj.sex,
+		// 	qq:obj.qq,
+		// }},
 		{ upsert:true, multi: true },cb);
 };
 
