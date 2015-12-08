@@ -83,8 +83,6 @@
 	* uploadFile 上传文件 使用formDate
 	* @param {String} 上传的接收路径
 	* @param {Object} 要上传的form对象
-	*
-	*
 	 */
 	var uploadFile = function(form){
 		var formData = new FormData(form);

@@ -72,13 +72,13 @@ block content
       p.publish-info 选填项
       section.sub-publish-box
         .publish-line
-          label(for="getTime")入手时间
+          label(for="gotTime")入手时间
             //- 使用日历控件
           .ui.input
-            input(type="datetime",id="getTime")
-          label(for="getPrice")入手价格
+            input(type="text",id="gotTime",name="gotTime")
+          label(for="gotPrice")入手价格
           .ui.input
-            input(type="tel",name="getPrice")
+            input(type="tel",id="gotPrice",name="gotPrice")
           span.publish-change-info-btn 修改联系方式
             i.icon.angle.down
         //- hidden first

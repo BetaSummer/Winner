@@ -145,9 +145,23 @@ exports.showMyCommodity = function(req,res,next){
 * showSettingIndex 显示用户信息设置首页
  */
 exports.showSettingIndex = function(req,res,next){
-	res.render('setting/userSettingBase',{
-		user:req.session.user
-	})
+	var id = req.session.user._id;
+
+	User.getUserById(id,function(err,user){
+		if(err){
+			return console.log(err)
+		}
+		// Object.keys(user).forEach(function(k){
+		// 	//req.session.user[k] = user[k];
+		// });
+		for(k in user){
+			req.session.user[k] = user[k];
+		}
+		res.render('setting/userSettingBase',{
+			user:user
+		})
+	});
+
 };
 
 /*
@@ -168,12 +182,11 @@ exports.settingIndex = function(req,res,next){
 		sex:validator.trim(body.sex),
 		birthday:validator.trim(body.birthday)
 	};
-	console.log(userInfo);
-	User.updateUserInfo(userId,userInfo,function(err){
+	User.updateUserInfo(userId,userInfo,function(err,info){
 		if(err){
 			return console.log(err)
 		}
-		console.log('信息更新成功')
+		return res.redirect('back');
 	})
 };
 

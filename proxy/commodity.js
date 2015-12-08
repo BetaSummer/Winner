@@ -31,8 +31,6 @@ exports.newAndSave = function(obj,cb){
 	commodity.save(cb);
 };
 
-
-
 /*
 *  getCommodities 根据更新时间排序，
 *  然后从第skip开始取limit个commodity
@@ -78,19 +76,6 @@ exports.getCommodityHoster = function(commodityId,cb){
 exports.updateByCommodityId = function(id,obj,cb){
 	Commodity.update({_id:id},
 		{$set:obj},
-		// {$set:{
-		// 	title:obj.title,
-		// 	content:obj.content,
-		// 	category:obj.category,
-		// 	howNew:obj.howNew,
-		// 	price:obj.price,
-		// 	gotPrice:obj.gotPrice,
-		// 	gotTime:obj.gotTime,
-		// 	phoneNum:obj.phoneNum,
-		// 	weChat:obj.weChat,
-		// 	sex:obj.sex,
-		// 	qq:obj.qq,
-		// }},
 		{ upsert:true, multi: true },cb);
 };
 

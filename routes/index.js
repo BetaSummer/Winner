@@ -45,7 +45,9 @@ router.get('/commodity/:id',auth.loginRequired,commodity.showCommodityDetail);
 // 操作商品
 router.post('/publish',auth.loginRequired,multipartMiddleware,commodity.publish);
 router.post('/edit/:id/hostId/:hostId',auth.loginRequired,multipartMiddleware,commodity.edit);
+router.post('/editInfo/:id/hostId/:hostId',auth.loginRequired,commodity.editInfo);
 router.post('/editImg/:id/hostId/:hostId',auth.loginRequired,multipartMiddleware,commodity.editImg);
+router.post('/editConnect/:id/hostId/:hostId',auth.loginRequired,commodity.editConnect);
 
 
 

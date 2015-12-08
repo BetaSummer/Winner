@@ -75,8 +75,8 @@ exports.publish = function(req,res,next){
 		howNew: validator.trim(body.howNew),
 		price : validator.trim(body.price),
 		coverImage : validator.trim(coverImage),
-		getTime : validator.trim(body.getTime),
-		getPrice : validator.trim(body.getPrice),
+		gotTime : validator.trim(body.gotTime),
+		gotPrice : validator.trim(body.gotPrice),
 		phoneNum : validator.trim(body.phoneNum),
 		userName : validator.trim(body.userName),
 		qq : validator.trim(body.qq),
@@ -159,7 +159,69 @@ exports.edit = function(req,res,next){
 };
 
 /*
-* editImg
+* editInfo 设置商品信息字段
+ */
+exports.editInfo = function(req,res,next){
+	var body = req.body;
+	var commodityId = req.params.id;
+	var hostId = req.params.hostId;
+	var userId = req.session.user._id;
+	if(hostId!=userId){
+		return console.log('不是本人提交 无权修改');
+	}
+	var infoObj = {
+		// 一些获取过来的数据
+		// 好乱阿
+		// 拉这么长的注释是想说
+		// 这边是空的
+		// 因为
+		// 长
+		// 一
+		// 点
+		// 比较
+		// 容易发现
+	};
+	Commodity.updateByCommodityId(commodityId,infoObj,function(err,info){
+		if(err){
+			return console.log(err)
+		}
+		console.log(info)
+		res.redirect('back');
+	})
+};
+/*
+* editConnect 设置商品用户联系方式
+ */
+exports.editConnect = function(req,res,next){
+	var body = req.body;
+	var commodityId = req.params.id;
+	var hostId = req.params.hostId;
+	var userId = req.session.user._id;
+	if(hostId!=userId){
+		return console.log('不是本人提交 无权修改');
+	}
+	var infoObj = {
+		// 一些获取过来的数据
+		// 好乱阿
+		// 拉这么长的注释是想说
+		// 这边是空的
+		// 因为
+		// 长
+		// 一
+		// 点
+		// 比较
+		// 容易发现
+	};
+	Commodity.updateByCommodityId(commodityId,infoObj,function(err,info){
+		if(err){
+			return console.log(err)
+		}
+		console.log(info)
+		res.redirect('back');
+	})
+};
+/*
+* editImg 编辑商品 处理 上传封面
  */
 exports.editImg = function(req,res,next){
 	var body = req.body;
@@ -174,9 +236,9 @@ exports.editImg = function(req,res,next){
 	var targetPath = './public/upload/images/coverImage/'+filename;
 	fs.createReadStream(req.files.coverImage.path).pipe(fs.createWriteStream(targetPath));
 	;
-	var coverImg =  '/upload/images/coverImage/'+filename;
+	var coverImage =  '/upload/images/coverImage/'+filename;
 	var obj = {
-		coverImg:coverImg
+		coverImage:coverImage
 	};
 	Commodity.updateByCommodityId(commodityId,obj,function(err,info){
 		if(err){
@@ -199,21 +261,20 @@ exports.showCommodityDetail = function(req,res,next){
 		}
 		var visitedCount = commodity.visitedCount;
 		var hostId = commodity.hostId[0];
-		console.log(visitedCount);
 		isSelf = hostId == userId ? true : false;
 		// 取商品主人的信息  头像 信徒 闲置...
 		User.getUserCommoditiesById(hostId,function(err,hoster){
 			if(err){
 				return console.log(err)
 			}
-			console.log('商品拥有者  信息');
-			console.log(hoster);
+			// console.log('商品拥有者  信息');
+			// console.log(hoster);
+			console.log(commodity)
 			// 增加访问量
 			Commodity.addCommodityVisited(commodityId,visitedCount,function(err){
 				if(err){
 					return console.log(err)
 				}
-				console.log(hoster);
 				res.render('commodityShow/detail',{
 					user:req.session.user,
 					hoster:hoster,
