@@ -12,7 +12,7 @@ block content
         .ui.inverted.divider
         .commodity-sub-title
           div.commodity-sub-title-left
-            span.last-edit-time #{commodity.updateTime}
+            span.last-edit-time #{commodity.updateTime.toLocaleDateString()}
             .commodity-category.ui.breadcrumb
               span.section 数码产品
               span.divider /
@@ -88,7 +88,7 @@ block content
             .info-key
               i.icon.wait
               入手时间
-            .info-value #{commodity.gotTime}
+            .info-value #{commodity.gotTime.toLocaleDateString()}
           .detail-line
             .info-key
               i.icon.star

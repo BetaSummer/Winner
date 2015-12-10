@@ -1,5 +1,6 @@
 //处理商品的数据库方法
 var validator = require('validator'); // 验证
+var moment = require('moment'); // 格式化时间
 var models = require('../models');
 var Commodity = models.Commodity;
 var User = models.User;

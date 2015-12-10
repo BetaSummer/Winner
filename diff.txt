@@ -3,3 +3,5 @@
 入手价格 入手时间字段  由getPrice getTime 统一改为gotPrice gotTime
 
 封面图片字段 由coverImg改成coverImage
+
+用于显示时间时的格式化toLocaleDateString()

@@ -63,7 +63,7 @@
 	var oInput = $('#hiddenInput')[0];
  	var preview = $('#img-preview')[0];
 	 // 这边布尔值取反 是在开发过程中模拟不支持的场景应用中必须去掉 ！！！！！！！！！！！！！！！
-	if(!checkFileAPI()){
+	if(checkFileAPI()){
 		// 支持fileAPI的就直接这么显示预览
 		handleInput(oInput,preview,function(){});
 	}else{
