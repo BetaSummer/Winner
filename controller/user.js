@@ -273,5 +273,4 @@ exports.showSettingBind = function(req,res,next){
 * 帐号绑定更新
  */
 exports.settingBind = function(req,res,next){
-
 };

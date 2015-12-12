@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title 杭电良品后台管理
+    meta(http-equiv='Content-Type',content='text/html',charset='utf-8')
+    block css
+      link(rel='stylesheet', href='/lib/semantic-ui/semantic.min.css')
+      link(rel='stylesheet', href='/dist/css/admin.css')
+  body
+    //include header
+    block header-extend
+    .body-container
+      block content
+        p hello beta！Here is an empty block!
+    block script
+      script(src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js")
+      script(src="/lib/semantic-ui/semantic.min.js")
+      script(src="/dist/js/admin.js")

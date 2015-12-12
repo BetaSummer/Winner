@@ -1,21 +1,29 @@
 extends ../public/layout.jade
+block append css
+  link(rel='stylesheet', href='/dist/css/signInOut.css')
 block content
-  div.login-box
-    div.login-error
+  div.login-box.ui.piled.segments
+    div.login-error.hidden 账号不存在或者密码错误
     form(action="/login" method="POST")
-      p.login-line
-        label(for="userPhone") 手机号
-          input(type="text",id="userPhone",name="phoneNum")
-      p.login-line
+      .login-line
+        label(for="phoneNum") 手机号
+        .ui.input
+          input(type="text",id="phoneNum",name="phoneNum")
+      .login-line
         label(for="password") 密码
+        .ui.input
           input(type="password",id="password",name="password")
-      p.login-line
-          input(type="submit",value="登录",class="login-btn")
+      .login-line
+        input.ui.button.orange.tiny(type="submit",value="登录",class="login-btn")
         a(href="#" class="forget-password")忘记密码？
-      p.login-line
-        a(href="#" class="to-reg-btn")没有帐号？点我注册
+      .login-line
+        spana 没有帐号？
+        a(href="/reg" class="to-reg-btn")点我注册
+      .ui.divider
       div.quick-login
-        span
-          快捷登录
-        a(href="#" class="quick-login-btn weibo")
-        a(href="#" class="quick-login-btn qq")
+        span 快捷登录
+        .buttons
+          button.ui.button.circular.icon
+            i.qq.icon
+          button.ui.button.circular.icon
+            i.weibo.icon

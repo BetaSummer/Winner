@@ -24,34 +24,25 @@
 	* @param {Function} 回调函数
 	 */
 	var handleInput = function(oInput,preview,cb) {
-		if(checkFileAPI()){
-			oInput.addEventListener('change',function(e){
-				var files = this.files;
-				for(var i = 0; i< files.length;i++){
-					var file = files[i];
-					if(!file.type.match('image.*')){
-						continue;
-					}
-					var oImg = preview.querySelector('img');
-					var reader = new FileReader();
-					reader.onload = (function(oImg){
-						return function(e){
-							oImg.src = e.target.result;
-							cb && cb();
-						}
-					})(oImg);
-					// 转换成一个data:URL
-					reader.readAsDataURL(file);
+		oInput.addEventListener('change',function(e){
+			var files = this.files;
+			for(var i = 0; i< files.length;i++){
+				var file = files[i];
+				if(!file.type.match('image.*')){
+					continue;
 				}
-			},false)
-		}else{
-			// 不支持file  应该是ie
-			//  safari?
-			var url = oInput.value;
-			preview.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
-	    preview.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = url;
-			cb && cb();
-		}
+				var oImg = preview.querySelector('img');
+				var reader = new FileReader();
+				reader.onload = (function(oImg){
+					return function(e){
+						oImg.src = e.target.result;
+						cb && cb();
+					}
+				})(oImg);
+				// 转换成一个data:URL
+				reader.readAsDataURL(file);
+			}
+		},false)
 	}
 	/*
 	美化标签
@@ -67,62 +58,20 @@
 		},false)
 	}
 	/*
-	* 兼容innerText 和 contentText
-	* @param {Object} node对象
-	* @param {String} 设置的新的text
-	 */
-	var setText = function(ele,text){
-		if(typeof ele.textContent === 'string'){
-			ele.textContent = text;
-		}else{
-			ele.innerText = text;
-		}
-	}
-
-	/*
-	* uploadFile 上传文件 使用formDate
-	* @param {String} 上传的接收路径
-	* @param {Object} 要上传的form对象
-	 */
-	var uploadFile = function(form){
-		var formData = new FormData(form);
-		if(formData){
-			formData.append('isFormData',true);
-			var xhr = new XMLHttpRequest();
-			xhr.open('POST',form.action, true);
-			xhr.onload = function(e){
-				//console.log(e);
-				//console.log(e.currentTarget.response);
-			};
-			xhr.send(formData);
-			// 取消默认事件
-			return false;
-		}else{
-			// 不支持 formData 就直接提交表单吧
-			uploadImgBtn = document.querySelector('#uploadImgBtn');
-			//显示调教表单按钮
-			if(uploadImgBtn){
-				uploadImgBtn.style.display="block";
-			}
-			//form.submit();
-		}
-	}
-	/*
 	* demo
 	 */
-	// input typefile 对象
 	var oInput = $('#hiddenInput')[0];
  	var preview = $('#img-preview')[0];
-	handleInput(oInput,preview,function(){
-		var oBtn = document.querySelector('a#inputBtn');
-		setText(oBtn,'重新上传');
-		// formDate上传
-		var form = document.querySelector('#uploadForm');
-		if(form){
-			uploadFile(form);
-		}
-	});
-
+	 // 这边布尔值取反 是在开发过程中模拟不支持的场景应用中必须去掉 ！！！！！！！！！！！！！！！
+	if(checkFileAPI()){
+		// 支持fileAPI的就直接这么显示预览
+		handleInput(oInput,preview,function(){});
+	}else{
+		// 不支持ie
+		console.log('不支持File')
+		var url = oInput.value;
+		console.log(url)
+	}
 	beautifyInput();
 	window.ahbing = ahbing;
 })(jQuery);

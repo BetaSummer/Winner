@@ -124,7 +124,9 @@ body{
   flex-wrap:wrap;
   justify-content:space-between;
   align-items:flex-start;
-  .commodity-card{  }
+  .commodity-card{
+    
+  }
 }
 .ui.card:first-child{
   margin-top:14px;
@@ -283,7 +285,6 @@ body{
   width:100%;
   height:300px;
 }
-
 /*****************************************
 * #图片预览
 *****************************************/

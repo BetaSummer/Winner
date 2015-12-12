@@ -62,7 +62,6 @@ exports.publish = function(req,res,next){
 	var filename =Date.now()+req.files.coverImage.originalFilename;
 	var targetPath = './public/upload/images/coverImage/'+filename;
 	fs.createReadStream(req.files.coverImage.path).pipe(fs.createWriteStream(targetPath));
-	;
 	var coverImage =  '/upload/images/coverImage/'+filename;
 	var publishObj = {
 		title : validator.trim(body.title),
@@ -84,6 +83,8 @@ exports.publish = function(req,res,next){
 		content : validator.trim(body.content),
 		hostId : userId
 	};
+	console.log('publishObj');
+	console.log(publishObj);
 	Commodity.newAndSave(publishObj,function(err,commodity){
 		if(err){
 			return console.log(err);

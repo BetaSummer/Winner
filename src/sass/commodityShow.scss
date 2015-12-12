@@ -60,8 +60,6 @@
 * 编辑商品
 *****************************************/
 
-
-
 .edit-container{
   width:100%;
   @include flex();
@@ -99,6 +97,7 @@
     padding:20px 40px;
     border-radius:5px;
     width:700px;
+    box-sizing: border-box;
     label{
       @include flex-basis(70px);
     }
@@ -163,6 +162,7 @@
     min-height:650px;
     padding:20px 40px;
     border-radius:5px;
+    box-sizing: border-box;
     .post-title{
       text-align:center;
       font-size:1.2em;

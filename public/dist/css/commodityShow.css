@@ -130,7 +130,8 @@
     background: #fff;
     padding: 20px 40px;
     border-radius: 5px;
-    width: 700px; }
+    width: 700px;
+    box-sizing: border-box; }
     .edit-container .edit-big-box label {
       flex-basis: 70px; }
     .edit-container .edit-big-box form {
@@ -209,7 +210,8 @@
     background: #fff;
     min-height: 650px;
     padding: 20px 40px;
-    border-radius: 5px; }
+    border-radius: 5px;
+    box-sizing: border-box; }
     .commodity-detail-box .commodity-detail-post .post-title {
       text-align: center;
       font-size: 1.2em; }
