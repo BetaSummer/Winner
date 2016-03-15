@@ -1,3 +1,9 @@
-#杭电良品
-
+# 杭电良品
 基于express版本，传统开发模式
+
+## 本地启动
+- `npm install` 安装依赖
+- 启动 `mongodb` 和 `redis`
+- `gulp dist` 生成静态资源
+- `npm start`  启动应用
+- 浏览器访问 `127.0.0.1:3000`

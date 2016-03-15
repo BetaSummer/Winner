@@ -1,44 +1,48 @@
 @import 'mixin.scss';
 @import 'params.scss';
 //body
-body{
+body {
   background-color: #faf7f7;
   background-image: url("../images/arches.png");
 }
-.hidden{
+
+.hidden {
   display: none;
 }
-.ui.button.hidden{
+
+.ui.button.hidden {
   display: none;
 }
-.body-container{
-  width:$bodyWidth;
-  position:relative;
-  margin:0 auto;
+
+.body-container {
+  width: $bodyWidth;
+  position: relative;
+  margin: 0 auto;
 }
-.icon{
-  box-sizing:border-box;
+
+.icon {
+  box-sizing: border-box;
 }
 
 /*****************************************
 * header
 *****************************************/
 
-#header{
-  min-height:50px;
-  height:$headerHeight;
-  width:100%;
-  background:#fff;
-  border-bottom:1px solid rgba(34,36,38,0.15);
-  box-sizing:border-box;
+#header {
+  min-height: 50px;
+  height: $headerHeight;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+  box-sizing: border-box;
   // display:flex;
   @include flex();
-  align-items:center;
-  justify-content:space-between;
-  padding:0 50px;
-  .header-logobox{
-    width:200px;
-    height:50px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  .header-logobox {
+    width: 200px;
+    height: 50px;
   }
   .header-rightbox {
     float: right;
@@ -46,36 +50,36 @@ body{
     @include flex();
     align-items: center;
   }
-  .searchbox{
-    margin-right:40px;
+  .searchbox {
+    margin-right: 40px;
   }
-  .myinforbox{
+  .myinforbox {
     // display:flex;
     @include flex();
-    align-items:flex-end;
+    align-items: flex-end;
   }
-  a.message-btn{
-    font-size:24px;
-    position:relative;
-    color:#CACBCD;
-    margin-right:50px;
-    &:hover{
-      color:#27292A;
+  a.message-btn {
+    font-size: 24px;
+    position: relative;
+    color: #CACBCD;
+    margin-right: 50px;
+    &:hover {
+      color: #27292A;
     }
-    .label{
-      padding:0;
-      box-sizing:border-box;
-      position:absolute;
-      top:0;
-      right:-1px;
-      top:-5px;
+    .label {
+      padding: 0;
+      box-sizing: border-box;
+      position: absolute;
+      top: 0;
+      right: -1px;
+      top: -5px;
     }
   }
 
-  .dropdown-shortcutkey:hover .menu{
-    text-align:center;
-    width:100%;
-    display:block;
+  .dropdown-shortcutkey:hover .menu {
+    text-align: center;
+    width: 100%;
+    display: block;
   }
 
 }
@@ -83,128 +87,132 @@ body{
 /*****************************************
 * footer
 *****************************************/
-.footer{
-  $height:60px;
+.footer {
+  $height: 60px;
   margin-top: $height/2;
   width: 100%;
-  height:$height;
-  letter-spacing:2px;
+  height: $height;
+  letter-spacing: 2px;
   font-size: 16px;
-  >p{
-    width:$bodyWidth;
-    height:$height;
+  > p {
+    width: $bodyWidth;
+    height: $height;
     margin: 0 auto;
-    span{
+    span {
       display: inline-block;
       line-height: $height;
       margin-right: 4px;
     }
-    a{
+    a {
       cursor: pointer;
     }
   }
 
 }
+
 /*****************************************
 * pagination
 /*****************************************/
-.my-pagination{
+.my-pagination {
   $height: 40px;
   height: $height;
   margin-top: $height/2;
   text-align: center;
 }
 
-
 /*****************************************
 *commodity-card
 *****************************************/
-.commodity-cards{
+.commodity-cards {
   @include flex();
-  flex-wrap:wrap;
-  justify-content:space-between;
-  align-items:flex-start;
-  .commodity-card{
-    
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  .commodity-card {
+
   }
 }
-.ui.card:first-child{
-  margin-top:14px;
+
+.ui.card:first-child {
+  margin-top: 14px;
 }
-.ui.card > .content{
-  padding-bottom:3px;
+
+.ui.card > .content {
+  padding-bottom: 3px;
 }
-.ui.card > .content > .extra{
-  font-size:0.9em;
+
+.ui.card > .content > .extra {
+  font-size: 0.9em;
 }
-.commodity-card{
-  .image{
-    width:290px;
-    height:290px;
+
+.commodity-card {
+  .image {
+    width: 290px;
+    height: 290px;
   }
-  .image.blurring.dimmable .button.ui{
-    width:70px;
-    margin:30px auto;
-    display:block;
+  .image.blurring.dimmable .button.ui {
+    width: 70px;
+    margin: 30px auto;
+    display: block;
   }
-  a{
-    color:rgba(0,0,0,0.87);
+  a {
+    color: rgba(0, 0, 0, 0.87);
   }
-  .content{
-    .headerbox{
+  .content {
+    .headerbox {
       // display:flex;
       @include flex();
-      justify-content:space-between;
-      align-items:center;
-      .commodity-price{
-        color:#F2711C;
-        font-size:1.3em;
-        font-weight:bold;
+      justify-content: space-between;
+      align-items: center;
+      .commodity-price {
+        color: #F2711C;
+        font-size: 1.3em;
+        font-weight: bold;
       }
       // DIY
-      .extrabox{
-        cursor:pointer;
-        font-weight:normal;
-        font-size:0.9em;
-        a{
-          color:rgba(0,0,0,0.4);
+      .extrabox {
+        cursor: pointer;
+        font-weight: normal;
+        font-size: 0.9em;
+        a {
+          color: rgba(0, 0, 0, 0.4);
 
         }
-        color:rgba(0,0,0,0.4);
+        color: rgba(0, 0, 0, 0.4);
       }
-      .extrabox.fellow-user:hover{
-        & > .heart{
-          color:#DB2828;
+      .extrabox.fellow-user:hover {
+        & > .heart {
+          color: #DB2828;
         }
-        & > span{
-          color:rgba(0,0,0,0.6);
+        & > span {
+          color: rgba(0, 0, 0, 0.6);
         }
       }
-      .extrabox.disfellow-user{
+      .extrabox.disfellow-user {
       }
     }
 
-    .introbox{
-      margin-top:5px;
-      img{
-        margin:3px 10px 3px 0;
+    .introbox {
+      margin-top: 5px;
+      img {
+        margin: 3px 10px 3px 0;
       }
-      .header,.meta{
-        overflow:hidden;
-        word-break:keep-all;
-        margin-bottom:0;
+      .header, .meta {
+        overflow: hidden;
+        word-break: keep-all;
+        margin-bottom: 0;
       }
-      .header{
-        font-size:1.1em;
+      .header {
+        font-size: 1.1em;
       }
-      .meta{
-        font-size:0.95em;
+      .meta {
+        font-size: 0.95em;
       }
     }
-    .extra{
-      color:rgba(0,0,0,0.4);
-      border-top:1px solid rgba(0, 0, 0, 0.05) !important;
-      margin-top:10px;
+    .extra {
+      color: rgba(0, 0, 0, 0.4);
+      border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+      margin-top: 10px;
     }
   }
 }
@@ -212,51 +220,51 @@ body{
 /*****************************************
 *user-List
 *****************************************/
-.user-list{
+.user-list {
   width: 100%;
-  padding:0 10px;
+  padding: 0 10px;
   @include flex();
-  @include flow(row,wrap);
+  @include flow(row, wrap);
   @include justify-content(space-between);
   @include align-content(flex-start);
-  >.user-item{
+  > .user-item {
     @include flex();
-    @include flow(row,nowrap);
+    @include flow(row, nowrap);
     width: 32%;
     $height: 120px;
-    $imghw:100px;
+    $imghw: 100px;
     margin: 20px 0;
     height: $height;
     border-bottom: 1px solid #ccc;
-    .user-item-img{
+    .user-item-img {
       display: inline-block;
       width: $imghw;
       height: $imghw;
       overflow: hidden;
       border-radius: 4px;
-      >img{
+      > img {
         width: $imghw;
         height: $imghw;
       }
     }
-    .user-item-info{
+    .user-item-info {
       display: inline-block;
       position: relative;
       height: $imghw;
       min-width: $imghw;
       padding-left: 16px;
       flex: 1;
-      .user-item-name{
+      .user-item-name {
         position: absolute;
         top: 0;
         font-size: 16px;
       }
-      .user-item-intro{
+      .user-item-intro {
         position: absolute;
         top: 22px;
       }
       .user-follow-btn,
-      .user-unfollow-btn{
+      .user-unfollow-btn {
         position: absolute;
         bottom: 4px;
         padding: 4px 10px;
@@ -264,11 +272,11 @@ body{
         border: 1px solid #ccc;
         border-radius: 4px;
       }
-      .user-follow-btn:hover{
-        background-image:linear-gradient(#33CC33,#33cc66);
+      .user-follow-btn:hover {
+        background-image: linear-gradient(#33CC33, #33cc66);
         color: #fff;
       }
-      .user-unfollow-btn:hover{
+      .user-unfollow-btn:hover {
         background-image: linear-gradient(#FF3300, #FF3333);
         color: #fff;
       }
@@ -276,32 +284,33 @@ body{
   }
 }
 
-
 /*****************************************
 * #richEditor
 *****************************************/
 
-#richEditor{
-  width:100%;
-  height:300px;
+#richEditor {
+  width: 100%;
+  height: 300px;
 }
+
 /*****************************************
 * #图片预览
 *****************************************/
-#img-preview{
+#img-preview {
   position: relative;
   width: 200px;
   height: 200px;
   overflow: hidden;
   margin-right: 10px;
-  >img{
+  > img {
     width: 100%;
     height: 100%;
   }
 }
+
 /*****************************************
 * #uploadImgBtn
 *****************************************/
-#uploadImgBtn{
+#uploadImgBtn {
   display: none;
 }

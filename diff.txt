@@ -1,7 +1,9 @@
 一些需要注意的更改：
 
-入手价格 入手时间字段  由getPrice getTime 统一改为gotPrice gotTime
+入手价格, 入手时间字段由 getPrice getTime 统一改为 gotPrice gotTime
 
-封面图片字段 由coverImg改成coverImage
+封面图片字段, 由 coverImg 改成 coverImage
 
-用于显示时间时的格式化toLocaleDateString()
+用于显示时间时的格式化 toLocaleDateString
+
+前端 form 表单中 name 字段, 应该和数据中对应的字段值一致

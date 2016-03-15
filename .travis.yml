@@ -1,0 +1,14 @@
+language: node_js
+
+node_js:
+  - "5"
+#
+#before_script:
+#  - cp config{.sample,}.js
+#  - npm install
+#
+#services:
+#  - mongodb
+#  - redis
+
+script: gulp lint

@@ -8,7 +8,7 @@ node_modules
 dump.rdb
 npm-debug.log
 .sass-cache
+config.js
 #开发过程中将 dist 文件夹隐藏
-public/dist
-public/upload/images/coverImage
-public/upload/images/userHeader
+public/dist/*
+public/upload/*

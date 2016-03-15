@@ -1,46 +1,41 @@
-// 操作商品目录的一些操作
+// 操作商品类别的一些操作
 var Category = require('../models').Category;
-var validator = require('validator');
+
 /*
-* checkCatetory 检测category 是否已经存在
-* @param { String} 第一级目录
-* @param { String} 第二级目录
+ * newAndSave 创建一个的类别
+ * @param { String } 父级类别名称, 如果是一级类别, 则父级类别为空字符串
+ * @param { String } 类别级别
+ * @param { String } 类别名称
+ * @param {Function} 回调函数
  */
-var checkCatetory = function(f,s){
-	Category.find({},function(err,category){
-		if(err){
-			cb(err)
-		}
-		var hadFirst = category.firstNav.some(function(item){
-			return item == f
-		});
-		var hadSecond = category.secondNav.some(function(item){
-			return item.secondNav == s
-		});
-	});
-	if(hadFirst&&!hadSecond){
-		// 应该更新 第二个导航
-	}
-	if(hadFirst&&hadSecond){
-		//一级标签个 二级标签都已经存在
-	}
-	if(!hadFirst){
-		// 新插入 一级标签和 二级标签
-	}
+exports.newAndSave = function(parent, leavel, name, cb) {
+  // 先检查是否已经存在商品类别
+  Category.findOne({ name: name }, function(err, category) {
+    if (err) {
+      return cb(err);
+    }
+    if (category) {
+      // 如果已经存在该商品类别, 这里输出的提示信息应该详细一些, 比如已经在哪个类别下存在该类别, 该类别是第几级别的类别.
+      return console.log('该类别已经存在');
+    }
+    var newCategory = new Category();
+    newCategory.parent = parent;
+    newCategory.leavel = leavel;
+    newCategory.name = name;
+    newCategory.save(cb);
+  });
 };
+
 /*
-* newAndSave 创建第一个的目录
-* @param {Object} 要存的目录对象
-* @param {Function} 回调函数
+ * findCategoryByLeavel 找到相同级别的类别
+ * @param { Number } 类别级数 0 是代表一级类目, 依次类推
+ * @param {Function} 回调函数
  */
-exports.newAndSave = function(categoryObj,cb){
-	var category = new Category();
-	var firstNav = categoryObj.firstNav;
-	var secondNav = {
-		firstNav:firstNav,
-		secondNav:categoryObj.secondNav
-	};
-	category.firstNav = firstNav;
-	category.secondNav = secondNav;
-	category.save(cb)
+exports.findCategoryByLeavel = function(leavel, cb) {
+  Category.find({ leavel: leavel }, function(err, categories) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, categories);
+  });
 };

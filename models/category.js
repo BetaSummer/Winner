@@ -1,12 +1,19 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var ObjectId = Schema.Types.ObjectId;
-var Mixed = Schema.Types.Mixed;
+
+/*
+ * leavel
+ *    0  一级类别
+ *    1  二级类别
+ */
 var CategorySchema = new Schema({
-  firstNav:[String],
-  secondNav:[Mixed],
+  leavel: { type: Number },
+  name: { type: String },
+  parent: { type: String, default: '' }, // 父级类别
+  isBlock: { type: Boolean, default: false }
 });
-//"firstNav" : [ "闲置商品" ],
-//"secondNav" : [ { "secondNav" : "笔记本", "firstNav" : "闲置商品" } ]
-var Category = mongoose.model('Category',CategorySchema);
+
+CategorySchema.index({ name: 1 });
+
+var Category = mongoose.model('Category', CategorySchema);
 module.exports = Category;

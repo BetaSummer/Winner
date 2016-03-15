@@ -2,39 +2,11 @@ extends common/layout.jade
 //- block append css
 //-   link(rel='stylesheet', href='/dist/css/commodityList.css')
 block content
-	//- nav
-	//- 	ul#firstNavList
-	//- 		li 全部
-	//- 		li 闲置数码
-	//- 			a(href="#") 删除
-	//- 		li 家居日用
-	//- 			a(href="#") 删除
-	//- 		li 鞋服配饰
-	//- 			a(href="#") 删除
-	//- 		li 美容保健
-	//- 			a(href="#") 删除
-	//- 		li 交通工具
-	//- 			a(href="#") 删除
-	form(action="/admin/addFirstNav",method="POST")#firstNavForm
-		input(type="text",placeholder="添加新的一级标签")#addFirstNavValue
-		input(type="submit",value="添加一级标签")#addFirstNavBtn
-	//- div
-	//- 	ul#secondNavList
-	//- 		li 全部
-	//- 		li 台式电脑
-	//- 			a(href="") 删除
-	//- 		li 笔记本
-	//- 			a(href="") 删除
-	//- 		li 手机 
-	//- 			a(href="") 删除
-	//- 		li 相机
-	//- 			a(href="") 删除
-	//- 		li 手表
-	//- 			a(href="") 删除
-	//- 		li 平板
-	//- 			a(href="") 删除
-	//- 	input(type="text",placeholder="添加新的二级标签")
-	//- 	button#addSecondNavBtn 添加二级标签
-		
+	// 应该做成 select 类似的, 父级类别和类别级别应该还有相应的联动效果
+	form(action="/admin/addCategory",method="POST")#addCategoryForm
+		input(type="text",name='parent',placeholder="父级类别")#parentCategory
+		input(type="number",name='leavel',placeholder="类别级别")#leavelCategory
+		input(type="text",name='name',placeholder="类别名称")#nameCategory
+		input(type="submit",value="添加")#addCategoryBtn
 				
 				

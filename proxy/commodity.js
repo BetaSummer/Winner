@@ -1,89 +1,110 @@
-//处理商品的数据库方法
-var validator = require('validator'); // 验证
-var moment = require('moment'); // 格式化时间
+// 处理商品的数据库方法
 var models = require('../models');
 var Commodity = models.Commodity;
-var User = models.User;
 
 /*
-* getCommodityById 通过id获取商品
-* @param {String} 商品id
-* @param {Function} 回调函数
-*  - err
-*  - obj
+ * getCommodityById 通过 id 获取商品
+ * @param { String } 商品 id
+ * @param { Function } 回调函数
+ *  - err
+ *  - obj
  */
-exports.getCommodityById = function(id,cb){
-	Commodity.findOne({_id:id},cb)
-}
-
-
-/*
-* @param {Object} 上传对象
-* - {title:xxx,price:xxx}
-* @param {Function} cb 回调函数
-* - err
-* - commodity {object}
- */
-exports.newAndSave = function(obj,cb){
-	var commodity = new Commodity();
-	Object.keys(obj).forEach(function(k){
-		commodity[k] = obj[k];
-	});
-	commodity.save(cb);
+exports.getCommodityById = function(id, cb) {
+  Commodity.findOne({
+    _id: id
+  }, cb);
 };
 
 /*
-*  getCommodities 根据更新时间排序，
-*  然后从第skip开始取limit个commodity
-*  @param {Number}  skip 跳过的值
-*  @param {Number}  limit 取的值
-*  @param {Function} 回调函数
-*  - err
-*  - commodities {Array}
+ * @param { Object } 上传对象
+ * - { title:xxx, price:xxx }
+ * @param { Function } cb 回调函数
+ * - err
+ * - commodity { object }
  */
-exports.getCommodities = function(skip,limit,cb){
-	Commodity.find({})
-	.sort({updateTime:-1})
-	.skip(skip)
-	.limit(limit)
-	.exec(cb);
+exports.newAndSave = function(obj, cb) {
+  var commodity = new Commodity();
+  Object.keys(obj).forEach(function(k) {
+    commodity[k] = obj[k];
+  });
+  commodity.save(cb);
 };
 
 /*
-* getCommodityHoster 根据商品来获取主人的头像，暱称，id
-* @param {Number}  商品id
-* @param {Number}  回调函数
-*  - err
-*  - doc {object}
+ *  getCommodities 根据更新时间排序，
+ *  然后从第 skip 开始取 limit 个 commodity
+ *  @param { Number }  skip 跳过的值
+ *  @param { Number }  limit 取的值
+ *  @param { Function } 回调函数
+ *  - err
+ *  - commodities { Array }
  */
-exports.getCommodityHoster = function(commodityId,cb){
-	Commodity.findOne({_id:commodityId})
-	.populate({path:'hostId',select:{
-		_id:1,
-		header:1,
-		nickName:1
-	}})
-	.exec(cb);
+exports.getCommodities = function(skip, limit, cb) {
+  Commodity.find({})
+    .sort({
+      updateTime: -1
+    })
+    .skip(skip)
+    .limit(limit)
+    .exec(cb);
 };
 
 /*
-* updateByCommodityId 根据商品id更新商品信息
-* @param {String} 商品id
-* @param {Object} 需要更新的信息内容
-* @param {Function} 回调函数
-*  - err
-*  - info
+ * getCommodityHoster 根据商品来获取主人的头像，暱称，id
+ * @param { Number }  商品 id
+ * @param { Number }  回调函数
+ *  - err
+ *  - doc { object }
  */
-exports.updateByCommodityId = function(id,obj,cb){
-	Commodity.update({_id:id},
-		{$set:obj},
-		{ upsert:true, multi: true },cb);
+exports.getCommodityHoster = function(commodityId, cb) {
+  Commodity.findOne({
+      _id: commodityId
+    })
+    .populate({
+      path: 'hostId',
+      select: {
+        _id: 1,
+        header: 1,
+        nickName: 1
+      }
+    })
+    .exec(cb);
 };
 
 /*
-* addCommodityVisited 添加浏览量
+ * updateByCommodityId 根据商品 id 更新商品信息
+ * @param { String } 商品 id
+ * @param { Object } 需要更新的信息内容
+ * @param { Function } 回调函数
+ *  - err
+ *  - info
  */
-exports.addCommodityVisited = function(id,visitedCount,cb){
-	Commodity.update({_id:id},
-		{$set:{visitedCount:visitedCount+1}},cb);
-}
+exports.updateByCommodityId = function(id, obj, cb) {
+  Commodity.update({
+    _id: id
+  }, {
+    $set: obj
+  }, {
+    upsert: true,
+    multi: true
+  }, cb);
+};
+
+/*
+ * addCommodityVisited 添加浏览量
+ * @param { String } 商品 id
+ * @param { Object } 需要更新的信息内容
+ * @param { Function } 回调函数
+ *  - err
+ *  - info
+ */
+// 这个函数中数据库操作可以优化, 或者直接调用 updateByCommodityId
+exports.addCommodityVisited = function(id, visitedCount, cb) {
+  Commodity.update({
+    _id: id
+  }, {
+    $set: {
+      visitedCount: visitedCount + 1
+    }
+  }, cb);
+};

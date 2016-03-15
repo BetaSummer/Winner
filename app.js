@@ -4,10 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-//add
+// add
 var config = require('./config');
 var session = require('express-session');
-var redisStore = require('connect-redis')(session);
+var RedisStore = require('connect-redis')(session);
 
 // 前台展示
 var routes = require('./routes/index');
@@ -21,29 +21,29 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
 // 中间件
-//redis-session
+// redis-session
 app.use(session({
-  store: new redisStore({
+  store: new RedisStore({
     host: config.redis_host,
-    port: config.redis_port,
+    port: config.redis_port
   }),
-  secret:config.session_secret,
+  secret: config.session_secret,
   resave: true,
   saveUninitialized: true
 }));
 
-app.use('/',routes);
-app.use('/admin',admin);
+app.use('/', routes);
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -65,6 +65,7 @@ if (app.get('env') === 'development') {
     });
   });
 }
+
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
@@ -74,6 +75,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
