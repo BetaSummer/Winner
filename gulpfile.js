@@ -21,7 +21,8 @@ gulp.task('jshint', function() {
 gulp.task('jscs', function() {
   return gulp.src(paths.scripts)
     .pipe(jscs())
-    .pipe(jscs.reporter());
+    .pipe(jscs.reporter())
+    .pipe(jscs.reporter('fail'));
 });
 
 gulp.task('js', function() {

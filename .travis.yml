@@ -12,3 +12,9 @@ node_js:
 #  - redis
 
 script: gulp lint
+
+notifications:
+  email:
+    recipients:
+      - givemearainbowlife@gmail.com
+    on_success: always
