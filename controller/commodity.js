@@ -8,7 +8,7 @@ var fs = require('fs');
  */
 exports.showIndex = function(req, res, next) {
   var p = req.params.page || 0;
-  var limit = 10;
+  var limit = req.params.limit || 10;
   var skip = p * limit;
 
   Commodity.getCommodities(skip, limit, function(err, commodities) {
@@ -290,3 +290,13 @@ exports.showCommodityDetail = function(req, res, next) {
     });
   });
 };
+
+/*
+* rejectCommodity 商品审核驳回
+ */
+
+exports.rejectCommodity = function(req, res, next) {
+  // 1 修改商品状态为审核不通过
+  // 2 找到商品主人 发送审核结果通知
+};
+

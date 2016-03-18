@@ -270,6 +270,7 @@ exports.settingPass = function(req, res, next) {
     });
   });
 };
+
 /*
  * showSettingBind 显示用户信息设置绑定
  */
@@ -278,6 +279,7 @@ exports.showSettingBind = function(req, res, next) {
     user: req.session.user
   });
 };
+
 /*
  * 帐号绑定更新
  */
