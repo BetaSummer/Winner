@@ -292,11 +292,54 @@ exports.showCommodityDetail = function(req, res, next) {
 };
 
 /*
-* rejectCommodity 商品审核驳回
+ * showCheckCommodityList 展示审核商品列表页面
  */
-
-exports.rejectCommodity = function(req, res, next) {
-  // 1 修改商品状态为审核不通过
-  // 2 找到商品主人 发送审核结果通知
+exports.showCheckCommodityList = function(req, res, next) {
+  // 数据库查找没有被审核通过的商品 时间倒序排列.
+  // 渲染到响应页面
 };
 
+/*
+ * rejectCommodity 商品审核驳回
+ */
+exports.rejectCommodity = function(req, res, next) {
+  // var commodity = req.params.id;
+  // var reason = req.body.reason;
+  // 1 修改商品状态为审核不通过
+  // 2 找到商品主人 发送审核结果通知
+  // Commodity.setCommodityStatus(id, 3, function() {});
+};
+
+/*
+ * passCommodity 处理审核通过 commodity
+ */
+exports.passCommodity = function(req, res) {
+  // var commodityId = req.params.id;
+  // 更新 status 字段
+  // Commodity.setCommodityStatus(id, 1, function() {});
+};
+
+/*
+ * searchCommodities 处理查询
+ */
+exports.searchCommodities = function(req, res) {
+  // 拿到各种 req.body 的属性
+  // 查询返回结果
+};
+
+/*
+ * blockCommodities 批量禁止某件商品
+ */
+exports.blockCommodities = function(req, res) {
+  var commodities = req.body.commodities;
+  if (!Array.isArray(commodities)) {
+    return Commodity.blockCommodity(commodities, function() {
+    });
+  }
+  commodities.forEach(function(index, item) {
+    // 处理
+    Commodity.blockCommodity(item, function() {
+    });
+    res.end();
+  });
+};

@@ -108,3 +108,44 @@ exports.addCommodityVisited = function(id, visitedCount, cb) {
     }
   }, cb);
 };
+
+/*
+ * setCommodityStatus 设置商品的状态
+ * 0 为审核状态, 1 上架, 2 下架, 3 审核没通过, 4 被删除, 5 为再次审核状态
+ * @param { String } 商品 id
+ * @param { Number } 商品状态码
+ * @param { Function } 回调函数
+ */
+var setCommodityStatus = exports.setCommodityStatus = function(id, status, cb) {
+  Commodity.findOneAndUpate({ _id: id }, {
+    $set: {
+      status: status
+    }
+  }, cb);
+};
+
+/*
+ * hiddenCommodity 下架商品
+ * @params { String } 商品 id
+ * @params { Function }
+ */
+exports.hiddenCommodity = function(id, cb) {
+  setCommodityStatus(id, 2, cb);
+};
+
+/*
+ * addedCommodity 上架商品
+ * @params { String } 商品 id
+ * @params { Function }
+ */
+exports.addedCommodity = function(id, cb) {
+  setCommodityStatus(id, 1, cb);
+};
+
+/*
+ * blockCommodity 禁止某件商品
+ */
+exports.blockCommodity = function(id, cb) {
+  setCommodityStatus(id, 3, cb);
+  // 标记为审核不通过 并发送响应的理由
+};

@@ -29,6 +29,8 @@ CommoditySchema.index({ updateTime: -1 });
 
 CommoditySchema.index({ hostId: 1, createTime: -1 });
 
+CommoditySchema.index({ status: 1 });
+
 var Commodity = mongoose.model('Commodity', CommoditySchema);
 
 module.exports = Commodity;

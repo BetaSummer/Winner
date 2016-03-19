@@ -8,6 +8,48 @@ var hash = function(psw) {
 };
 
 /*
+ * showUserList 显示查找的用户列表
+ */
+exports.showUserList = function(req, res) {
+  // 渲染用户列表
+  res.render();
+};
+
+/*
+ * showUser 展示用户 detail
+ */
+exports.showUser = function(req, res) {
+  res.renser();
+};
+
+/*
+ * searchUsers 根据用户输入条件查找用户
+ */
+exports.searchUsers = function(req, rest) {
+  // 获取用户输入: 用户 id || 用户等级
+  // 根据不同的字段查询
+  // 返回查询结果
+};
+
+/*
+ * blockUser 禁止用户 (封号)
+ */
+exports.blockUser = function(req, res) {
+  // var userId = req.params.id;
+  // 拿到用户 id , 更新用户的 isBlock 字段
+  // var reason = req.body.reason;
+  // 创建一个 message
+};
+
+/*
+ * unBlockUser 解封用户
+ */
+exports.unBlockUser = function(req, res) {
+  // 同样拿到用户 id 更新用户 isBlock 字段
+  // 同样解封也要发布响应的通知
+};
+
+/*
  * showUserCenterIndex 显示用户个人中心的首页最新动态
  * 这边的逻辑 有很大问题
  */
@@ -281,7 +323,7 @@ exports.showSettingBind = function(req, res, next) {
 };
 
 /*
- * 帐号绑定更新
+ * settingBind  帐号绑定更新
  */
 exports.settingBind = function(req, res, next) {
 };
