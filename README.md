@@ -1,4 +1,5 @@
 # 杭电良品
+![](https://travis-ci.org/hdulp/express-hdulp.svg)
 基于express版本，传统开发模式
 
 ## 本地启动
