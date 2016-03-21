@@ -22,9 +22,9 @@ router.post('/searchCommodities', commodity.searchCommodities);
 router.post('/blockCommodity/:id', commodity.blockCommodity);
 router.post('/blockCommodities', commodity.blockCommodities);
 
-
 // 审核商品
 router.get('/showCheckCommodityList', commodity.showCheckCommodityList);
+router.get('/showCheckCommodity/:id', commodity.showCheckCommodity);
 router.post('/rejectCommodity/:id', commodity.rejectCommodity);
 router.post('/passCommodity/:id', commodity.passCommodity);
 
@@ -34,5 +34,6 @@ router.get('/user/:id', user.showUser);
 router.post('/searchUsers', user.searchUsers);
 router.post('/blockUser/:id', user.blockUser);
 router.post('/unBlockUser/:id', user.unBlockUser);
+router.post('/sendMessage', user.sendMessage);
 
 module.exports = router;

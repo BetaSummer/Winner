@@ -70,6 +70,7 @@ exports.publish = function(req, res, next) {
   // 这个手动一个个太不优雅,可以考虑遍历 body 才生成 publishObj 对象,要注意字段确保一致
   var publishObj = {
     title: validator.trim(body.title),
+    // 这里类别 扩展性是不是有问题
     category: {
       firstNav: validator.trim(body.firstNav),
       secondNav: validator.trim(body.secondNav)
@@ -297,6 +298,14 @@ exports.showCommodityDetail = function(req, res, next) {
 exports.showCheckCommodityList = function(req, res, next) {
   // 数据库查找没有被审核通过的商品 时间倒序排列.
   // 渲染到响应页面
+};
+
+/*
+* showCheckCommodity 展示被审核的商品的详情
+ */
+exports.showCheckCommodity = function(req, res) {
+  // var commodityId = req.params.id;
+
 };
 
 /*

@@ -149,3 +149,4 @@ exports.blockCommodity = function(id, cb) {
   setCommodityStatus(id, 3, cb);
   // 标记为审核不通过 并发送响应的理由
 };
+

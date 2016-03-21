@@ -42,6 +42,14 @@ exports.blockUser = function(req, res) {
 };
 
 /*
+* sendMessages 群发消息
+ */
+exports.sendMessage = function(req, res) {
+  // 存入数据库消息
+  // 这里要支持 socket 即实时的通知消息
+};
+
+/*
  * unBlockUser 解封用户
  */
 exports.unBlockUser = function(req, res) {
