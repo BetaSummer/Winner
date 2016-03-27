@@ -1,27 +1,26 @@
 .commodity-card.ui.card.mycommodity-card
-    a(href="/commodity/"+commodities[i]._id,class="image blurring dimmable")
+    a(href="/commodity/" + commodities[ i ]._id,class="image blurring dimmable")
         .ui.dimmer
             .content
                 .content
                     a.ui.inverted.button 编辑
                     a.ui.inverted.button 下架
-        img(src=commodities[i].coverImage alt="")
+        img(src=commodities[ i ].coverImage alt="")
     .content
         .headerbox
-            .commodity-price $#{commodities[i].price}
+            .commodity-price $#{commodities[ i ].price}
             .extrabox.mycommodity
-                a(href="/commodity/"+commodities[i]._id) 查看
-        .introbox
+                a(href="/commodity/" + commodities[ i ]._id) 查看
             - if(theUser){
-              a(href="/user/"+theUser._id)
+            a(href="/user/" + theUser._id)
                 img.mini.ui.image.floated.left(src= theUser.header)
             - }else{
-              a(href="/user/"+users[i]._id)
-                img.mini.ui.image.floated.left(src= users[i].header)
+            a(href="/user/" + users[ i ]._id)
+                img.mini.ui.image.floated.left(src= users[ i ].header)
             - }
             p.header
-                a(href="/commodity/"+commodities[i]._id) #{commodities[i].title}
+                a(href="/commodity/" + commodities[ i ]._id) #{commodities[ i ].title}
             p.meta  描述一下～描述一下描述一下描述一下描述一下描述一下描述一下
         .extra
-            span #{commodities[i].updateTime.toLocaleDateString()}
-            span.right.floated 评论#{commodities[i].replyCount}/翻阅#{commodities[i].visitedCount}
+            span #{commodities[ i ].updateTime.toLocaleDateString()}
+            span.right.floated 评论#{commodities[ i ].replyCount}/翻阅#{commodities[ i ].visitedCount}

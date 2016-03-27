@@ -12,7 +12,6 @@ exports.showIndex = function(req, res, next) {
   var skip = p * limit;
 
   Commodity.getCommodities(skip, limit, function(err, commodities) {
-
     var getUserInfo = function(item) {
       var promise = new Promise(function(resolve, reject) {
         var hostId = item.hostId;

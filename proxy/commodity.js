@@ -144,6 +144,8 @@ exports.addedCommodity = function(id, cb) {
 
 /*
  * blockCommodity 禁止某件商品
+ * @param { String } 商品 id
+ * @param { Function } 回调
  */
 exports.blockCommodity = function(id, cb) {
   setCommodityStatus(id, 3, cb);

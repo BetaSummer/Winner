@@ -4,6 +4,7 @@ var sign = require('../controller/sign');
 var auth = require('../middlewares/auth');
 var commodity = require('../controller/commodity');
 var user = require('../controller/user');
+var reply = require('../controller/reply');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
@@ -44,6 +45,10 @@ router.post('/settingBind', auth.loginRequired, user.settingBind);
 router.get('/publish', auth.loginRequired, commodity.showPublish);
 router.get('/edit/:id', auth.loginRequired, commodity.showEditCommodity);
 router.get('/commodity/:id', auth.loginRequired, commodity.showCommodityDetail);
+
+// 评论或者回复
+router.get('/reply', reply.showReply);
+router.post('/reply', reply.addReply);
 
 // 操作商品
 router.post('/publish', auth.loginRequired, multipartMiddleware, commodity.publish);

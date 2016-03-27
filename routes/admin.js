@@ -19,7 +19,7 @@ router.post('/editCategory', category.editCategory);
 router.get('/commodities', commodity.showIndex);
 router.get('/commodity/:id', commodity.showCommodityDetail);
 router.post('/searchCommodities', commodity.searchCommodities);
-router.post('/blockCommodity/:id', commodity.blockCommodity);
+router.post('/blockCommodity/:id', commodity.blockCommodities);
 router.post('/blockCommodities', commodity.blockCommodities);
 
 // 审核商品
