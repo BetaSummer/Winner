@@ -47,8 +47,10 @@ router.get('/edit/:id', auth.loginRequired, commodity.showEditCommodity);
 router.get('/commodity/:id', auth.loginRequired, commodity.showCommodityDetail);
 
 // 评论或者回复
+// demo 暂时没有添加中间件
 router.get('/reply', reply.showReply);
 router.post('/reply', reply.addReply);
+router.post('deleteReply/:id', reply.deleteReply);
 
 // 操作商品
 router.post('/publish', auth.loginRequired, multipartMiddleware, commodity.publish);

@@ -8,12 +8,13 @@ var User = require('./user');
  * newAndSave 创建新的一条消息
  * @param { String } 消息类型
  * @param { String } 消息创建者 id
- * @param { String } 消息接受者 id
+ * @param { Array } 消息被 @ 到的同学
+ * @param { String } 消息接受者(商品拥有者) id
  * @param { String } 消息关联的商品 id
  * @param { String } 回复的某个消息 id
  * @param { Function } 回调函数
  */
-exports.newAndSave = function(type, masterId, authorId, commodityId, replyId, cb) {
+exports.newAndSave = function(type, masterId, atId, authorId, commodityId, replyId, cb) {
   User.getUserById(masterId, function(err, master) {
     if (err) {
       return cb(err);
@@ -24,6 +25,7 @@ exports.newAndSave = function(type, masterId, authorId, commodityId, replyId, cb
     var message = new Message();
     message.type = type;
     message.masterId = masterId;
+    message.atId = atId;
     message.authorId = authorId;
     message.commodityId = commodityId;
     message.replyId = replyId;

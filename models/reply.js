@@ -6,7 +6,7 @@ var ReplySchema = new Schema({
   content: { type: String },
   commodityId: { type: ObjectId },
   authorId: { type: ObjectId },
-  replyId: { type: ObjectId },
+  replyId: { type: ObjectId }, // 回复某条 reply
   createTime: { type: Date, default: Date.now() },
   updateTime: { type: Date, default: Date.now() },
   deleted: { type: Boolean, default: false }

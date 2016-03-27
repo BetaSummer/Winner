@@ -16,7 +16,7 @@ var CommoditySchema = new Schema({
   createTime: { type: Date, default: Date.now() }, // 创建时间
   updateTime: { type: Date, default: Date.now() }, // 更新时间
   replyCount: { type: Number, default: 0 }, // 回复数量
-  reply: [{ type: ObjectId, ref: 'Reply' }],
+  reply: [ { type: ObjectId, ref: 'Reply' } ],
   visitedCount: { type: Number, default: 1 }, // 访问次数
   status: { type: Number, default: 0 }, // 0 为审核状态, 1 上架, 2 下架, 3 审核没通过, 4 被删除, 5 为再次审核状态
   qq: { type: Number },

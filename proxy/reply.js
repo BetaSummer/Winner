@@ -19,6 +19,28 @@ exports.newAndSave = function(content, commodityId, masterId, replyId, cb) {
   reply.save(cb);
 };
 
+/*
+ * findReplyById 根据 id 返回回复信息
+ * @param { String } reply 的 id
+ * @param { Function } 回调函数
+ *
+ */
 exports.findReplyById = function(id, cb) {
   Reply.findOne({ _id: id }, cb);
+};
+
+/*
+ * updateReply 更新 reply 的一些信息,
+ * @param { String }需要更新信息的 repy id
+ * @param { Object } 需要更新的一个字段与值的对象, reply 可以更新 content uodateTime deleted 字段
+ * @param { Function } 回调函数
+ */
+exports.updateReply = function(id, obj, cb) {
+  // 处理 obj 中的数据
+  // 数据安全控制
+
+  // obj 对象不存在的字段 不需要更新, 所以这里的数据库更新写法可能有待改进
+  Reply.findByIdAndUpdate(id, {
+    $set: obj
+  }, cb);
 };
