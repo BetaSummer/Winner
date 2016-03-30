@@ -58,7 +58,7 @@ router.post('/edit/:id/hostId/:hostId', auth.loginRequired, multipartMiddleware,
 router.post('/editInfo/:id/hostId/:hostId', auth.loginRequired, commodity.editInfo);
 router.post('/editImg/:id/hostId/:hostId', auth.loginRequired, multipartMiddleware, commodity.editImg);
 router.post('/editConnect/:id/hostId/:hostId', auth.loginRequired, commodity.editConnect);
-router.get('/unPublish/:id', auth.loginRequired, commodity.unPublish)
+router.post('/unPublish/:id', auth.loginRequired, commodity.unPublish);
 
 // 标签查询商品
 router.get('/category/:categoryId', commodity.showIndex);

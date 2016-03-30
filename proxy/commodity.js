@@ -25,7 +25,7 @@ exports.getCommodityById = function(id, cb) {
 exports.newAndSave = function(obj, cb) {
   var commodity = new Commodity();
   Object.keys(obj).forEach(function(k) {
-    commodity[k] = obj[k];
+    commodity[ k ] = obj[ k ];
   });
   commodity.save(cb);
 };
@@ -41,11 +41,11 @@ exports.newAndSave = function(obj, cb) {
  *  - commodities { Array }
  */
 exports.getCommodities = function(skip, limit, categoryId, cb) {
-  if( typeof categoryId === 'function'){
+  if (typeof categoryId === 'function') {
     cb = categoryId;
     categoryId = null;
   }
-  var query = categoryId ? {categoryId: categoryId} : {};
+  var query = categoryId ? { categoryId: categoryId } : {};
   Commodity.find(query)
     .sort({
       updateTime: -1

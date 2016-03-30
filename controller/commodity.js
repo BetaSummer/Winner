@@ -36,13 +36,13 @@ exports.showIndex = function(req, res, next) {
     Promise.all(promises).then(function(users) {
       Category.getAllCategory(function(err, categories) {
         if (err) {
-          return console.log(err)
+          return console.log(err);
         }
-        var firstCategories = categories.filter(function(item){
-          return item.leavel == 0;
+        var firstCategories = categories.filter(function(item) {
+          return item.leavel === 0;
         });
-        var secondCategories = categories.filter(function(item){
-          return item.leavel == 1;
+        var secondCategories = categories.filter(function(item) {
+          return item.leavel === 1;
         });
         res.render('commodityList/index', {
           user: req.session.user,
@@ -65,11 +65,11 @@ exports.showPublish = function(req, res, next) {
   // 获取标签信息
   Category.findCategoryByLeavel(0, function(err, firstCategory) {
     if (err) {
-      return console.log(err)
+      return console.log(err);
     }
     Category.findCategoryByLeavel(1, function(err, secondCategory) {
       if (err) {
-        return cosnole.log(err)
+        return console.log(err);
       }
       res.render('commodityShow/publish', {
         user: req.session.user,
@@ -145,8 +145,8 @@ exports.showEditCommodity = function(req, res, next) {
       return res.redirect('back');
     }
     Category.getCategoryNameById(categoryId, function(err, category) {
-      if(err){
-        return consoe.log(err);
+      if (err) {
+        return console.log(err);
       }
       res.render('commodityShow/edit', {
         user: req.session.user,
@@ -312,7 +312,7 @@ exports.showCommodityDetail = function(req, res, next) {
         }
         Category.getCategoryNameById(categoryId, function(err, category) {
           if (err) {
-            return console.log(err)
+            return console.log(err);
           }
           res.render('commodityShow/detail', {
             user: req.session.user,
@@ -329,10 +329,10 @@ exports.showCommodityDetail = function(req, res, next) {
 /*
  * unPublish 下架某件商品
  */
-exports.unPublish = function(req,res,next){
+exports.unPublish = function(req, res, next) {
   var commodityId = req.params.id;
-  Commodity.setCommodityStatus(commodityId, 2, function(err){
-    if(err){
+  Commodity.setCommodityStatus(commodityId, 2, function(err) {
+    if (err) {
       return console.log(err);
     }
     console.log('下架成功');

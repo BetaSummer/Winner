@@ -27,15 +27,16 @@ exports.newAndSave = function(parent, leavel, name, cb) {
 };
 
 /*
- getAllCategory 获取所有的 category
+ getAllCategory 获取所有的 category 好像有点冗余
+ @param { String } [ 可选 ] 要查找的 category id
+ @param { Function } 回调函数
  */
-exports.getAllCategory = function(categoryId, cb){
-  console.log(typeof categoryId)
-  if(typeof categoryId === 'function'){
+exports.getAllCategory = function(categoryId, cb) {
+  if (typeof categoryId === 'function') {
     cb = categoryId;
     categoryId = null;
   }
-  var query = categoryId ? {_id: categoryId} : {};
+  var query = categoryId ? { _id: categoryId } : {};
   Category.find(query, cb);
 };
 
@@ -73,6 +74,6 @@ exports.getCatedoryByParent = function(parent, cb) {
       return cb(err);
     }
     cb(null, categories);
-  })
+  });
 };
 
