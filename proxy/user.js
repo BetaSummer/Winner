@@ -133,7 +133,7 @@ exports.getUserCommoditiesById = function(id, cb) {
         _id: 1,
         price: 1,
         title: 1,
-        coverImg: 1,
+        coverImage: 1,
         updateTime: 1,
         replyCount: 1,
         visitedCount: 1

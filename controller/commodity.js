@@ -1,5 +1,6 @@
 var validator = require('validator'); // 验证
 var Commodity = require('../proxy').Commodity;
+var Category = require('../proxy').Category;
 var User = require('../proxy').User;
 var fs = require('fs');
 
@@ -7,11 +8,13 @@ var fs = require('fs');
  * showIndex 显示首页
  */
 exports.showIndex = function(req, res, next) {
+  // 标签查询结果 也有这个方法 所以 要考虑 添加 category 字段查询
   var p = req.params.page || 0;
   var limit = req.params.limit || 10;
+  var categoryId = req.params.categoryId;
   var skip = p * limit;
 
-  Commodity.getCommodities(skip, limit, function(err, commodities) {
+  Commodity.getCommodities(skip, limit, categoryId, function(err, commodities) {
     var getUserInfo = function(item) {
       var promise = new Promise(function(resolve, reject) {
         var hostId = item.hostId;
@@ -31,13 +34,24 @@ exports.showIndex = function(req, res, next) {
     });
 
     Promise.all(promises).then(function(users) {
-      res.render('commodityList/index', {
-        user: req.session.user,
-        commodities: commodities,
-        users: users
+      Category.getAllCategory(function(err, categories) {
+        if (err) {
+          return console.log(err)
+        }
+        var firstCategories = categories.filter(function(item){
+          return item.leavel == 0;
+        });
+        var secondCategories = categories.filter(function(item){
+          return item.leavel == 1;
+        });
+        res.render('commodityList/index', {
+          user: req.session.user,
+          commodities: commodities,
+          users: users,
+          firstCategories: firstCategories,
+          secondCategories: secondCategories
+        });
       });
-      console.log(users);
-      // console.log(commodities)
     }).catch(function(err) {
       return console.log(err);
     });
@@ -48,8 +62,21 @@ exports.showIndex = function(req, res, next) {
  * showPublish 发布商品页面
  */
 exports.showPublish = function(req, res, next) {
-  res.render('commodityShow/publish', {
-    user: req.session.user
+  // 获取标签信息
+  Category.findCategoryByLeavel(0, function(err, firstCategory) {
+    if (err) {
+      return console.log(err)
+    }
+    Category.findCategoryByLeavel(1, function(err, secondCategory) {
+      if (err) {
+        return cosnole.log(err)
+      }
+      res.render('commodityShow/publish', {
+        user: req.session.user,
+        firstCategory: firstCategory,
+        secondCategory: secondCategory
+      });
+    });
   });
 };
 
@@ -70,10 +97,7 @@ exports.publish = function(req, res, next) {
   var publishObj = {
     title: validator.trim(body.title),
     // 这里类别 扩展性是不是有问题
-    category: {
-      firstNav: validator.trim(body.firstNav),
-      secondNav: validator.trim(body.secondNav)
-    },
+    categoryId: validator.trim(body.categoryId.replace(/\"/gi, '')),
     // 商品名称
     name: validator.trim(body.name),
     howNew: validator.trim(body.howNew),
@@ -84,7 +108,7 @@ exports.publish = function(req, res, next) {
     phoneNum: validator.trim(body.phoneNum),
     userName: validator.trim(body.userName),
     qq: validator.trim(body.qq),
-    weChat: validator.trim(body.wechat),
+    weChat: validator.trim(body.weChat),
     content: validator.trim(body.content),
     hostId: userId
   };
@@ -115,13 +139,20 @@ exports.showEditCommodity = function(req, res, next) {
       return console.log(err);
     }
     var hostId = commodity.hostId;
+    var categoryId = commodity.categoryId;
     if (userId != hostId) {
       console.log('没有权限');
       return res.redirect('back');
     }
-    res.render('commodityShow/edit', {
-      user: req.session.user,
-      commodity: commodity
+    Category.getCategoryNameById(categoryId, function(err, category) {
+      if(err){
+        return consoe.log(err);
+      }
+      res.render('commodityShow/edit', {
+        user: req.session.user,
+        commodity: commodity,
+        category: category
+      });
     });
   });
 };
@@ -266,28 +297,45 @@ exports.showCommodityDetail = function(req, res, next) {
     }
     var visitedCount = commodity.visitedCount;
     var hostId = commodity.hostId;
-    var isSelf = hostId === userId ? true : false;
+    var isSelf = hostId == userId ? true : false;
+    var categoryId = commodity.categoryId;
     // 取商品主人的信息  头像 信徒 闲置...
     User.getUserCommoditiesById(hostId, function(err, hoster) {
       if (err) {
         return console.log(err);
       }
-      // console.log('商品拥有者  信息');
-      // console.log(hoster);
       console.log(commodity);
       // 增加访问量
       Commodity.addCommodityVisited(commodityId, visitedCount, function(err) {
         if (err) {
           return console.log(err);
         }
-        res.render('commodityShow/detail', {
-          user: req.session.user,
-          hoster: hoster,
-          commodity: commodity,
-          isSelf: isSelf
+        Category.getCategoryNameById(categoryId, function(err, category) {
+          if (err) {
+            return console.log(err)
+          }
+          res.render('commodityShow/detail', {
+            user: req.session.user,
+            hoster: hoster,
+            commodity: commodity,
+            isSelf: isSelf,
+            category: category
+          });
         });
       });
     });
+  });
+};
+/*
+ * unPublish 下架某件商品
+ */
+exports.unPublish = function(req,res,next){
+  var commodityId = req.params.id;
+  Commodity.setCommodityStatus(commodityId, 2, function(err){
+    if(err){
+      return console.log(err);
+    }
+    console.log('下架成功');
   });
 };
 
@@ -300,7 +348,7 @@ exports.showCheckCommodityList = function(req, res, next) {
 };
 
 /*
-* showCheckCommodity 展示被审核的商品的详情
+ * showCheckCommodity 展示被审核的商品的详情
  */
 exports.showCheckCommodity = function(req, res) {
   // var commodityId = req.params.id;
@@ -351,3 +399,5 @@ exports.blockCommodities = function(req, res) {
     res.end();
   });
 };
+
+

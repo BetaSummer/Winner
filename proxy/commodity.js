@@ -35,12 +35,18 @@ exports.newAndSave = function(obj, cb) {
  *  然后从第 skip 开始取 limit 个 commodity
  *  @param { Number }  skip 跳过的值
  *  @param { Number }  limit 取的值
+ *  @param { String }  categoryId 查询某个 category 下的所有商品(可选)
  *  @param { Function } 回调函数
  *  - err
  *  - commodities { Array }
  */
-exports.getCommodities = function(skip, limit, cb) {
-  Commodity.find({})
+exports.getCommodities = function(skip, limit, categoryId, cb) {
+  if( typeof categoryId === 'function'){
+    cb = categoryId;
+    categoryId = null;
+  }
+  var query = categoryId ? {categoryId: categoryId} : {};
+  Commodity.find(query)
     .sort({
       updateTime: -1
     })
@@ -117,7 +123,7 @@ exports.addCommodityVisited = function(id, visitedCount, cb) {
  * @param { Function } 回调函数
  */
 var setCommodityStatus = exports.setCommodityStatus = function(id, status, cb) {
-  Commodity.findOneAndUpate({ _id: id }, {
+  Commodity.findByIdAndUpdate(id, {
     $set: {
       status: status
     }

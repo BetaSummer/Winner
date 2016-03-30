@@ -71,7 +71,8 @@ exports.showUserCenterIndex = function(req, res, next) {
     res.render('userCenter/news', {
       user: req.session.user,
       theUser: user,
-      isSelf: isSelf
+      isSelf: isSelf,
+      activeUserCenterIndex: true
     });
   });
 };
@@ -103,7 +104,8 @@ exports.showMyFollows = function(req, res, next) {
     res.render('userCenter/myFollows', {
       user: req.session.user,
       follows: user.follows,
-      isSelf: isSelf
+      isSelf: isSelf,
+      avtiveMyFollows: true
     });
   });
 };
@@ -133,7 +135,8 @@ exports.showMyFocus = function(req, res, next) {
     res.render('userCenter/myFocus', {
       user: req.session.user,
       focus: user.focus,
-      isSelf: isSelf
+      isSelf: isSelf,
+      activeMyFocus: true
     });
   });
 };
@@ -176,7 +179,7 @@ exports.rmFocus = function(req, res, next) {
  */
 exports.showMyCommodity = function(req, res, next) {
   var userId = req.params.id;
-  var isSelf = userId === req.session.user._id ? true : false;
+  var isSelf = userId == req.session.user._id ? true : false;
   User.getUserCommoditiesById(userId, function(err, doc) {
     if (err) {
       return console.log(err);
@@ -191,7 +194,8 @@ exports.showMyCommodity = function(req, res, next) {
         user: req.session.user,
         theUser: user,
         commodities: doc.myCommodity,
-        isSelf: isSelf
+        isSelf: isSelf,
+        activeCommodity: true
       });
     });
   });

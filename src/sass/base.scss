@@ -78,7 +78,9 @@ body {
 
   .dropdown-shortcutkey:hover .menu {
     text-align: center;
+    margin-top: 1px;
     width: 100%;
+    z-index: 22333;
     display: block;
   }
 
@@ -157,6 +159,7 @@ body {
   }
   a {
     color: rgba(0, 0, 0, 0.87);
+    overflow: hidden;
   }
   .content {
     .headerbox {

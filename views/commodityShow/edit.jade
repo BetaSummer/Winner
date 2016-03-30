@@ -35,40 +35,49 @@ block content
               span.info-key 商品名称
               span.info-value #{commodity.name}
             .edit-line
-              label(for="category") 商品类目
-              .ui.selection.dropdown(style="min-width:180px")
-                input(name="secondNav",type="hidden",value=commodity.category.secondNav)
+              label 商品类目
+              .ui.selection.dropdown(style="min-width:80px")
+                input(type="hidden")
                 i.dropdown.icon
-                .default.text 请选择
-                  .menu
-                    - secondList = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
-                    - each item,index in secondList
-                      .item #{item}
+                .default.text= category.parent
+                .menu
+                  - firstCategory = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
+                    - each item,index in firstCategory
+                      .item(data-value=item) #{item}
+              .ui.selection.dropdown(style="min-width:80px")
+                // - 已最后细化的 category 为标准
+                input(name="categoryId",type="hidden")
+                i.dropdown.icon
+                .default.text= category.name
+                .menu
+                  - secondCategory = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
+                    - each item,index in secondCategory
+                      .item(data-value=item) #{item}
             .edit-line
               label(for="fineness") 成色
               .ui.selection.dropdown(style="min-width:100px")
                 input(name="howNew",id="fineness",type="hidden",value=commodity.howNew)
                 i.dropdown.icon
-                .default.text 请选择
-                  .menu
-                    - opList = [99,95,9,8,6,5,3,2]
-                    - each item,index in opList
-                      .item #{item}成新
+                .default.text #{commodity.howNew}成新
+                .menu
+                  - opList = [99,95,9,8,6,5,3,2]
+                  - each item,index in opList
+                    .item(data-value=item) #{item}成新
             .edit-line
               label(for="price") 价格
               .ui.input
                 input(type="tel",id="price",name="price",value=commodity.price)
             .edit-line
-              label(for="gotPrice") 入手价格
+              label 入手价格
               .ui.input
                 input(type="tel",name="gotPrice",value=commodity.gotPrice)
             .edit-line
-              label(for="gotTime") 入手时间
+              label 入手时间
               //- 使用日历控件
               .ui.input
-                input(type="datetime",id="gotTime",value=commodity.gotTime,name="gotTime")
+                input(type="datetime",value=commodity.gotTime,name="gotTime")
             .edit-line
-              input.edit-commodity-btn(type="submit",value="保存修改")
+              input.edit-commodity-btn.ui.button(type="submit",value="保存修改")
         .edit-img
           form(action="/editImg/"+commodity._id+"/hostId/"+commodity.hostId  enctype="multipart/form-data" method="POST" id="uploadForm")
             .edit-line
@@ -100,5 +109,5 @@ block content
               .ui.input
                 input(type="text",id="wechat",name="weChat",value=commodity.weChat)
             .edit-line
-              input.edit-commodity-btn(type="submit",value="保存修改")
+              input.edit-commodity-btn.ui.button(type="submit",value="保存修改")
   - }

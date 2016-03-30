@@ -27,6 +27,28 @@ exports.newAndSave = function(parent, leavel, name, cb) {
 };
 
 /*
+ getAllCategory 获取所有的 category
+ */
+exports.getAllCategory = function(categoryId, cb){
+  console.log(typeof categoryId)
+  if(typeof categoryId === 'function'){
+    cb = categoryId;
+    categoryId = null;
+  }
+  var query = categoryId ? {_id: categoryId} : {};
+  Category.find(query, cb);
+};
+
+/*
+ getCategoryNameById 通过 id 查询标签名
+ @param { String } 标签 id
+ @param { Function } 回调函数
+ */
+exports.getCategoryNameById = function(id, cb) {
+  Category.findOne({ _id: id }, cb);
+};
+
+/*
  * findCategoryByLeavel 找到相同级别的类别
  * @param { Number } 类别级数 0 是代表一级类目, 依次类推
  * @param {Function} 回调函数
@@ -39,3 +61,18 @@ exports.findCategoryByLeavel = function(leavel, cb) {
     cb(null, categories);
   });
 };
+
+/*
+ * getCatedoryByParent 获取父级的所有子级
+ * @param { String } 父级名称
+ * @param { Function } 回调函数
+ */
+exports.getCatedoryByParent = function(parent, cb) {
+  Category.find({ parent: parent }, function(err, categories) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, categories);
+  })
+};
+

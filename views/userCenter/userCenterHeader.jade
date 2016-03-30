@@ -1,12 +1,12 @@
 div.user-center-header
-  div.my-infos-box    
-    - numList = [{type:'关注',num:22},{type:"信徒",num:33123},{type:"闲置",num:44}]
+  div.my-infos-box
+    - numList = [{type:'关注',num:user.focus.length},{type:"信徒",num:user.follows.length},{type:"闲置",num:user.myCommodity.length}]
     - each item in numList
       span.user-center-header-info
-        a(href="#",class="user-num-info")= item.num
-        a(href="#",class="user-num-type")= item.type
-    .ui.button.inverted(href="#",class="to-publish-new") 发布新的闲置
+        a(href="javascript:void(0)",class="user-num-info")= item.num
+        a(href="javascript:void(0)",class="user-num-type")= item.type
+    a.ui.button.inverted(href="/publish",class="to-publish-new") 发布新的闲置
 
   div.my-header-box
-    img(src="/dist/images/header.jpg", alt="user header")
-    p.user-name 烟树
+    img(src=user.header, alt="用户头像")
+    p.user-name= user.nickName

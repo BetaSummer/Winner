@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 var CommoditySchema = new Schema({
   title: { type: String }, // 商品标题
-  category: { type: ObjectId }, // 商品分类 最细的一个分类
+  categoryId: { type: ObjectId }, // 商品分类 最细的一个分类
   name: { type: String }, // 商品名称
   hostId: { type: ObjectId }, // 商品主人
   howNew: { type: Number }, // 成色

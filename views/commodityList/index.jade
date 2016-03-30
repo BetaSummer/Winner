@@ -12,24 +12,22 @@ block content
           span 优质用户
       a(href="/publish", class="publish-btn ui inverted green button") 发布闲置
     .ui.divider
-
+      // 操作 一级导航不进行实质上的操作, 只进行第二级导航选择
   div.commodity-nav
       div.commodity-first-nav
           .item.active
             i.icon.certificate
             span 全部
-          - firstList = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具']
-          - each item in firstList
+          - each item in firstCategories
             .item
               i.icon.certificate
-              span= item
+              span(data-id=item._id)= item.name
       div.commodity-second-nav
           .item.active
             span 全部
-          - secondList = ['台式电脑','笔记本','手机','相机','手表','手表','手表','手表','手表','手表','手表','手表','手表','手表','手表']
-          - each item in secondList
+          - each item in secondCategories
             .item
-              span= item
+              span(data-id=item._id)= item.name
 
     .commodity-cards
       - for (var i = 0,len = commodities.length; i < len; i++)
