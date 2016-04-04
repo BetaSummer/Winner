@@ -8,18 +8,23 @@ var hash = function(psw) {
 };
 
 exports.showReg = function(req, res) {
-  res.render('signInOut/reg');
+  var redirectTo = req.query.redirectTo ? req.query.redirectTo : '/';
+  res.render('signInOut/reg', {
+    redirectTo: redirectTo
+  });
 };
 
 exports.reg = function(req, res, next) {
   // 注册 post 请求
   // 表单验证
   var body = req.body;
+  var redirectTo = req.query.redirectTo ? req.query.redirectTo : '/';
+  console.log(redirectTo);
   var phoneNum = validator.trim(body.phoneNum);
   var password = validator.trim(body.password);
   var rePassword = validator.trim(body.rePassword);
   var nickName = validator.trim(body.nickName);
-  if ([phoneNum, password, rePassword, nickName].some(function(item) {
+  if ([ phoneNum, password, rePassword, nickName ].some(function(item) {
       return item === '';
     })) {
     return console.log('信息填写不完整');
@@ -50,23 +55,26 @@ exports.reg = function(req, res, next) {
       }
       req.session.user = user;
       // 这边重定向地址需要做一下优化, 因为用户可能是点击某个商品,被要求注册/登录的
-      return res.redirect('/');
+      return res.redirect(redirectTo);
     });
   });
 };
 
 exports.showLogin = function(req, res) {
+  var redirectTo = req.query.redirectTo ? req.query.redirectTo : '/';
   res.render('signInOut/login', {
-    user: req.session.user
+    user: req.session.user,
+    redirectTo: redirectTo
   });
 };
 
 exports.login = function(req, res, next) {
   // 登录 请求
   var body = req.body;
+  var redirectTo = req.query.redirectTo ? req.query.redirectTo : '/';
   var phoneNum = validator.trim(body.phoneNum);
   var password = validator.trim(body.password);
-  if ([phoneNum, password].some(function(item) {
+  if ([ phoneNum, password ].some(function(item) {
       return item === '';
     })) {
     return console.log('信息填写不完整');
@@ -84,11 +92,11 @@ exports.login = function(req, res, next) {
     password = hash(password); // 密码加密
     if (user.password === password) {
       req.session.user = user;
-      // 当然这边冲顶要链接也要做相应的优化
-      return res.redirect('/');
+      return res.redirect(redirectTo);
     }
   });
 };
+
 exports.logout = function(req, res, next) {
   // 登出请求
   req.session.destroy();

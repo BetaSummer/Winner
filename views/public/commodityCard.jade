@@ -1,8 +1,11 @@
 .commodity-card.ui.card.mycommodity-card
-  - if(user == theUser){
+  // 如果没有登录 或者 商品不是自己的
+  - if(!user || user &&  commodities[i].hostId != user._id){
+    - console.log('用户不可编辑')
     a.image.blurring.dimmable(href="/commodity/" + commodities[ i ]._id)
       img(src=commodities[ i ].coverImage alt="")
   - }else{
+    - console.log('开放直接编辑入口')
     .image.blurring.dimmable
       .ui.dimmer
         .content

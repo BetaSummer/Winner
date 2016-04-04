@@ -16,6 +16,7 @@ router.post('/reg', auth.notLoginRequired, sign.reg);
 router.get('/login', auth.notLoginRequired, sign.showLogin);
 router.post('/login', auth.notLoginRequired, sign.login);
 router.get('/logout', sign.logout);
+
 router.get('/forgetPass', function(req, res, next) {
   res.render('index', {
     title: '忘记密码界面'

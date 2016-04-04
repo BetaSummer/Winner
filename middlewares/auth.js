@@ -5,9 +5,11 @@
  * adminRequired 需要管理员权限
  */
 exports.adminRequired = function(req, res, next) {
+  var redirectTo = req.url;
+  var redirect = redirectTo ? '/login?redirectTo=' + redirectTo : '/login';
   if (!req.session.user) {
     // 重定向登录页面
-    return console.log('你还没有登录');
+    return res.redirect(redirect);
   }
   if (!req.session.user.isAdmin) {
     return console.log('需要管理员权限');
@@ -20,7 +22,9 @@ exports.adminRequired = function(req, res, next) {
 exports.loginRequired = function(req, res, next) {
   if (!req.session.user) {
     // 重定向登录页面
-    return res.status(403).send('需要登录');
+    var redirectTo = req.url;
+    var redirect = redirectTo ? '/login?redirectTo=' + redirectTo : '/login';
+    return res.redirect(redirect);
   }
   next();
 };
@@ -31,7 +35,7 @@ exports.loginRequired = function(req, res, next) {
 exports.notLoginRequired = function(req, res, next) {
   if (req.session && req.session.user) {
     // 返回上一页面
-    return res.status(403).send('你已经登录');
+    return res.redirect('back');
   }
   next();
 };

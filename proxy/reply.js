@@ -10,11 +10,11 @@ var Reply = require('../models').Reply;
  * @param { Function } 回调函数
  */
 
-exports.newAndSave = function(content, commodityId, masterId, replyId, cb) {
+exports.newAndSave = function(content, commodityId, senderId, replyId, cb) {
   var reply = new Reply();
   reply.content = content;
   reply.commodityId = commodityId;
-  reply.masterId = masterId;
+  reply.senderId = senderId;
   reply.replyId = replyId;
   reply.save(cb);
 };

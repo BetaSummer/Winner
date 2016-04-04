@@ -10,10 +10,11 @@
     .myinforbox
       a.message-btn(href="#")
         i.mail.icon
+        // 未读消息数量 ajax 请求再加载
         .ui.circular.orange.label.mini 22
       .dropdown-shortcutkey.ui.inline.dropdown
         .text
-          img.ui.avatar.image(src= user.header)
+          img.ui.avatar.image(src= user.header, alt="用户头像")
           span #{user.nickName}
         .menu
           a.item(href="/user/" + user._id) 个人中心

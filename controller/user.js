@@ -68,6 +68,7 @@ exports.showUserCenterIndex = function(req, res, next) {
     if (err) {
       console.log(err);
     }
+    console.log(user);
     res.render('userCenter/news', {
       user: req.session.user,
       theUser: user,
@@ -103,6 +104,7 @@ exports.showMyFollows = function(req, res, next) {
     // console.log(user);
     res.render('userCenter/myFollows', {
       user: req.session.user,
+      theUser: user,
       follows: user.follows,
       isSelf: isSelf,
       avtiveMyFollows: true
@@ -134,6 +136,7 @@ exports.showMyFocus = function(req, res, next) {
     }
     res.render('userCenter/myFocus', {
       user: req.session.user,
+      theUser: user,
       focus: user.focus,
       isSelf: isSelf,
       activeMyFocus: true

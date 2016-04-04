@@ -1,0 +1,9 @@
+extends common/layout.jade
+block content
+  ul
+    - each item in myCommodity
+      li
+        span= item.title
+        a(href="/admin/showCheckCommodity/"+item._id, target="_blank") 查看详情
+        a(href="/admin/rejectCommodity/"+item._id) 拒接
+        a(href="/admin/passCommodity/"+item._id) 通过

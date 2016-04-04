@@ -1,12 +1,13 @@
 div.user-center-header
   div.my-infos-box
-    - numList = [{type:'关注',num:user.focus.length},{type:"信徒",num:user.follows.length},{type:"闲置",num:user.myCommodity.length}]
-    - each item in numList
-      span.user-center-header-info
-        a(href="javascript:void(0)",class="user-num-info")= item.num
-        a(href="javascript:void(0)",class="user-num-type")= item.type
-    a.ui.button.inverted(href="/publish",class="to-publish-new") 发布新的闲置
-
+    - if( theUser._id == user._id ) {
+      - numList = [{type:'关注',num:theUser.focus.length},{type:"信徒",num:theUser.follows.length},{type:"闲置",num:theUser.myCommodity.length}]
+      - each item in numList
+        span.user-center-header-info
+          a(href="javascript:void(0)",class="user-num-info")= item.num
+          a(href="javascript:void(0)",class="user-num-type")= item.type
+      a.ui.button.inverted(href="/publish",class="to-publish-new") 发布新的闲置
+    - }
   div.my-header-box
     img(src=user.header, alt="用户头像")
     p.user-name= user.nickName

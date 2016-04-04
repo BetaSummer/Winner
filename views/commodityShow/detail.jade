@@ -116,10 +116,18 @@ block content
             div.info-as-name
               - if(isSelf){
                 a.user-name(href="/user/" + commodity.hostId) #{hoster.nickName}
-              - } else {
+              - } else if(!focused && !followed) {
                 button.ui.basic.button
                   i.icon.heart
                   关注 #{hoster.nickName}
+              - } else if(!focused && followed){
+                button.ui.basic.button
+                  i.icon.heart
+                  人家关注你了哦!而你没有关注人家
+              - } else if(focused && followed){
+                button.ui.basic.button
+                  i.icon.heart
+                  真好,你们互相关注了
               - }
               .user-num
                 .user-follow-num

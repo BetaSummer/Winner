@@ -3,7 +3,6 @@ var models = require('../models');
 var User = models.User;
 var Commodity = models.Commodity;
 
-
 /*
  * 根据用户 id 返回用户
  *  @param { String } 用户 id
@@ -177,25 +176,30 @@ exports.getTopUser = function(n, cb) {
 
 /*
  * addFollow 添加关注用户
- * @param { Number } 发起请求者 id
- * @param { Number } 被关注者 id
+ * @param { String } 发起请求者 id
+ * @param { String } 被关注者 id
  * @param { Function } 回调
  *
  * @link unique array values in Mongoose
  * http://stackoverflow.com/questions/9640233/unique-array-values-in-mongoose
  * https://docs.mongodb.org/manual/reference/operator/update/addToSet/
  */
-exports.addFocus = function(id, userId, cb) {
-  User.update({ _id: id }, {
-    $addToSet: { focus: userId }
+exports.addFocus = function(userId, focusId, cb) {
+  User.update({ _id: userId }, {
+    $addToSet: { focus: focusId }
   }, function(err) {
     if (err) {
       return cb(err);
     }
     // 更新被关注者的 follows
-    User.update({ _id: userId }, {
-      $addToSet: { follows: id }
-    }, cb);
+    User.update({ _id: focusId }, {
+      $addToSet: { follows: userId }
+    }, function(err) {
+      if (err) {
+        return cb(err);
+      }
+      return cb(null);
+    });
   });
 };
 
