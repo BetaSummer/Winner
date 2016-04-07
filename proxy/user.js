@@ -90,6 +90,7 @@ exports.getUserFocusById = function(id, cb) {
     })
     .exec(cb);
 };
+
 /*
  * getUserFollowsById 通过用户id来获取用户的粉丝
  * @param { String} 用户的id
@@ -136,7 +137,7 @@ exports.getUserCommoditiesById = function(id, cb) {
         _id: 1,
         price: 1,
         title: 1,
-        name:1,
+        name: 1,
         coverImage: 1,
         updateTime: 1,
         replyCount: 1,

@@ -43,7 +43,7 @@ exports.blockUser = function(req, res) {
 };
 
 /*
-* sendMessages 群发消息
+ * sendMessages 群发消息
  */
 exports.sendMessage = function(req, res) {
   // 存入数据库消息
@@ -66,14 +66,14 @@ exports.unBlockUser = function(req, res) {
  * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
  * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
  * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
-                            /\
-                            ||
-                            ||
-                            ||
-                            ||
-                            ||
-                           //\\
-                           表强调
+ /\
+ ||
+ ||
+ ||
+ ||
+ ||
+ //\\
+ 表强调
  */
 exports.showUserCenterIndex = function(req, res, next) {
   var userId = req.params.id;
@@ -83,8 +83,8 @@ exports.showUserCenterIndex = function(req, res, next) {
     if (err) {
       console.log(err);
     }
-    Message.getMessageUnread(loginUserId,function(err, messages){
-      if(err){
+    Message.getMessageUnread(loginUserId, function(err, messages) {
+      if (err) {
         return console.log(err);
       }
       console.log(user);
@@ -143,9 +143,11 @@ exports.showMyFollows = function(req, res, next) {
     // 用户关注 和 关注用户的 ids
     var focus = user.focus;
     var follows = user.follows;
-    var getFollowsRelationship = function(userId){
-      var promise = new Promise(function(resolve, reject){
-        if(focus.some(function(user){ return user._id == userId })){
+    var getFollowsRelationship = function(userId) {
+      var promise = new Promise(function(resolve, reject) {
+        if (focus.some(function(user) {
+            return user._id == userId;
+          })) {
           user.hasFocued = true; // 表示当前用户 也关注了 follow 者
         }
         resolve(user);
@@ -153,11 +155,11 @@ exports.showMyFollows = function(req, res, next) {
       return promise;
     };
 
-    var promises = follows.map(function(user){
+    var promises = follows.map(function(user) {
       return getFollowsRelationship(user && user._id);
     });
 
-    Promise.all(promises).then(function(follows){
+    Promise.all(promises).then(function(follows) {
       res.render('userCenter/myFollows', {
         user: req.session.user,
         theUser: user,
@@ -194,30 +196,32 @@ exports.showMyFocus = function(req, res, next) {
     }
     var focus = user.focus;
     var follows = user.follows;
-    var getFocusRelationship = function(userId){
-      var promise = new Promise(function(resolve, reject){
-        if(follows.some(function(user){ return user._id == userId })){
+    var getFocusRelationship = function(userId) {
+      var promise = new Promise(function(resolve, reject) {
+        if (follows.some(function(user) {
+            return user._id == userId;
+          })) {
           user.hasFollowed = true; // 我关注的用户也在我的 follows 字段里面, 说明我关注的用户也关注了我
         }
         resolve(user);
       });
-      return promise
+      return promise;
     };
 
-    var promises = focus.map(function(user){
-      return getFocusRelationship(user && user._id)
+    var promises = focus.map(function(user) {
+      return getFocusRelationship(user && user._id);
     });
 
     // 这里有可能会没等 forEach 执行完, 就先 render 吗?
     // 这里应该用 promise 代替
-    //focus.forEach(function(focusItem){
-    //  if(follows.some(function(followItem){ return followItem == focusItem._id })){
-    //    focusItem.hasFollowed = true;
-    //  }
-    //});
+    // focus.forEach(function(focusItem){
+    //   if(follows.some(function(followItem){ return followItem == focusItem._id })){
+    //     focusItem.hasFollowed = true;
+    //   }
+    // });
 
-    Promise.all(promises).then(function(focus){
-      console.log(focus)
+    Promise.all(promises).then(function(focus) {
+      console.log(focus);
       res.render('userCenter/myFocus', {
         user: req.session.user,
         theUser: user,
@@ -302,7 +306,7 @@ exports.showSettingIndex = function(req, res, next) {
     // 	//req.session.user[k] = user[k];
     // });
     for (var k in user) {
-      req.session.user[k] = user[k];
+      req.session.user[ k ] = user[ k ];
     }
     res.render('setting/userSettingBase', {
       user: user
