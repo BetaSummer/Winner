@@ -80,7 +80,9 @@ exports.getUserFocusById = function(id, cb) {
         _id: 1,
         nickName: 1,
         header: 1,
-        location: 1
+        location: 1,
+        follows: 1,
+        focus: 1
       },
       options: {
         sort: { level: -1 }
@@ -105,7 +107,9 @@ exports.getUserFollowsById = function(id, cb) {
         _id: 1,
         nickName: 1,
         header: 1,
-        location: 1
+        location: 1,
+        follows: 1,
+        focus: 1
       },
       options: {
         sort: { level: -1 }
@@ -132,10 +136,12 @@ exports.getUserCommoditiesById = function(id, cb) {
         _id: 1,
         price: 1,
         title: 1,
+        name:1,
         coverImage: 1,
         updateTime: 1,
         replyCount: 1,
-        visitedCount: 1
+        visitedCount: 1,
+        hostId: 1
       },
       options: {
         sort: { updateTime: -1 }

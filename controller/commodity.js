@@ -391,11 +391,10 @@ exports.showCheckCommoditiesList = function(req, res, next) {
     if (err) {
       return console.log(err);
     }
-    console.log(document);
     var myCommodity = document.myCommodity;
-    console.log(myCommodity);
     res.render('admin/showCommoditiesCheckList', {
-      myCommodity: myCommodity
+      myCommodity: myCommodity,
+
     });
   });
 };
@@ -413,7 +412,8 @@ exports.showCheckCommodity = function(req, res) {
  * rejectCommodity 商品审核驳回
  */
 exports.rejectCommodity = function(req, res, next) {
-  var commodityId = req.body.commodityId;
+  //var commodityId = req.body.commodityId;
+  var commodityId = req.params.id;
   var adminId = req.session.user._id;
   var reason = req.body.reason;
   var hostId = req.body.hostId;
@@ -451,7 +451,8 @@ exports.rejectCommodity = function(req, res, next) {
  * passCommodity 处理审核通过 commodity
  */
 exports.passCommodity = function(req, res) {
-  var commodityId = req.body.commodityId;
+  //var commodityId = req.body.commodityId;
+  var commodityId = req.params.id;
   var commodityName = req.body.commodityName;
   var adminId = req.session.user._id;
   var hostId = req.body.hostId;

@@ -1,6 +1,7 @@
 var User = require('../proxy/user');
 var fs = require('fs');
 var validator = require('validator'); // 验证
+var Message = require('../proxy/message');
 var crypto = require('crypto');
 
 var hash = function(psw) {
@@ -60,20 +61,53 @@ exports.unBlockUser = function(req, res) {
 /*
  * showUserCenterIndex 显示用户个人中心的首页最新动态
  * 这边的逻辑 有很大问题
+ * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
+ * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
+ * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
+ * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
+ * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
+                            /\
+                            ||
+                            ||
+                            ||
+                            ||
+                            ||
+                           //\\
+                           表强调
  */
 exports.showUserCenterIndex = function(req, res, next) {
   var userId = req.params.id;
-  var isSelf = userId === req.session.user._id ? true : false;
+  var loginUserId = req.session.user._id;
+  var isSelf = userId == loginUserId ? true : false;
   User.getUserById(userId, function(err, user) {
     if (err) {
       console.log(err);
     }
-    console.log(user);
-    res.render('userCenter/news', {
-      user: req.session.user,
-      theUser: user,
-      isSelf: isSelf,
-      activeUserCenterIndex: true
+    Message.getMessageUnread(loginUserId,function(err, messages){
+      if(err){
+        return console.log(err);
+      }
+      console.log(user);
+      console.log('========');
+      console.log(messages);
+      // 拿到的 messages 数组就是类似 一下数据结构 考虑一下怎么转化成 真实的文本内容
+      // 需要根据不同的 type 拿内容
+      // [  { hasRead: false,
+      //  createTime: Mon Apr 04 2016 16:35:37 GMT+0800 (CST),
+      //  __v: 0,
+      //  type: 'notice',
+      //  senderId: 56fb3e2e60ecf5760c6b5bac,
+      //  targetId: 56fb3e2e60ecf5760c6b5bac,
+      //  commodityId: 5700ed8c3ffc6c8165ce45f7,
+      //  replyId: 57022759ff5d354c7080d939,
+      //  _id: 57022759ff5d354c7080d93a } ]
+
+      res.render('userCenter/news', {
+        user: req.session.user,
+        theUser: user,
+        isSelf: isSelf,
+        activeUserCenterIndex: true
+      });
     });
   });
 };
@@ -99,15 +133,38 @@ exports.showTopUser = function(req, res, next) {
  */
 exports.showMyFollows = function(req, res, next) {
   var userId = req.params.id;
-  var isSelf = userId === req.session.user._id ? true : false;
+  var loginUserId = req.session.user._id;
+  var isSelf = userId == loginUserId ? true : false;
   User.getUserFollowsById(userId, function(err, user) {
-    // console.log(user);
-    res.render('userCenter/myFollows', {
-      user: req.session.user,
-      theUser: user,
-      follows: user.follows,
-      isSelf: isSelf,
-      avtiveMyFollows: true
+    // 这边 follows 可以拿到用户的一些数据, 但是用户和我之间的 关注关系 无法确定
+    // 这边还要有这么一步
+    // 还有就是分页那边, 提取的用户需要有 limit 属性
+
+    // 用户关注 和 关注用户的 ids
+    var focus = user.focus;
+    var follows = user.follows;
+    var getFollowsRelationship = function(userId){
+      var promise = new Promise(function(resolve, reject){
+        if(focus.some(function(user){ return user._id == userId })){
+          user.hasFocued = true; // 表示当前用户 也关注了 follow 者
+        }
+        resolve(user);
+      });
+      return promise;
+    };
+
+    var promises = follows.map(function(user){
+      return getFollowsRelationship(user && user._id);
+    });
+
+    Promise.all(promises).then(function(follows){
+      res.render('userCenter/myFollows', {
+        user: req.session.user,
+        theUser: user,
+        follows: follows,
+        isSelf: isSelf,
+        avtiveMyFollows: true
+      });
     });
   });
 };
@@ -117,7 +174,8 @@ exports.showMyFollows = function(req, res, next) {
  */
 exports.showMyFocus = function(req, res, next) {
   var userId = req.params.id;
-  var isSelf = userId === req.session.user._id ? true : false;
+  var loginUserId = req.session.user._id;
+  var isSelf = userId == loginUserId ? true : false;
   User.getUserFocusById(userId, function(err, user) {
     /*
      focus:
@@ -134,12 +192,39 @@ exports.showMyFocus = function(req, res, next) {
     if (err) {
       return console(err);
     }
-    res.render('userCenter/myFocus', {
-      user: req.session.user,
-      theUser: user,
-      focus: user.focus,
-      isSelf: isSelf,
-      activeMyFocus: true
+    var focus = user.focus;
+    var follows = user.follows;
+    var getFocusRelationship = function(userId){
+      var promise = new Promise(function(resolve, reject){
+        if(follows.some(function(user){ return user._id == userId })){
+          user.hasFollowed = true; // 我关注的用户也在我的 follows 字段里面, 说明我关注的用户也关注了我
+        }
+        resolve(user);
+      });
+      return promise
+    };
+
+    var promises = focus.map(function(user){
+      return getFocusRelationship(user && user._id)
+    });
+
+    // 这里有可能会没等 forEach 执行完, 就先 render 吗?
+    // 这里应该用 promise 代替
+    //focus.forEach(function(focusItem){
+    //  if(follows.some(function(followItem){ return followItem == focusItem._id })){
+    //    focusItem.hasFollowed = true;
+    //  }
+    //});
+
+    Promise.all(promises).then(function(focus){
+      console.log(focus)
+      res.render('userCenter/myFocus', {
+        user: req.session.user,
+        theUser: user,
+        focus: focus,
+        isSelf: isSelf,
+        activeMyFocus: true
+      });
     });
   });
 };
