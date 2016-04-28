@@ -2,6 +2,9 @@
 var models = require('../models');
 var Message = models.Message;
 var User = require('./user');
+var Reply = require('./reply');
+var Commodity = require('./commodity');
+
 /*
  * newAndSave 创建新的一条消息
  * @param { String } 消息类型
@@ -50,7 +53,68 @@ exports.getUnreadMessageCount = function(userId, cb) {
  * @param { String } 消息 id
  */
 exports.getMessageById = function(id, cb) {
-  Message.findOne({ _id: id }, cb);
+  Message.findOne({ _id: id }, function(err, message) {
+    if (err) {
+      return console.log(err);
+    }
+    generateMessage(message, cb);
+  });
+};
+
+/*
+ * generateMessage 根据 message 的 type 生成相应的消息实体
+ */
+var generateMessage = exports.generateMessage = function(message, cb) {
+  var replyId = message.replyId;
+  var commodityId = message.commodityId;
+  var targetId = message.targetId;
+  var senderId = message.senderId;
+  var type = message.type;
+  var messageBody = {
+    _id: message._id,
+    replyId: replyId,
+    commodityId: commodityId,
+    targetId: targetId,
+    senderId: senderId,
+    type: type,
+    createTime: createTime
+  };
+  //for(var key in message){
+  //  if(message.hasOwnProperty(key)){
+  //    messageBody[key] = message[key];
+  //  }
+  //}
+  // var messageBody = Object.assign({}, message); // 冒出一大堆乱七八糟的东西 比如:$__
+  User.getUserById(senderId, function(err, sender) {
+    if (err) {
+      return console.log(err);
+    }
+    User.getUserById(targetId, function(err, target) {
+      if (err) {
+        return console.log(err);
+      }
+      // message 的发送者 和 接收者
+      messageBody.sender = sender;
+      messageBody.target = target;
+      console.log(messageBody);
+      if (type == 'follow') {
+        return cb(null, messageBody);
+      }
+      Commodity.getCommodityById(commodityId, function(err, commodity) {
+        if (err) {
+          return console.log(err);
+        }
+        messageBody.commodity = commodity;
+        Reply.getReplyById(replyId, function(err, reply) {
+          if (err) {
+            return console.log(err);
+          }
+          messageBody.reply = reply;
+          return cb(null, messageBody);
+        });
+      });
+    });
+  });
 };
 
 /*

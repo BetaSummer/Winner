@@ -119,15 +119,19 @@ block content
               - } else if(!focused && !followed) {
                 button.ui.basic.button
                   i.icon.heart
-                  关注 #{hoster.nickName}
+                  a(href="/addFocus/"+hoster._id) 关注 #{hoster.nickName}
               - } else if(!focused && followed){
                 button.ui.basic.button
                   i.icon.heart
-                  人家关注你了哦!而你没有关注人家
+                  a(href="/addFocus/"+hoster._id) 人家关注你了哦!而你没有关注人家
               - } else if(focused && followed){
                 button.ui.basic.button
                   i.icon.heart
-                  真好,你们互相关注了
+                  a(href="/rmFocus/"+hoster._id) 真好,你们互相关注了
+              - } else {
+                button.ui.basic.button
+                  i.icon.heart
+                  a(href="/rmFocus/" + hoster._id) 取消关注
               - }
               .user-num
                 .user-follow-num
@@ -173,3 +177,4 @@ block content
             .right-btn
               i.icon.angle.right
   - }
+

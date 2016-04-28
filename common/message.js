@@ -58,3 +58,5 @@ exports.sendAtMessage = function(senderId, targetId, commodityId, replyId, cb) {
 exports.sendNoticeMessage = function(senderId, targetId, commodityId, replyId, cb) {
   Message.newAndSave('notice', senderId, targetId, commodityId, replyId, cb);
 };
+
+

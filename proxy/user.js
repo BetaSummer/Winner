@@ -182,11 +182,12 @@ exports.getTopUser = function(n, cb) {
 };
 
 /*
- * addFollow 添加关注用户
+ * addFocus 添加关注用户
  * @param { String } 发起请求者 id
  * @param { String } 被关注者 id
  * @param { Function } 回调
- *
+ *  - err
+ *  - 返回更新之后的用户
  * @link unique array values in Mongoose
  * http://stackoverflow.com/questions/9640233/unique-array-values-in-mongoose
  * https://docs.mongodb.org/manual/reference/operator/update/addToSet/
@@ -205,7 +206,13 @@ exports.addFocus = function(userId, focusId, cb) {
       if (err) {
         return cb(err);
       }
-      return cb(null);
+      getUserById(userId, function(err, user){
+        if(err){
+          return console.log(err);
+        }
+        return cb(null, user);
+      });
+
     });
   });
 };
@@ -234,7 +241,17 @@ exports.rmFocus = function(id, userId, cb) {
         // 更新被取消关注的用户的 follows 字段
         User.update({ _id: userId }, {
           $pull: { follows: id }
-        }, cb);
+        }, function(err){
+          if(err){
+            return console.log(err);
+          }
+          getUserById(id, function(err, user){
+            if(err){
+              return console.log(err);
+            }
+            return cb(null, user);
+          });
+        });
       });
     });
 };

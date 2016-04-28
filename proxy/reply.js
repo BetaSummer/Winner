@@ -20,12 +20,15 @@ exports.newAndSave = function(content, commodityId, senderId, replyId, cb) {
 };
 
 /*
- * findReplyById 根据 id 返回回复信息
+ * getReplyById 根据 id 返回回复信息
  * @param { String } reply 的 id
  * @param { Function } 回调函数
  *
  */
-exports.findReplyById = function(id, cb) {
+exports.getReplyById = function(id, cb) {
+  if(!id){
+    return cb(null,null);
+  }
   Reply.findOne({ _id: id }, cb);
 };
 
