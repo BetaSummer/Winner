@@ -102,13 +102,16 @@ exports.logout = function(req, res, next) {
   req.session.destroy();
   res.redirect('/');
 };
+
 exports.activeAccount = function(req, res, next) {
   // 邮箱激活
 };
+
 exports.showForgetPass = function(req, res) {
   // 找回密码页面
   res.render('signInOut/forgetPass');
 };
+
 exports.updateForgetPass = function(req, res, next) {
   // 处理找回密码页面  更新密码
 };

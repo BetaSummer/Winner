@@ -343,7 +343,7 @@ var showCommodityDetail = exports.showCommodityDetail = function(req, res, next)
         return item == userId;
       });
       // focused 和 followed 同时为 true 则是 两者互相关注了
-      console.log(focused, followed);
+      console.log('focused', focused, 'followed', followed);
       // 增加访问量
       Commodity.addCommodityVisited(commodityId, visitedCount, function(err) {
         if (err) {
@@ -367,6 +367,7 @@ var showCommodityDetail = exports.showCommodityDetail = function(req, res, next)
     });
   });
 };
+
 /*
  * unPublish 下架某件商品
  */
