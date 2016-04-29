@@ -26,8 +26,8 @@ exports.newAndSave = function(content, commodityId, senderId, replyId, cb) {
  *
  */
 exports.getReplyById = function(id, cb) {
-  if(!id){
-    return cb(null,null);
+  if (!id) {
+    return cb(null, null);
   }
   Reply.findOne({ _id: id }, cb);
 };

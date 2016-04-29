@@ -206,8 +206,8 @@ exports.addFocus = function(userId, focusId, cb) {
       if (err) {
         return cb(err);
       }
-      getUserById(userId, function(err, user){
-        if(err){
+      getUserById(userId, function(err, user) {
+        if (err) {
           return console.log(err);
         }
         return cb(null, user);
@@ -241,12 +241,12 @@ exports.rmFocus = function(id, userId, cb) {
         // 更新被取消关注的用户的 follows 字段
         User.update({ _id: userId }, {
           $pull: { follows: id }
-        }, function(err){
-          if(err){
+        }, function(err) {
+          if (err) {
             return console.log(err);
           }
-          getUserById(id, function(err, user){
-            if(err){
+          getUserById(id, function(err, user) {
+            if (err) {
               return console.log(err);
             }
             return cb(null, user);

@@ -77,13 +77,13 @@ var generateMessage = exports.generateMessage = function(message, cb) {
     targetId: targetId,
     senderId: senderId,
     type: type,
-    createTime: createTime
+    createTime: Date.now()
   };
-  //for(var key in message){
-  //  if(message.hasOwnProperty(key)){
-  //    messageBody[key] = message[key];
-  //  }
-  //}
+  // for(var key in message){
+  //   if(message.hasOwnProperty(key)){
+  //     messageBody[key] = message[key];
+  //   }
+  // }
   // var messageBody = Object.assign({}, message); // 冒出一大堆乱七八糟的东西 比如:$__
   User.getUserById(senderId, function(err, sender) {
     if (err) {
@@ -124,7 +124,7 @@ var generateMessage = exports.generateMessage = function(message, cb) {
  */
 
 exports.getMessageUnread = function(userId, cb) {
-  Message.find({ targetId: userId, hasRead: false }, null, { sort: '-createTime' }, cb);
+  Message.find({ targetId: userId, hasRead: false }, null, { skip: 0, limit: 20, sort: { createTime: -1 } }, cb);
 };
 
 

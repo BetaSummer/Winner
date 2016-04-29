@@ -93,7 +93,7 @@ exports.showUserCenterIndex = function(req, res, next) {
         var promise = new Promise(function(resolve, reject) {
           Message.generateMessage(message, function(err, message) {
             if (err) {
-              return reject(err)
+              return reject(err);
             }
             resolve(message);
           });
@@ -115,7 +115,7 @@ exports.showUserCenterIndex = function(req, res, next) {
         //  commodityId: 5700ed8c3ffc6c8165ce45f7,
         //  replyId: 57022759ff5d354c7080d939,
         //  _id: 57022759ff5d354c7080d93a } ]
-        //console.log(messages);
+        //  console.log(messages);
         res.render('userCenter/news', {
           user: req.session.user,
           theUser: user,
@@ -160,7 +160,7 @@ exports.showMyFollows = function(req, res, next) {
     var focus = user.focus;
     var follows = user.follows;
     var getFollowsRelationship = function(user) {
-      var userId = user._id;  // type => object
+      var userId = user._id; // type => object
       var promise = new Promise(function(resolve, reject) {
         if (_.some(focus, userId)) {
           user.mutual = true; // 表示当前用户 也关注了 follow 者
@@ -247,7 +247,7 @@ exports.addFocus = function(req, res, next) {
   var userId = req.params.id;
   var focus = req.session.user.focus;
   // 如果请求的关注者 已经在关注列表里面 直接 return
-  console.log(focus)
+  console.log(focus);
   console.log(_.some(focus, userId));
   if (_.some(focus, userId)) {
     console.log('已经关注了');
