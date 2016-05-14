@@ -1,16 +1,32 @@
 //-  布局是github用户界面样式
 div.user-list
-  - userList = [{id:111,name:'烟树',intro:'浙江 宁波',hasfollow:true,header:'/dist/images/header.jpg'},{id:222,name:'念树',intro:'浙江 杭州',hasfollow:true,header:'/dist/images/header.jpg'},{id:333,name:'饼饼',intro:'浙江 余姚',hasfollow:false,header:'/dist/images/header.jpg'},{id:444,name:'阿炳',intro:'浙江 杭电',hasfollow:true,header:'/dist/images/header.jpg'},{id:555,name:'ahbing',intro:'浙江 betahouse',hasfollow:true,header:'/dist/images/header.jpg'},{id:666,name:'loser',intro:'浙江 222',hasfollow:false,header:'/dist/images/header.jpg'}]
+  - userList = userList;
   - each item in userList
     div.user-item
       div.user-item-img
-        a(href="user/"+item.id)
+        a(href="/user/"+item._id)
           img(src=item.header , alt="用户头像" class="user-item-img")
       div.user-item-info
-        a(href="user/"+item.id ,class="user-item-name")= item.name
+        a(href="/user/"+item._id ,class="user-item-name")= item.nickName
         p.user-item-intro
           span=item.intro
-        - if(item.hasfollow)
-          button.user-unfollow-btn 取消关注
+        - if(item.mutual && activeMyFocus || item.mutual && avtiveMyFollows)
+          button.user-unfollow-btn
+            a.flBtn(href="/rmFocus/"+ item._id) 互相关注
+        - else if(activeMyFocus && !item.mutual)  // 我关注而没有关注我的
+          button.user-unfollow-btn
+            a.flBtn(href="/rmFocus/"+ item._id) 取消关注
         - else
-          button.user-follow-btn 关注
+          button.user-follow-btn
+            a.flBtn(href="/addFocus/"+ item._id) 添加关注
+block append script
+  script.
+    document.querySelector('.user-list').onclick = function(e) {
+      e.preventDefault();
+      if (e.target.className == 'flBtn') {
+        var href = e.target.href;
+        getDateByGet(href, function(data) {
+          console.log(data);
+        });
+      }
+    }

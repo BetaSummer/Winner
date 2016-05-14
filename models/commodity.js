@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 var CommoditySchema = new Schema({
   title: { type: String }, // 商品标题
-  category: { type: ObjectId }, // 商品分类 最细的一个分类
+  categoryId: { type: ObjectId }, // 商品分类 最细的一个分类
   name: { type: String }, // 商品名称
   hostId: { type: ObjectId }, // 商品主人
   howNew: { type: Number }, // 成色
@@ -16,7 +16,7 @@ var CommoditySchema = new Schema({
   createTime: { type: Date, default: Date.now() }, // 创建时间
   updateTime: { type: Date, default: Date.now() }, // 更新时间
   replyCount: { type: Number, default: 0 }, // 回复数量
-  reply: [{ type: ObjectId, ref: 'Reply' }],
+  reply: [ { type: ObjectId, ref: 'Reply' } ],
   visitedCount: { type: Number, default: 1 }, // 访问次数
   status: { type: Number, default: 0 }, // 0 为审核状态, 1 上架, 2 下架, 3 审核没通过, 4 被删除, 5 为再次审核状态
   qq: { type: Number },
@@ -28,6 +28,8 @@ var CommoditySchema = new Schema({
 CommoditySchema.index({ updateTime: -1 });
 
 CommoditySchema.index({ hostId: 1, createTime: -1 });
+
+CommoditySchema.index({ status: 1 });
 
 var Commodity = mongoose.model('Commodity', CommoditySchema);
 

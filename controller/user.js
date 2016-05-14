@@ -1,27 +1,129 @@
 var User = require('../proxy/user');
 var fs = require('fs');
 var validator = require('validator'); // 验证
+var Message = require('../proxy/message');
+var sendMessage = require('../common/message');
 var crypto = require('crypto');
+var _ = require('lodash');
 
 var hash = function(psw) {
   return crypto.createHash('sha1').update(psw).digest('hex');
 };
 
 /*
+ * showUserList 显示查找的用户列表
+ */
+exports.showUserList = function(req, res) {
+  // 渲染用户列表
+  res.render();
+};
+
+/*
+ * showUser 展示用户 detail
+ */
+exports.showUser = function(req, res) {
+  res.renser();
+};
+
+/*
+ * searchUsers 根据用户输入条件查找用户
+ */
+exports.searchUsers = function(req, rest) {
+  // 获取用户输入: 用户 id || 用户等级
+  // 根据不同的字段查询
+  // 返回查询结果
+};
+
+/*
+ * blockUser 禁止用户 (封号)
+ */
+exports.blockUser = function(req, res) {
+  // var userId = req.params.id;
+  // 拿到用户 id , 更新用户的 isBlock 字段
+  // var reason = req.body.reason;
+  // 创建一个 message
+};
+
+/*
+ * sendMessages 群发消息
+ */
+exports.sendMessage = function(req, res) {
+  // 存入数据库消息
+  // 这里要支持 socket 即实时的通知消息
+};
+
+/*
+ * unBlockUser 解封用户
+ */
+exports.unBlockUser = function(req, res) {
+  // 同样拿到用户 id 更新用户 isBlock 字段
+  // 同样解封也要发布响应的通知
+};
+
+/*
  * showUserCenterIndex 显示用户个人中心的首页最新动态
  * 这边的逻辑 有很大问题
+ * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
+ * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
+ * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
+ * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
+ * 当访问别人的个人中心页面的时候应该只能看到他的关注 他的信徒 和 他的闲置信息!
+ /\
+ ||
+ ||
+ ||
+ ||
+ ||
+ //\\
+ 表强调
  */
 exports.showUserCenterIndex = function(req, res, next) {
   var userId = req.params.id;
-  var isSelf = userId === req.session.user._id ? true : false;
+  var loginUserId = req.session.user._id;
+  var isSelf = userId == loginUserId ? true : false;
   User.getUserById(userId, function(err, user) {
     if (err) {
       console.log(err);
     }
-    res.render('userCenter/news', {
-      user: req.session.user,
-      theUser: user,
-      isSelf: isSelf
+    Message.getMessageUnread(loginUserId, function(err, messages) {
+      if (err) {
+        return console.log(err);
+      }
+      var getMessageBody = function(message) {
+        var promise = new Promise(function(resolve, reject) {
+          Message.generateMessage(message, function(err, message) {
+            if (err) {
+              return reject(err);
+            }
+            resolve(message);
+          });
+        });
+        return promise;
+      };
+      var promises = messages.map(function(message) {
+        return getMessageBody(message);
+      });
+      Promise.all(promises).then(function(messages) {
+        // 拿到的 messages 数组就是类似 一下数据结构 考虑一下怎么转化成 真实的文本内容
+        // 需要根据不同的 type 拿内容
+        // [  { hasRead: false,
+        //  createTime: Mon Apr 04 2016 16:35:37 GMT+0800 (CST),
+        //  __v: 0,
+        //  type: 'notice',
+        //  senderId: 56fb3e2e60ecf5760c6b5bac,
+        //  targetId: 56fb3e2e60ecf5760c6b5bac,
+        //  commodityId: 5700ed8c3ffc6c8165ce45f7,
+        //  replyId: 57022759ff5d354c7080d939,
+        //  _id: 57022759ff5d354c7080d93a } ]
+        //  console.log(messages);
+        res.render('userCenter/news', {
+          user: req.session.user,
+          theUser: user,
+          isSelf: isSelf,
+          messages: messages,
+          activeUserCenterIndex: true
+        });
+      });
     });
   });
 };
@@ -47,13 +149,40 @@ exports.showTopUser = function(req, res, next) {
  */
 exports.showMyFollows = function(req, res, next) {
   var userId = req.params.id;
-  var isSelf = userId === req.session.user._id ? true : false;
+  var loginUserId = req.session.user._id;
+  var isSelf = userId == loginUserId ? true : false;
   User.getUserFollowsById(userId, function(err, user) {
-    // console.log(user);
-    res.render('userCenter/myFollows', {
-      user: req.session.user,
-      follows: user.follows,
-      isSelf: isSelf
+    // 这边 follows 可以拿到用户的一些数据, 但是用户和我之间的 关注关系 无法确定
+    // 这边还要有这么一步
+    // 还有就是分页那边, 提取的用户需要有 limit 属性
+    // 用户关注 和 关注用户的 ids
+    console.log('====================', user, '====================');
+    var focus = user.focus;
+    var follows = user.follows;
+    var getFollowsRelationship = function(user) {
+      var userId = user._id; // type => object
+      var promise = new Promise(function(resolve, reject) {
+        if (_.some(focus, userId)) {
+          user.mutual = true; // 表示当前用户 也关注了 follow 者
+        }
+        console.log('-----', user, '---------');
+        resolve(user);
+      });
+      return promise;
+    };
+
+    var promises = follows.map(function(user) {
+      return getFollowsRelationship(user);
+    });
+
+    Promise.all(promises).then(function(follows) {
+      res.render('userCenter/myFollows', {
+        user: req.session.user,
+        theUser: user,
+        userList: follows,
+        isSelf: isSelf,
+        avtiveMyFollows: true
+      });
     });
   });
 };
@@ -63,7 +192,8 @@ exports.showMyFollows = function(req, res, next) {
  */
 exports.showMyFocus = function(req, res, next) {
   var userId = req.params.id;
-  var isSelf = userId === req.session.user._id ? true : false;
+  var loginUserId = req.session.user._id;
+  var isSelf = userId == loginUserId ? true : false;
   User.getUserFocusById(userId, function(err, user) {
     /*
      focus:
@@ -78,12 +208,33 @@ exports.showMyFocus = function(req, res, next) {
      _id: 56614b1ace4976290de02142 } ],
      */
     if (err) {
-      return console(err);
+      return console.log(err);
     }
-    res.render('userCenter/myFocus', {
-      user: req.session.user,
-      focus: user.focus,
-      isSelf: isSelf
+    var focus = user.focus;
+    var follows = user.follows;
+    var getFocusRelationship = function(user) {
+      var userId = user._id;
+      var promise = new Promise(function(resolve, reject) {
+        if (_.some(follows, userId)) {
+          user.mutual = true; // 我关注的用户也在我的 follows 字段里面, 说明我关注的用户也关注了我
+        }
+        resolve(user);
+      });
+      return promise;
+    };
+
+    var promises = focus.map(function(user) {
+      return getFocusRelationship(user);
+    });
+
+    Promise.all(promises).then(function(focus) {
+      res.render('userCenter/myFocus', {
+        user: req.session.user,
+        theUser: user,
+        userList: focus,
+        isSelf: isSelf,
+        activeMyFocus: true
+      });
     });
   });
 };
@@ -94,27 +245,39 @@ exports.showMyFocus = function(req, res, next) {
 exports.addFocus = function(req, res, next) {
   var selfId = req.session.user._id;
   var userId = req.params.id;
-  User.addFocus(selfId, userId, function(err) {
+  var focus = req.session.user.focus;
+  // 如果请求的关注者 已经在关注列表里面 直接 return
+  console.log(focus);
+  console.log(_.some(focus, userId));
+  if (_.some(focus, userId)) {
+    console.log('已经关注了');
+    return next();
+  }
+  User.addFocus(selfId, userId, function(err, user) {
     if (err) {
       return console.log(err);
     }
-    // 数据操作之后应该及时更新session
-    // 不过这里就前端模拟好了点一下关注就显示关注成功
-    // 如果后台关注成功请求执行没成功
-    // 再把没有关注成功信息返回  或者 重新刷新
-    console.log('关注成功');
+    console.log(user);
+    sendMessage.sendFollowMessage(selfId, userId, null, null, function(err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(req.session.user);
+      req.session.user = user;
+      console.log('关注成功');
+    });
   });
 };
 
 exports.rmFocus = function(req, res, next) {
   var selfId = req.session.user._id;
   var userId = req.params.id;
-  console.log(selfId);
-  console.log(userId);
-  User.rmFocus(selfId, userId, function(err) {
+  User.rmFocus(selfId, userId, function(err, user) {
     if (err) {
       return console.log(err);
     }
+    req.session.user = user;
+    console.log(user);
     // 数据操作之后应该及时更新session
     console.log('取消关注成功');
   });
@@ -126,7 +289,7 @@ exports.rmFocus = function(req, res, next) {
  */
 exports.showMyCommodity = function(req, res, next) {
   var userId = req.params.id;
-  var isSelf = userId === req.session.user._id ? true : false;
+  var isSelf = userId == req.session.user._id ? true : false;
   User.getUserCommoditiesById(userId, function(err, doc) {
     if (err) {
       return console.log(err);
@@ -141,7 +304,8 @@ exports.showMyCommodity = function(req, res, next) {
         user: req.session.user,
         theUser: user,
         commodities: doc.myCommodity,
-        isSelf: isSelf
+        isSelf: isSelf,
+        activeCommodity: true
       });
     });
   });
@@ -160,13 +324,12 @@ exports.showSettingIndex = function(req, res, next) {
     // 	//req.session.user[k] = user[k];
     // });
     for (var k in user) {
-      req.session.user[k] = user[k];
+      req.session.user[ k ] = user[ k ];
     }
     res.render('setting/userSettingBase', {
       user: user
     });
   });
-
 };
 
 /*
@@ -242,6 +405,7 @@ exports.showSettingPass = function(req, res, next) {
     user: req.session.user
   });
 };
+
 /*
  * 密码更新
  */
@@ -270,6 +434,7 @@ exports.settingPass = function(req, res, next) {
     });
   });
 };
+
 /*
  * showSettingBind 显示用户信息设置绑定
  */
@@ -278,8 +443,9 @@ exports.showSettingBind = function(req, res, next) {
     user: req.session.user
   });
 };
+
 /*
- * 帐号绑定更新
+ * settingBind  帐号绑定更新
  */
 exports.settingBind = function(req, res, next) {
 };

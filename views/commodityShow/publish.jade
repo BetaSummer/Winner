@@ -18,25 +18,24 @@ block content
             input(type="text" id="title" name="title")
           span.publish-info 商品关键字靠前，会提升关注度哦
         .publish-line
-          label(for="category")商品类目
+          label 商品类目
           .ui.selection.dropdown(style="min-width:120px")
-            input(name="firstNav" type="hidden")
+            input(type="hidden")
             i.dropdown.icon
-            .default.text 请选择
-              .menu
-                - firstList = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
-                - each item,index in firstList
-                  .item #{item}
+            .default.text 一级标签
+            .menu
+              - each item,index in firstCategory
+                .item(data-value=item._id) #{item.name}
           .ui.selection.dropdown(style="min-width:120px")
-            input(name="secondNav",type="hidden")
+            // - 已最后细化的 category 为标准
+            input(name="categoryId",type="hidden")
             i.dropdown.icon
-            .default.text 请选择
-              .menu
-                - secondList = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
-                - each item,index in secondList
-                  .item #{item}
+            .default.text 二级标签
+            .menu
+              - each item,index in secondCategory
+                .item(data-value=item._id) #{item.name}
         .publish-line
-          label(for="name")商品名称
+          label 商品名称
           .ui.input(style="width:150px;margin-right:20px")
             input(type="text",placeholder="例：iphone6国行" name="name")
           span.publish-waring 非常重要，不可更改
@@ -46,29 +45,29 @@ block content
             input(name="howNew",id="fineness",type="hidden")
             i.dropdown.icon
             .default.text 请选择
-              .menu
-                - opList = [99,95,9,8,6,5,3,2]
-                - each item,index in opList
-                  .item #{item}成新
+            .menu
+              - howNewList = [99,95,9,8,6,5,3,2]
+              - each item,index in howNewList
+                .item(data-value=item) #{item} 成新
         .publish-line
           label(for="price")价格
           .ui.input(style="width:60px")
             input(type="tel",id="price",name="price")
         .publish-line.before-upload
-            label(for="coverImage")封面图片
-            // - 这里的a便签用来美化input
-            a.ui.button.mini.basic#inputBtn 上传封面
-            input(type="file",id="hiddenInput",name="coverImage",accept="image/*",class="hidden")
-            a(href="#")《闲置商品规则》
-          //- hidden first
+          label(for="coverImage")封面图片
+          // - 这里的a便签用来美化input
+          a.ui.button.mini.basic#inputBtn 上传封面
+          input(type="file",id="hiddenInput",name="coverImage",accept="image/*",class="hidden")
+          a(href="http://zhizhi.betahouse.us/")《闲置商品规则》
+        //- hidden first
         .publish-line.after-upload
-            label(for="coverImage")预览图片
-            //- button.ui.button.basic.grey.mini(style="margin-left:20px;") 预览
-            //- 预览框应该处理成绝对定位  脱离文档流
-            div#img-preview
-              img(src="/dist/images/nan.jpg", alt="")
-            //button.ui.button.basic.grey.mini 重新上传
-            //span.publish-info 已上传
+          label(for="perCoverImage")预览图片
+          //- button.ui.button.basic.grey.mini(style="margin-left:20px;") 预览
+          //- 预览框应该处理成绝对定位  脱离文档流
+          div#img-preview
+            img(src="/dist/images/nan.jpg", alt="")
+          //button.ui.button.basic.grey.mini 重新上传
+          //span.publish-info 已上传
       p.publish-info 选填项
       section.sub-publish-box
         .publish-line
@@ -92,9 +91,9 @@ block content
           label(for="qq") QQ
           .ui.input
             input(type="tel",id="qq",name="qq")
-          label(for="wechat")微信
+          label(for="weChat")微信
           .ui.input
-            input(type="text",id="wechat",name="wechat")
+            input(type="text",id="weChat",name="weChat")
       p.publish-info 详细信息
       //- 富文本
       #richEditor
@@ -105,6 +104,6 @@ block content
 
 
 
-        
 
-          
+
+

@@ -13,10 +13,13 @@ block content
         .commodity-sub-title
           div.commodity-sub-title-left
             span.last-edit-time #{commodity.updateTime.toLocaleDateString()}
+            &nbsp;&nbsp;
             .commodity-category.ui.breadcrumb
-              span.section 数码产品
-              span.divider /
-              span.section 相机及其周边
+              - if(category.parent){
+                span.section #{category.parent}
+                span.divider /
+              - }
+              a.section(href="/category/"+category._id) #{category.name}
           div.commodity-sub-title-right
             .visited-num
               i.unhide.icon
@@ -52,13 +55,15 @@ block content
                   .ui.button.mini.black 已下架
                 when 3
                   .ui.button.mini.red 审核未通过
+                when 4
+                  .ui.button.mini.red 被删除
+                when 5
+                  .ui.button.mini.orange 审核中
                 default
                   .ui.button.mini.orange 审核中
               a(href="/edit/"+ commodity._id)
                 .ui.button.mini编辑
             - }else{
-              .ui.button.basic.mini
-                i.icon.heart.outline 关注该用户
               - var status = commodity.status
               case status
                 when 1
@@ -88,19 +93,46 @@ block content
             .info-key
               i.icon.wait
               入手时间
-            .info-value #{commodity.gotTime.toLocaleDateString()}
+            - if(commodity.gotTime){
+              .info-value #{commodity.gotTime.toLocaleDateString()}
+            - }else{
+              .info-value 卖家没有填啊
+            - }
           .detail-line
             .info-key
               i.icon.star
               买入价格
-            .info-value #{commodity.gotPrice}
+            - if(commodity.gotPrice){
+              .info-value #{commodity.gotPrice}
+            - }else{
+              .info-value 卖家没有填啊
+            - }
+
 
         div.commodity-user-info
           div.info-header
             a.ui.image(href="/user/"+commodity.hostId)
               img(src=hoster.header,alt="")
             div.info-as-name
-              a.user-name(href="/user/"+commodity.hostId) 烟树
+              - if(isSelf){
+                a.user-name(href="/user/" + commodity.hostId) #{hoster.nickName}
+              - } else if(!focused && !followed) {
+                button.ui.basic.button
+                  i.icon.heart
+                  a(href="/addFocus/"+hoster._id) 关注 #{hoster.nickName}
+              - } else if(!focused && followed){
+                button.ui.basic.button
+                  i.icon.heart
+                  a(href="/addFocus/"+hoster._id) 人家关注你了哦!而你没有关注人家
+              - } else if(focused && followed){
+                button.ui.basic.button
+                  i.icon.heart
+                  a(href="/rmFocus/"+hoster._id) 真好,你们互相关注了
+              - } else {
+                button.ui.basic.button
+                  i.icon.heart
+                  a(href="/rmFocus/" + hoster._id) 取消关注
+              - }
               .user-num
                 .user-follow-num
                   a(href="/user/"+commodity.hostId+"/follows") 信徒 #{hoster.follows.length}
@@ -110,13 +142,25 @@ block content
           div.info-body
             .detail-line
               span.info-key 联系电话
-              span.info-value #{commodity.phoneNum}
+              - if(commodity.phoneNum) {
+                span.info-value #{commodity.phoneNum}
+              - }else{
+                span.info-value #{hoster.phoneNum}
+              - }
             .detail-line
               span.info-key QQ
-              span.info-value #{commodity.qq}
+              - if(commodity.qq) {
+                span.info-value #{commodity.qq}
+              - }else{
+                span.info-value 卖家没有填啊
+              - }
             .detail-line
               span.info-key 微信
-              span.info-value #{commodity.weChat}
+              - if(commodity.qq) {
+                span.info-value #{commodity.weChat}
+              - }else{
+                span.info-value 卖家没有填啊
+              - }
         div.commodity-user-commodities
           .detail-line
             h2 TA的其他闲置
@@ -133,3 +177,4 @@ block content
             .right-btn
               i.icon.angle.right
   - }
+

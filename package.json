@@ -16,7 +16,7 @@
     "express": "~4.13.1",
     "express-session": "^1.12.1",
     "jade": "~1.11.0",
-    "lodash": "^3.10.1",
+    "lodash": "^4.6.1",
     "moment": "^2.10.6",
     "mongoose": "^4.2.8",
     "morgan": "~1.6.1",
@@ -38,6 +38,7 @@
     "gulp-util": "^3.0.7",
     "gulp-watch-path": "^0.1.0",
     "jshint": "^2.9.1",
-    "stream-combiner2": "^1.1.1"
+    "stream-combiner2": "^1.1.1",
+    "supervisor": "^0.9.1"
   }
 }

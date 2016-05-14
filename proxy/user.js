@@ -3,7 +3,6 @@ var models = require('../models');
 var User = models.User;
 var Commodity = models.Commodity;
 
-
 /*
  * 根据用户 id 返回用户
  *  @param { String } 用户 id
@@ -81,7 +80,9 @@ exports.getUserFocusById = function(id, cb) {
         _id: 1,
         nickName: 1,
         header: 1,
-        location: 1
+        location: 1,
+        follows: 1,
+        focus: 1
       },
       options: {
         sort: { level: -1 }
@@ -89,6 +90,7 @@ exports.getUserFocusById = function(id, cb) {
     })
     .exec(cb);
 };
+
 /*
  * getUserFollowsById 通过用户id来获取用户的粉丝
  * @param { String} 用户的id
@@ -106,7 +108,9 @@ exports.getUserFollowsById = function(id, cb) {
         _id: 1,
         nickName: 1,
         header: 1,
-        location: 1
+        location: 1,
+        follows: 1,
+        focus: 1
       },
       options: {
         sort: { level: -1 }
@@ -133,10 +137,12 @@ exports.getUserCommoditiesById = function(id, cb) {
         _id: 1,
         price: 1,
         title: 1,
-        coverImg: 1,
+        name: 1,
+        coverImage: 1,
         updateTime: 1,
         replyCount: 1,
-        visitedCount: 1
+        visitedCount: 1,
+        hostId: 1
       },
       options: {
         sort: { updateTime: -1 }
@@ -176,26 +182,38 @@ exports.getTopUser = function(n, cb) {
 };
 
 /*
- * addFollow 添加关注用户
- * @param { Number } 发起请求者 id
- * @param { Number } 被关注者 id
+ * addFocus 添加关注用户
+ * @param { String } 发起请求者 id
+ * @param { String } 被关注者 id
  * @param { Function } 回调
- *
+ *  - err
+ *  - 返回更新之后的用户
  * @link unique array values in Mongoose
  * http://stackoverflow.com/questions/9640233/unique-array-values-in-mongoose
  * https://docs.mongodb.org/manual/reference/operator/update/addToSet/
  */
-exports.addFocus = function(id, userId, cb) {
-  User.update({ _id: id }, {
-    $addToSet: { focus: userId }
+exports.addFocus = function(userId, focusId, cb) {
+  User.update({ _id: userId }, {
+    $addToSet: { focus: focusId }
   }, function(err) {
     if (err) {
       return cb(err);
     }
     // 更新被关注者的 follows
-    User.update({ _id: userId }, {
-      $addToSet: { follows: id }
-    }, cb);
+    User.update({ _id: focusId }, {
+      $addToSet: { follows: userId }
+    }, function(err) {
+      if (err) {
+        return cb(err);
+      }
+      getUserById(userId, function(err, user) {
+        if (err) {
+          return console.log(err);
+        }
+        return cb(null, user);
+      });
+
+    });
   });
 };
 
@@ -223,7 +241,17 @@ exports.rmFocus = function(id, userId, cb) {
         // 更新被取消关注的用户的 follows 字段
         User.update({ _id: userId }, {
           $pull: { follows: id }
-        }, cb);
+        }, function(err) {
+          if (err) {
+            return console.log(err);
+          }
+          getUserById(id, function(err, user) {
+            if (err) {
+              return console.log(err);
+            }
+            return cb(null, user);
+          });
+        });
       });
     });
 };

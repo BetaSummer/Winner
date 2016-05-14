@@ -7,3 +7,8 @@
 用于显示时间时的格式化 toLocaleDateString
 
 前端 form 表单中 name 字段, 应该和数据中对应的字段值一致
+
+
+models->Message
+  masterId -> senderId
+  authorId -> targetId

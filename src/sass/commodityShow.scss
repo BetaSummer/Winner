@@ -14,6 +14,7 @@
   .ui.selection.dropdown {
     min-height: 30px;
     height: 30px;
+    line-height: 30px;
     padding: 5px 10px;
     margin-right: 20px;
   }
@@ -90,6 +91,7 @@
   .ui.selection.dropdown {
     min-height: 30px;
     height: 30px;
+    line-height: 30px;
     padding: 5px 10px;
   }
 
@@ -147,6 +149,9 @@
       width: 270px;
       height: 270px;
     }
+  }
+  .edit-commodity-btn{
+    margin: 0 auto;
   }
 }
 
@@ -275,10 +280,9 @@
       position: relative;
       .left-btn,
       .right-btn {
-        cursor: default;
-        padding: 33px 0;
+        cursor: pointer;
+        line-height: 80px;
         width: 15px;
-        height: 80px;
         position: absolute;
         z-index: 2;
         &:hover {

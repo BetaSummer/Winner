@@ -7,10 +7,27 @@
 }
 
 .user-center-nav-list {
+  position: relative;
 }
 
 .my-commodity-status {
+  position: absolute;
+  right:10px;
+  top: 12px;
   font-size: 1em;
+  :hover{
+    color: #F2711C;
+  }
+  > a{
+    color: rgba(0,0,0,.87);
+    padding: 0 6px;
+    > span {
+      padding: 0 1px;
+    }
+  }
+  .active{
+    color: #F2711C;
+  }
 }
 
 .news-box {
@@ -18,7 +35,7 @@
   margin: 0 auto;
   > .news-item {
     width: 100%;
-    padding: 15px;
+    padding: 15px 0;
     border-bottom: 1px solid #ccc;
     .news-item-header {
       .news-item-time {

@@ -7,14 +7,29 @@ block append header-extend
 block content
   .usercenter-container
     .ui.secondary.pointing.menu.user-center-nav-list.orange
-      a.item.active(href="") 最新动态
-      a.item(href="") 我的关注
-      a.item(href="") 我的闲置
-      a.item(href="") 我的信徒
+      a.item(href="/user/"+user._id, class= activeUserCenterIndex? 'active' : '') 最新动态
+      a.item(href="/user/"+user._id+"/focus", class= activeMyFocus? 'active' : '') 我的关注
+      a.item(href="/user/"+user._id+"/commodity", class= activeCommodity? 'active' : '') 我的闲置
+      a.item(href="/user/"+user._id+"/follows", class= avtiveMyFollows? 'active' : '') 我的信徒
       // nav 右侧 二级导航 （mycommodity status 用）
-      block useCenterNavRight
+      - if(isSelf && activeCommodity){
+        p.my-commodity-status
+          a.active(href="#")
+            span 全部
+          a(href="#")
+            span 在售
+            span 22
+          a(href="#")
+            span 待审核
+            span 2
+          a(href="#")
+            span 已售
+            span 3
+      - }
     //- 区块内容default是用户列表   我的闲置 和 最新动态 自定义
     block userCenterContent
       include ../public/userList
     //-  分页
     include ../public/pagination
+
+

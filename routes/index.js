@@ -4,6 +4,7 @@ var sign = require('../controller/sign');
 var auth = require('../middlewares/auth');
 var commodity = require('../controller/commodity');
 var user = require('../controller/user');
+var reply = require('../controller/reply');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
@@ -15,6 +16,7 @@ router.post('/reg', auth.notLoginRequired, sign.reg);
 router.get('/login', auth.notLoginRequired, sign.showLogin);
 router.post('/login', auth.notLoginRequired, sign.login);
 router.get('/logout', sign.logout);
+
 router.get('/forgetPass', function(req, res, next) {
   res.render('index', {
     title: '忘记密码界面'
@@ -45,11 +47,21 @@ router.get('/publish', auth.loginRequired, commodity.showPublish);
 router.get('/edit/:id', auth.loginRequired, commodity.showEditCommodity);
 router.get('/commodity/:id', auth.loginRequired, commodity.showCommodityDetail);
 
+// 评论或者回复
+// demo 暂时没有添加中间件
+router.get('/reply', reply.showReply);
+router.post('/reply', reply.addReply);
+router.post('deleteReply/:id', reply.deleteReply);
+
 // 操作商品
 router.post('/publish', auth.loginRequired, multipartMiddleware, commodity.publish);
 router.post('/edit/:id/hostId/:hostId', auth.loginRequired, multipartMiddleware, commodity.edit);
 router.post('/editInfo/:id/hostId/:hostId', auth.loginRequired, commodity.editInfo);
 router.post('/editImg/:id/hostId/:hostId', auth.loginRequired, multipartMiddleware, commodity.editImg);
 router.post('/editConnect/:id/hostId/:hostId', auth.loginRequired, commodity.editConnect);
+router.post('/unPublish/:id', auth.loginRequired, commodity.unPublish);
+
+// 标签查询商品
+router.get('/category/:categoryId', commodity.showIndex);
 
 module.exports = router;

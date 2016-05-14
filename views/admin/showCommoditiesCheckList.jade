@@ -1,0 +1,15 @@
+extends common/layout.jade
+block content
+  ul
+    - each item in myCommodity
+      li
+        span= item.title
+        a(href="/admin/showCheckCommodity/"+item._id, target="_blank") 查看详情
+        form(action="/admin/rejectCommodity/"+item._id, method="POST")
+          input(type="text",placeholder="拒绝的理由",name="reason")
+          input(type="hidden",name="hostId", value=item.hostId)
+          input(type="submit",value="拒接")
+        form(action="/admin/passCommodity/" + item._id, method="POST")
+          input(type="hidden",name="commodityName", value=item.name)
+          input(type="hidden",name="hostId", value=item.hostId)
+          input(type="submit",value="通过")

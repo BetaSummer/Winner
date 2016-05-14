@@ -21,12 +21,12 @@ var UserSchema = new Schema({
   location: { type: String },
   phoneNum: { type: Number },
   createTime: { type: Date, default: Date.now() },
-  focus: [{ type: ObjectId, ref: 'User' }],
-  follows: [{ type: ObjectId, ref: 'User' }],
-  hadFocus: [{ type: ObjectId, ref: 'User' }], // 关注过的
-  myCommodity: [{ type: ObjectId, ref: 'Commodity' }],
-  reply: [{ type: ObjectId, ref: 'Reply' }],
-  messages: [{ type: ObjectId, ref: 'Message' }],
+  focus: [ { type: ObjectId, ref: 'User' } ],
+  follows: [ { type: ObjectId, ref: 'User' } ],
+  hadFocus: [ { type: ObjectId, ref: 'User' } ], // 关注过的
+  myCommodity: [ { type: ObjectId, ref: 'Commodity' } ],
+  reply: [ { type: ObjectId, ref: 'Reply' } ],
+  messages: [ { type: ObjectId, ref: 'Message' } ],
   active: { type: Boolean, default: false },
   level: { type: Number, default: 1 },
   isBlock: { type: Boolean, default: false } // 是否被禁止
