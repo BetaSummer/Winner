@@ -142,7 +142,8 @@ exports.getUserCommoditiesById = function(id, cb) {
         updateTime: 1,
         replyCount: 1,
         visitedCount: 1,
-        hostId: 1
+        hostId: 1,
+        status: 1
       },
       options: {
         sort: { updateTime: -1 }

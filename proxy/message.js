@@ -96,7 +96,6 @@ var generateMessage = exports.generateMessage = function(message, cb) {
       // message 的发送者 和 接收者
       messageBody.sender = sender;
       messageBody.target = target;
-      console.log(messageBody);
       if (type == 'follow') {
         return cb(null, messageBody);
       }
@@ -122,7 +121,6 @@ var generateMessage = exports.generateMessage = function(message, cb) {
  * @param { String } 接收者 id
  * @param { Function } 回调函数
  */
-
 exports.getMessageUnread = function(userId, cb) {
   Message.find({ targetId: userId, hasRead: false }, null, { skip: 0, limit: 20, sort: { createTime: -1 } }, cb);
 };

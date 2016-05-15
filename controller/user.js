@@ -22,7 +22,7 @@ exports.showUserList = function(req, res) {
  * showUser 展示用户 detail
  */
 exports.showUser = function(req, res) {
-  res.renser();
+  res.render();
 };
 
 /*
@@ -38,9 +38,9 @@ exports.searchUsers = function(req, rest) {
  * blockUser 禁止用户 (封号)
  */
 exports.blockUser = function(req, res) {
-  // var userId = req.params.id;
+   var userId = req.params.id;
   // 拿到用户 id , 更新用户的 isBlock 字段
-  // var reason = req.body.reason;
+   var reason = req.body.reason;
   // 创建一个 message
 };
 
@@ -104,17 +104,6 @@ exports.showUserCenterIndex = function(req, res, next) {
         return getMessageBody(message);
       });
       Promise.all(promises).then(function(messages) {
-        // 拿到的 messages 数组就是类似 一下数据结构 考虑一下怎么转化成 真实的文本内容
-        // 需要根据不同的 type 拿内容
-        // [  { hasRead: false,
-        //  createTime: Mon Apr 04 2016 16:35:37 GMT+0800 (CST),
-        //  __v: 0,
-        //  type: 'notice',
-        //  senderId: 56fb3e2e60ecf5760c6b5bac,
-        //  targetId: 56fb3e2e60ecf5760c6b5bac,
-        //  commodityId: 5700ed8c3ffc6c8165ce45f7,
-        //  replyId: 57022759ff5d354c7080d939,
-        //  _id: 57022759ff5d354c7080d93a } ]
         //  console.log(messages);
         res.render('userCenter/news', {
           user: req.session.user,
@@ -156,7 +145,6 @@ exports.showMyFollows = function(req, res, next) {
     // 这边还要有这么一步
     // 还有就是分页那边, 提取的用户需要有 limit 属性
     // 用户关注 和 关注用户的 ids
-    console.log('====================', user, '====================');
     var focus = user.focus;
     var follows = user.follows;
     var getFollowsRelationship = function(user) {
@@ -165,7 +153,6 @@ exports.showMyFollows = function(req, res, next) {
         if (_.some(focus, userId)) {
           user.mutual = true; // 表示当前用户 也关注了 follow 者
         }
-        console.log('-----', user, '---------');
         resolve(user);
       });
       return promise;
@@ -297,12 +284,27 @@ exports.showMyCommodity = function(req, res, next) {
     console.log('商品信息');
     console.log(doc.myCommodity); // 商品信息
     // 查找卖家信息。
+    var statusFilter = function(arr, status) {
+      return arr.filter(function(item) {
+        return item.status === status;
+      });
+    };
+    var commodities = doc.myCommodity;
+    var onSale = statusFilter(commodities, 1);
+    var onCheck = statusFilter(commodities, 0);
+    var onRecheck = statusFilter(commodities, 5);
+    var oversell = statusFilter(commodities, 2);
+
     User.getUserById(userId, function(err, user) {
       console.log('查找卖家信息。');
       console.log(user);
       res.render('userCenter/myCommodity', {
         user: req.session.user,
         theUser: user,
+        onSale: onSale,
+        onCheck: onCheck,
+        onRecheck: onRecheck,
+        oversell: oversell,
         commodities: doc.myCommodity,
         isSelf: isSelf,
         activeCommodity: true

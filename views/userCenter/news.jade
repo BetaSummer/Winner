@@ -2,14 +2,15 @@ extends userCenterLayout.jade
 block userCenterContent
   //- type 0:新闲置 1:评论回复 2:通过审核  3:审核不通过
   div.news-box
-    - newsList = [{type:0,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:1,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:2,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:3,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:4,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'}]
+    //- newsList = [{type:0,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:1,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:2,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:3,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'},{type:4,userid:'123',name:"烟树",comodityid:'321',commodity:"iphone8",time:"2015-11-17 09:09:09",img:'/dist/images/header.jpg',title:'嘿嘿嘿',price:'222'}]
+    - newsList = messages;
     each item in newsList
       case item.type
         when 'follow'
           div.news-item
             p.news-item-header
               span.news-item-text
-                a(href="#")= item.sender.name
+                a(href="#")= item.sender.nickName
                 span 关注了我
               span.news-item-time= item.createTime
         when 'at'

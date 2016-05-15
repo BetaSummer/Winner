@@ -18,13 +18,13 @@ block content
             span 全部
           a(href="#")
             span 在售
-            span 22
+            span #{onSale.length}
           a(href="#")
-            span 待审核
-            span 2
+            span 审核中
+            span #{onCheck.length}
           a(href="#")
             span 已售
-            span 3
+            span #{oversell.length}
       - }
     //- 区块内容default是用户列表   我的闲置 和 最新动态 自定义
     block userCenterContent

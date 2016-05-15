@@ -55,6 +55,7 @@ exports.getCommodities = function(skip, limit, categoryId, cb) {
     .exec(cb);
 };
 
+
 /*
  * getCommodityHoster 根据商品来获取主人的头像，暱称，id
  * @param { Number }  商品 id
