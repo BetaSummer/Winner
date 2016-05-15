@@ -38,9 +38,9 @@ exports.searchUsers = function(req, rest) {
  * blockUser 禁止用户 (封号)
  */
 exports.blockUser = function(req, res) {
-   var userId = req.params.id;
+  // var userId = req.params.id;
   // 拿到用户 id , 更新用户的 isBlock 字段
-   var reason = req.body.reason;
+  // var reason = req.body.reason;
   // 创建一个 message
 };
 
