@@ -1,0 +1,93 @@
+// @elliot
+h4.ui.horizontal.divider.header.teal
+  i.search.icon
+  查找商品
+form.ui.form
+  .inline.fields
+    .field
+      label 商品编号:
+      input(type="text")
+    .field
+      label 用户ID:
+      input(type="text")
+  .inline.fields
+    .field
+      label 上架时间:
+      input(type="date")
+    .field
+      label 到
+      input(type="date")
+  .fields
+    .ten.wide.field
+      label 商品分类
+      select.ui.fluid.search.dropdown(name="category" multiple="")
+        option(value="") 还未选择 
+        option(value="1") 电子残品
+        option(value="2") 交通工具
+        option(value="3") 图书
+        option(value="4") 个人珍藏
+  .field
+    button.ui.button.teal 查找
+br
+h4.ui.horizontal.divider.header.teal
+  i.list.icon
+  商品列表
+table.ui.table
+  thead
+    tr
+      th 商品编号
+      th 商品名称
+      th 用户等级
+      th 商品状态
+  tbody
+  - var items = [['10010', '全新iPhone6s', '一级', '在售'],['10011', '高数', '四级', '在售']]  
+  each item in items
+    tr
+    each value,index in item
+      - if (index === 1)
+        td
+          a.goToEditCommodity(href="javascript:;") #{value}
+      - else
+        td #{value}
+  tfoot
+    tr
+      th(colspan="4")
+        .ui.right.floated.pagination.menu
+          a.icon.item
+            i.left.chevron.icon
+          a.item.active 1
+          a.item 2
+          a.item 3
+          a.item 4
+          a.icon.item
+            i.right.chevron.icon
+//- 弹出层
+.editCommodity.ui.long.modal
+  //- 商品的基本信息
+  .ui.header.teal.sub-msg
+    - var goods_name = "iPhone6s";
+    - var goods_category = "手机";
+    - var user_level = 3;
+    span 商品名称：#{goods_name}
+    span 类别： #{goods_category}
+    span 用户户等级： #{user_level}级
+  .content
+    //- 商品图片
+    .ui.image
+      img(src="../dist/images/image.png")
+  //- 审核操作
+  .actions
+    .ui.accordion
+      .content.ui.grid
+        .right.floated.three.wide.column
+          .ui.button.red.fail 下架
+      .fail-msg.content.hide
+        .ui.form
+          .column
+          .field
+            label 咋就下架了呢：
+            textarea(name="fail_msg")
+        .actions
+            br
+            button.ui.submit.button.red 坚决下架
+        //- .ui.error.message  //- 居然不起作用 wait a minute 再看看

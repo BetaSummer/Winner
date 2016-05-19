@@ -1,0 +1,37 @@
+// @ellliot
+extends common/layout.jade
+
+block content
+  .main.ui.segment
+    .ui.tab.active(data-tab="0")
+        h2.ui.teal.left.ribbon.label.big
+          i.alarm.icon 良品最新概况
+        p
+        p
+          span.ui.tag.label 商品审核 
+          新增21条商品审核
+          a.open-sidebar(href="javascript:;") 马上处理
+        p
+          span.ui.tag.label 用户管理
+          卧槽还有11条用户管理未处理，
+          a.open-sidebar(href="javascript:;") 马上处理
+    .ui.tab(data-tab="a")
+      h2.ui.teal.left.ribbon.label.big
+        i.sitemap.icon 商品分类管理
+      include commodityCategoryManagement
+    .ui.tab(data-tab="b")
+      h2.ui.teal.left.ribbon.label.big
+        i.pin.icon 商品管理
+      include commodityManagement
+    .ui.tab(data-tab="c")
+      h2.ui.teal.left.ribbon.label.big
+        i.unhide.icon 商品审核
+      include showCheckCommoditiesList
+    .ui.tab(data-tab="d")
+      h2.ui.teal.left.ribbon.label.big
+        i.users.icon 用户管理
+      include userManagement
+    .ui.tab(data-tab="e")
+      h2.ui.teal.left.ribbon.label.big
+        i.spy.icon 管理员管理
+      include adminManagement

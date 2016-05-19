@@ -513,5 +513,3 @@ exports.blockCommodities = function(req, res) {
     res.end();
   });
 };
-
-

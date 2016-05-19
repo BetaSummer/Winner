@@ -1,0 +1,106 @@
+// @elliot
+h4.ui.horizontal.divider.header.teal
+  i.search.icon
+  用户搜索
+.ui.form
+  .inline.field
+    label 用户搜索 ID:
+    input(type="text" placeholder="ID" name="user_id")
+  .inline.field
+    label 用户等级搜索:
+    select.ui.search.dropdown
+      option(value="") 还未选择 
+      option(value="1") 一级
+      option(value="1") 二级
+      option(value="1") 三级
+      option(value="1") 四级
+  button.ui.button.teal 搜索
+h4.ui.horizontal.divider.header.teal
+  i.list.icon
+  用户列表
+table.ui.table
+  thead
+    tr
+      th 用户ID
+      th 用户名称
+      th 用户等级
+      th 商品数量
+      th 备注
+  tbody
+  - var items = [['10010', 'elliot', '一级', 12, '暂时没有'],['10011', 'huangxutao', '四级', 2, '暂时没有']]  
+  each item in items
+    tr
+    each value,index in item
+      - if (index === 1)
+        td
+          a.goToEditUser(href="javascript:;") #{value}
+      - else
+        td #{value}
+  tfoot
+    tr
+      th(colspan="5")
+        .ui.right.floated.pagination.menu
+          a.icon.item
+            i.left.chevron.icon
+          a.item.active 1
+          a.item 2
+          a.item 3
+          a.item 4
+          a.icon.item
+            i.right.chevron.icon
+
+
+
+//- 弹出层
+.editUser.ui.long.modal
+  //- 用户的基本信息
+  .ui.header.teal.sub-msg
+  .content
+    h4.ui.horizontal.divider.header.teal
+      i.leaf.icon
+      用户基本资料
+    .ui.center.aligned
+      - var user = {name: 'elliot', img: 'nan', ID: '10010', level: 2, note: '暂时没有', isForbidden: true}
+      p 用户名称：#{user.name}
+      p 头像：
+        #img-preview
+          img(src="../dist/images/#{user.img}.jpg")
+      p ID： #{user.ID}
+      p 等级： #{user.level}级
+      p 备注： #{user.note}
+    h4.ui.horizontal.divider.header.teal
+      i.cocktail.icon
+      发布的商品
+    .ui.four.cards
+      - var items = [1,2,3,4,5,6,7,8,9]
+      each value in items
+        .card
+          a.image
+            img(src="../dist/images/nan.jpg")
+          .content
+            .header
+              手机
+            .meta
+              a 2016-01-01
+  //- 操作
+  .actions
+    .ui.accordion
+      .content.ui.grid
+        - if (user.isForbidden)
+          .right.floated.three.wide.column
+            .ui.button.red.fail 禁止用户
+          .three.wide.column
+            .ui.button.green 添加备注
+        - else
+          .right.floated.three.wide.column
+            .ui.button.red.fail 解禁用户
+      .fail-msg.content.hide
+        .ui.form
+          .column
+          .field
+            label 为毛禁我：
+            textarea(name="fail_msg")
+        .actions
+            br
+            button.ui.submit.button.red 坚决禁止
+        //- .ui.error.message  //- 居然不起作用 wait a minute 再看看

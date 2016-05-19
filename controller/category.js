@@ -33,4 +33,3 @@ exports.showEditCategory = function(req, res, next) {
 exports.editCategory = function(req, res, next) {
 
 };
-

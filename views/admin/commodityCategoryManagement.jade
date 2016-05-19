@@ -1,0 +1,135 @@
+// @elliot
+//- 所有标签
+h4.ui.horizontal.divider.header.teal
+  i.tag.icon
+  所有标签
+
+//- 选项卡 menu
+.ui.pointing.menu
+  a.item.active(data-tab="first") 一级标签
+  a.item(data-tab="second") 二级标签
+  a.item(data-tab="third") 三级标签
+  a.item(data-tab="fourth") 四级标签
+//- 选项卡 tab
+.ui.tab.active(data-tab="first")
+  table.ui.celled.table
+    thead
+      tr
+        th 标签名称
+        th.center.aligned 操作
+    tbody
+    - var items = [['电子残品', 0], ['图书', 0], ['交通工具', 0], ['消费券', 1]] //- 假定0为禁用的标签
+    each item in items
+      tr
+      each value,index in item
+        - if(index === 0)
+            td
+              a.ui.tag.label #{value}
+        - if(index === 1 && value === 0)
+            td.center.aligned
+              button.ui.button.red 移除
+              button.ui.button.teal 启用
+        - if(index === 1 && value === 1)
+            td.center.aligned
+              button.ui.button.red 移除
+              button.ui.button.teal 编辑
+              button.ui.button 禁用
+.ui.tab(data-tab="second")    
+  table.ui.celled.table
+    thead
+      tr
+        th 标签名称
+        th.center.aligned 操作
+    tbody
+    - var items = [['电子残品', 0], ['图书', 0], ['交通工具', 0], ['消费券', 1]] //- 假定0为禁用的标签
+    each item in items
+      tr
+      each value,index in item
+        - if(index === 0)
+            td
+              a.ui.tag.label #{value}
+        - if(index === 1 && value === 0)
+            td.center.aligned
+              button.ui.button.red 移除
+              button.ui.button.teal 启用
+        - if(index === 1 && value === 1)
+            td.center.aligned
+              button.ui.button.red 移除
+              button.ui.button.teal 编辑
+              button.ui.button 禁用
+.ui.tab(data-tab="third")
+  table.ui.celled.table
+    thead
+      tr
+        th 标签名称
+        th.center.aligned 操作
+    tbody
+    - var items = [['电子残品', 0], ['图书', 0], ['交通工具', 0], ['消费券', 1]] //- 假定0为禁用的标签
+    each item in items
+      tr
+      each value,index in item
+        - if(index === 0)
+            td
+              a.ui.tag.label #{value}
+        - if(index === 1 && value === 0)
+            td.center.aligned
+              button.ui.button.red 移除
+              button.ui.button.teal 启用
+        - if(index === 1 && value === 1)
+            td.center.aligned
+              button.ui.button.red 移除
+              button.ui.button.teal 编辑
+              button.ui.button 禁用
+.ui.tab(data-tab="fourth")
+  table.ui.celled.table
+    thead
+      tr
+        th 标签名称
+        th.center.aligned 操作
+    tbody
+    - var items = [['电子残品', 0], ['图书', 0], ['交通工具', 0], ['消费券', 1]] //- 假定0为禁用的标签
+    each item in items
+      tr
+      each value,index in item
+        - if(index === 0)
+            td
+              a.ui.tag.label #{value}
+        - if(index === 1 && value === 0)
+            td.center.aligned
+              button.ui.button.red 移除
+              button.ui.button.teal 启用
+        - if(index === 1 && value === 1)
+            td.center.aligned
+              button.ui.button.red 移除
+              button.ui.button.teal 编辑
+              button.ui.button 禁用
+//- 添加标签
+h4.ui.horizontal.divider.header.teal
+  i.add.icon
+  添加新标签
+form.ui.form
+  .inline.equal.width.fields
+    .field
+      label 级别
+      select.ui.dropdown
+        option(value="") 还未选择
+        option(value="0") 0
+        option(value="1") 一级
+        option(value="2") 二级
+        option(value="3") 三级
+        option(value="4") 四级
+    .field
+      label 父级标签
+      select.ui.dropdown
+        option(value="") 还未选择 
+        option(value="1") 电子残品
+        option(value="2") 图书
+        option(value="3") 消费券
+        option(value="4") heiheihei
+    .field
+      label 名称
+      input(type="text")
+  .field
+    p.ui.yellow.message 添加须知： 设为0级的标签为最高级标签，其无父级标签
+  .field
+    button.ui.button.teal 添加

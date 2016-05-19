@@ -1,1 +1,70 @@
-// 后台管理界面的scss
+*{
+  box-sizing: border-box;
+}
+
+// '后台'这两个字
+.header-logobox a{
+  position: relative;
+  display: inline-block;
+
+  .header-title{
+    position: absolute;
+    top: 0;
+    left: 90%;
+    margin: 0;
+    padding: 0 12px;
+    color: #333;
+    border-left: 1px solid #bbb;
+  }
+}
+
+.body-container{
+  margin-top: 30px;
+}
+
+// 显示侧栏的按钮
+.ui.right.fixed.button{
+  position: fixed;
+  top: 82px;
+  width: 55px;
+  overflow: hidden;
+  transition: 0.3s width ease, 0.5s transform ease;
+
+  span.text{
+    position: absolute;
+    left: 55px;
+    width: 80px;
+    opacity: 0;
+    transition: 0.3s opacity 0.3s;
+  }
+
+  &:hover{
+    width: 130px;
+
+    span.text{
+      opacity: 1;
+    }
+  }
+}
+
+// commodity 审核商品
+.user-level{
+  padding-left: 12px;
+}
+
+.content {
+  label{
+    padding: 0 0 6px 0;
+    font-size: 14px;
+    text-align: left;
+  }
+}
+
+.hide{
+  display: none;
+}
+
+// 弹出层 商品的基本信息
+.sub-msg span{
+  margin-right: 60px;
+}

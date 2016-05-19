@@ -6,6 +6,7 @@ var sass = require('gulp-ruby-sass');
 var imagemin = require('gulp-imagemin');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
+var browserSync = require('browser-sync').create();
 
 var paths = {
   scripts: ['**/*.js', '!node_modules/**/*.js', '!public/**/*.js', '!src/**/*.js']
@@ -68,8 +69,20 @@ gulp.task('auto', function() {
   gulp.watch('src/fonts/*.*', ['copyfonts']);
 });
 
+gulp.task('browser-sync', function() {
+  var files = [
+    'views/admin/**/*.jade',
+    'public/dist/css/*.css',
+    'public/dist/js/*.js',
+    'public/dist/images/*.*'
+  ];
+  browserSync.init(files, {
+    proxy: '127.0.0.1:3000'
+  });
+});
+
 gulp.task('dist', ['sass', 'copyfonts', 'images']);
 
 gulp.task('lint', ['jshint', 'jscs']);
 
-gulp.task('default', ['lint', 'dist', 'auto']);
+gulp.task('default', ['lint', 'dist', 'auto', 'browser-sync']);
