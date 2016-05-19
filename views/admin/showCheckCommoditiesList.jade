@@ -1,0 +1,90 @@
+// @ellliot
+p
+- var msg_num = 21
+p.header 共有#{msg_num}条待审核记录
+table.ui.table
+  thead
+    tr
+      th 商品编号
+      th 商品名称
+      th 用户等级（信誉）
+  tbody
+  - var items = [["10000", "wo", 4],["10010", "港版6plus", 3],["10012","死飞",2],["10000", "wo", 4],["10010", "港版6plus", 3],["10012","死飞",2],["10000", "wo", 4],["10010", "港版6plus", 3],["10012","死飞",2],["10000", "wo", 4],["10010", "港版6plus", 3],["10012","死飞",2],["10000", "wo", 4],["10010", "港版6plus", 3],["10012","死飞",2]]
+  each item in items
+    tr
+      each val, index in item
+        - if(index === 0) {
+            td #{val}
+        - }
+        - if(index === item.length-2) {
+            td
+              a.goToCheck(href="javascript:;") #{val}
+        - }
+        - if(index === item.length-1) {
+            //- 感觉这么写怪怪的,暂时先这样吧
+            td #{val}
+              case val
+                when 1: span.user-level
+                  - for(var j=0; j<val; j++) {
+                      i.icon.star.red
+                  - }
+                when 2: span.user-level
+                  - for(var j=0; j<val; j++) {
+                      i.icon.star.green
+                  - }
+                when 3: span.user-level
+                  - for(var j=0; j<val; j++) {
+                      i.icon.star.blue
+                  - }
+                when 4: span.user-level
+                  - for(var j=0; j<val; j++) {
+                      i.icon.star.grey
+                  - }
+        - }
+//- 分页
+.ui.two.column.grid
+  .column
+    .ui.borderless.pagination.menu
+      a.icon.item
+        i.left.chevron.icon
+      - var page = 5;
+      - for(var i=0; i<page; i++) {
+      -   if(i === 0)
+            a.icon.item.active #{i+1}
+      -   else
+            a.icon.item #{i+1}
+      - }
+      a.icon.item
+        i.right.chevron.icon
+//- 弹出层
+.checkCommodity.ui.long.modal
+  //- 商品的基本信息
+  .ui.header.teal.sub-msg
+    - var goods_name = "iPhone6s";
+    - var goods_category = "手机";
+    - var user_level = 3;
+    span 商品名称：#{goods_name}
+    span 类别： #{goods_category}
+    span 用户户等级： #{user_level}级
+  .content
+    //- 商品图片
+    .ui.image
+      img(src="../dist/images/image.png")
+  //- 审核操作
+  .actions
+    .ui.accordion
+      .content.ui.grid
+        .right.floated.three.wide.column
+          .ui.button.red.fail 不通过
+        .two.wide.column
+          .ui.button.green 通过
+      .fail-msg.content.hide
+        .ui.form
+          .column
+          .field
+            label 咋就不通过了呢：
+            textarea(name="fail_msg")
+        .actions
+            br
+            button.ui.submit.button.red 审核不通过
+        //- .ui.error.message  //- 居然不起作用 wait a minute 再看看

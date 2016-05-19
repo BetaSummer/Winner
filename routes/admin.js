@@ -5,8 +5,9 @@ var commodity = require('../controller/commodity');
 var user = require('../controller/user');
 var admin = require('../controller/admin');
 
+// 管理员界面主页 @elliot
 router.get('/', function(req, res, next) {
-  res.send(' nice to meet you today   : )');
+  res.render('admin/index');
 });
 
 // 商品类别操作
