@@ -27,7 +27,7 @@ gulp.task('jscs', function() {
 });
 
 gulp.task('js', function() {
-  return gulp.src('src/js/*.js')
+  return gulp.src('public/js/*.js')
     .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(gulp.dest('public/dist/js'));
@@ -41,7 +41,7 @@ gulp.task('css', function() {
 });
 
 gulp.task('images', function() {
-  gulp.src('src/images/*.*')
+  gulp.src('public/images/*.*')
     .pipe(imagemin({
       progressive: true
     }))
@@ -49,7 +49,7 @@ gulp.task('images', function() {
 });
 
 gulp.task('sass', function() {
-  return sass('src/sass/*.scss')
+  return sass('public/sass/*.scss')
     .on('error', function(err) {
       console.error('Error!', err.message);
     })
@@ -57,16 +57,16 @@ gulp.task('sass', function() {
 });
 
 gulp.task('copyfonts', function() {
-  gulp.src('src/fonts/**/*')
+  gulp.src('public/fonts/**/*')
     .pipe(gulp.dest('public/dist/fonts/'));
 });
 
 gulp.task('auto', function() {
-  gulp.watch('src/sass/*.scss', ['sass']);
-  gulp.watch('src/js/*js', ['js']);
-  gulp.watch('dist/css/*.css', ['css']);
-  gulp.watch('src/images/*.*', ['images']);
-  gulp.watch('src/fonts/*.*', ['copyfonts']);
+  gulp.watch('public/sass/*.scss', ['sass']);
+  gulp.watch('public/js/*js', ['js']);
+  gulp.watch('public/dist/css/*.css', ['css']);
+  gulp.watch('public/images/*.*', ['images']);
+  gulp.watch('public/fonts/*.*', ['copyfonts']);
 });
 
 gulp.task('browser-sync', function() {
