@@ -1,4 +1,4 @@
-extends ../public/layout.jade
+extends ../layout.jade
 block append css
   link(rel='stylesheet', href='/dist/css/commodityList.css')
 block content
@@ -10,21 +10,21 @@ block content
         span.text 最新商品
         .menu
           span 优质用户
-      a(href="/publish", class="publish-btn ui inverted green button") 发布闲置
+      a(href="/commodity/", class="publish-btn ui inverted green button") 发布闲置
     .ui.divider
       // 操作 一级导航不进行实质上的操作, 只进行第二级导航选择
   div.commodity-nav
       div.commodity-first-nav
           .item.active
             i.icon.certificate
-            a(href="/") 全部
+            a(href="/category/") 全部
           - each item in firstCategories
             .item
               i.icon.certificate
               span(data-id=item._id)= item.name
       div.commodity-second-nav
           .item.active
-            a(href="/") 全部
+            a(href="/category/") 全部
           - each item in secondCategories
             .item
               //- 这里应该直接做跳转 对应标签的商品页面 对应的父级应该高亮
@@ -32,4 +32,4 @@ block content
 
     .commodity-cards
       - for (var i = 0,len = commodities.length; i < len; i++)
-        include ../public/commodityCard
+        include ../commodity/card

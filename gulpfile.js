@@ -9,7 +9,7 @@ var jshint = require('gulp-jshint');
 var browserSync = require('browser-sync').create();
 
 var paths = {
-  scripts: ['**/*.js', '!node_modules/**/*.js', '!public/**/*.js', '!src/**/*.js']
+  scripts: ['**/*.js', '!node_modules/**/*.js', '!public/dist/**/*.js', '!public/lib/**/*.js']
 };
 
 gulp.task('jshint', function() {
@@ -81,7 +81,7 @@ gulp.task('browser-sync', function() {
   });
 });
 
-gulp.task('dist', ['sass', 'copyfonts', 'images']);
+gulp.task('dist', ['js', 'sass', 'copyfonts', 'images']);
 
 gulp.task('lint', ['jshint', 'jscs']);
 

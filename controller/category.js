@@ -1,7 +1,6 @@
 // 商品类别管理
 var Category = require('../proxy').Category;
-var validator = require('validator');
-
+var validator = require('validator'); 
 
 // 显示添加商品类别
 exports.showAddCategory = function(req, res, next) {

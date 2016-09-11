@@ -1,30 +1,22 @@
 var validator = require('validator'); // 验证
-var crypto = require('crypto');
 var User = require('../proxy').User;
-
-// 通用加密密码函数
-var hash = function(psw) {
-  return crypto.createHash('sha1').update(psw).digest('hex');
-};
+var hash = require('../common/helper').hash;
 
 exports.showReg = function(req, res) {
   var redirectTo = req.query.redirectTo ? req.query.redirectTo : '/';
-  res.render('signInOut/reg', {
+  res.render('auth/reg', {
     redirectTo: redirectTo
   });
 };
 
 exports.reg = function(req, res, next) {
-  // 注册 post 请求
-  // 表单验证
   var body = req.body;
   var redirectTo = req.query.redirectTo ? req.query.redirectTo : '/';
-  console.log(redirectTo);
   var phoneNum = validator.trim(body.phoneNum);
   var password = validator.trim(body.password);
   var rePassword = validator.trim(body.rePassword);
   var nickName = validator.trim(body.nickName);
-  if ([ phoneNum, password, rePassword, nickName ].some(function(item) {
+  if ([phoneNum, password, rePassword, nickName].some(function(item) {
       return item === '';
     })) {
     return console.log('信息填写不完整');
@@ -38,7 +30,6 @@ exports.reg = function(req, res, next) {
     return console.log('两次密码输入不一致');
   }
 
-  // 检测注册用户手机号是否已经存在数据库
   User.getUserByPhone(phoneNum, function(err, user) {
     if (err) {
       return console.log(err);
@@ -48,13 +39,12 @@ exports.reg = function(req, res, next) {
       return console.log('手机号码已经被使用');
     }
 
-    password = hash(password); // 密码加密
+    password = hash(password);
     User.newAndSave(phoneNum, password, nickName, function(err, user) {
       if (err) {
         console.log(err);
       }
       req.session.user = user;
-      // 这边重定向地址需要做一下优化, 因为用户可能是点击某个商品,被要求注册/登录的
       return res.redirect(redirectTo);
     });
   });
@@ -62,19 +52,18 @@ exports.reg = function(req, res, next) {
 
 exports.showLogin = function(req, res) {
   var redirectTo = req.query.redirectTo ? req.query.redirectTo : '/';
-  res.render('signInOut/login', {
+  res.render('auth/login', {
     user: req.session.user,
     redirectTo: redirectTo
   });
 };
 
 exports.login = function(req, res, next) {
-  // 登录 请求
   var body = req.body;
   var redirectTo = req.query.redirectTo ? req.query.redirectTo : '/';
   var phoneNum = validator.trim(body.phoneNum);
   var password = validator.trim(body.password);
-  if ([ phoneNum, password ].some(function(item) {
+  if ([phoneNum, password].some(function(item) {
       return item === '';
     })) {
     return console.log('信息填写不完整');
@@ -89,18 +78,23 @@ exports.login = function(req, res, next) {
     if (!user) {
       return console.log('该手机号还没有注册');
     }
-    password = hash(password); // 密码加密
+    password = hash(password);
     if (user.password === password) {
       req.session.user = user;
-      return res.redirect(redirectTo);
+      res.redirect(redirectTo);
+    } else {
+      return console.log('密码错误')
     }
   });
 };
 
 exports.logout = function(req, res, next) {
-  // 登出请求
-  req.session.destroy();
-  res.redirect('/');
+  req.session.destroy(function(err) {
+    if (err) {
+      console.log(err);
+    }
+    return res.redirect('/');
+  });
 };
 
 exports.activeAccount = function(req, res, next) {
@@ -108,8 +102,7 @@ exports.activeAccount = function(req, res, next) {
 };
 
 exports.showForgetPass = function(req, res) {
-  // 找回密码页面
-  res.render('signInOut/forgetPass');
+  res.render('user/forgetPass');
 };
 
 exports.updateForgetPass = function(req, res, next) {

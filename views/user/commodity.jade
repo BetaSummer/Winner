@@ -1,0 +1,5 @@
+extends layout.jade
+block userContent
+  .commodity-cards
+    - for (var i = 0,len = commodities.length;i < len; i++)
+      include ../commodity/card

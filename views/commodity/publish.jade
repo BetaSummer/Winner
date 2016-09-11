@@ -1,15 +1,15 @@
-extends ../public/layout.jade
+extends ../layout.jade
 block append css
   link(rel='stylesheet', href='/dist/css/commodityShow.css')
-  link(rel='stylesheet', href='/lib/umeditor/themes/default/css/umeditor.css')
+  //- link(rel='stylesheet', href='/lib/umeditor/themes/default/css/umeditor.css')
 block append script
-  script(src="/lib/umeditor/umeditor.config.js")
-  script(src="/lib/umeditor/umeditor.js")
-  script(src="/lib/umeditor/lang/zh-cn/zh-cn.js")
+  //- script(src="/lib/umeditor/umeditor.config.js")
+  //- script(src="/lib/umeditor/umeditor.js")
+  //- script(src="/lib/umeditor/lang/zh-cn/zh-cn.js")
 block content
   div.publish-box
     h1.box-title 发布闲置
-    form(action="/publish" enctype="multipart/form-data" method="POST")
+    form(action="/commodity/publish" enctype="multipart/form-data" method="POST")
       p.publish-info 必填项
       section.sub-publish-box
         .publish-line
@@ -24,16 +24,14 @@ block content
             i.dropdown.icon
             .default.text 一级标签
             .menu
-              - each item,index in firstCategory
-                .item(data-value=item._id) #{item.name}
+              .item 一级标签
           .ui.selection.dropdown(style="min-width:120px")
             // - 已最后细化的 category 为标准
             input(name="categoryId",type="hidden")
             i.dropdown.icon
             .default.text 二级标签
             .menu
-              - each item,index in secondCategory
-                .item(data-value=item._id) #{item.name}
+              .item 二级标签
         .publish-line
           label 商品名称
           .ui.input(style="width:150px;margin-right:20px")
@@ -61,7 +59,7 @@ block content
           a(href="http://zhizhi.betahouse.us/")《闲置商品规则》
         //- hidden first
         .publish-line.after-upload
-          label(for="perCoverImage")预览图片
+          label(for="perCoverImage") 预览图片
           //- button.ui.button.basic.grey.mini(style="margin-left:20px;") 预览
           //- 预览框应该处理成绝对定位  脱离文档流
           div#img-preview
@@ -71,27 +69,27 @@ block content
       p.publish-info 选填项
       section.sub-publish-box
         .publish-line
-          label(for="gotTime")入手时间
+          label(for="gotTime") 入手时间
             //- 使用日历控件
           .ui.input
             input(type="text",id="gotTime",name="gotTime")
-          label(for="gotPrice")入手价格
+          label(for="gotPrice") 入手价格
           .ui.input
             input(type="tel",id="gotPrice",name="gotPrice")
           span.publish-change-info-btn 修改联系方式
             i.icon.angle.down
         //- hidden first
         .publish-line
-          label(for="phoneNum")手机
+          label(for="phoneNum") 手机
           .ui.input
             input(type="tel",id="phoneNum",name="phoneNum")
-          label(for="userName")姓名
+          label(for="userName") 姓名
           .ui.input
             input(type="text",id="userName",name="userName")
           label(for="qq") QQ
           .ui.input
             input(type="tel",id="qq",name="qq")
-          label(for="weChat")微信
+          label(for="weChat") 微信
           .ui.input
             input(type="text",id="weChat",name="weChat")
       p.publish-info 详细信息

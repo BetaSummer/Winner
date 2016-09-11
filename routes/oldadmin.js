@@ -4,8 +4,10 @@ var category = require('../controller/category');
 var commodity = require('../controller/commodity');
 var user = require('../controller/user');
 var admin = require('../controller/admin');
-
+var adminRequired = require('../middlewares/auth').adminRequired;
 // 管理员界面主页 @elliot
+router.all('*', adminRequired);
+
 router.get('/', function(req, res, next) {
   res.render('admin/index');
 });

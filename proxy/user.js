@@ -1,27 +1,8 @@
-// 操作用户的方法。
 var models = require('../models');
 var User = models.User;
 var Commodity = models.Commodity;
 
-/*
- * 根据用户 id 返回用户
- *  @param { String } 用户 id
- *  @param { Function } cb 回调函数
- *  cb:
- *  - err
- *  - user 用户
- */
-var getUserById = function(id, cb) {
-  if (!id) {
-    return cb();
-  }
-  User.findOne({ _id: id }, cb);
-};
-
-
-exports.getUserById = getUserById;
-
-/*
+/**
  * 创建新用户
  *  @param { Number } phoneNum 用户手机号码
  *  @param { String }  password 用户密码
@@ -39,7 +20,19 @@ exports.newAndSave = function(phoneNum, password, nickName, cb) {
   user.save(cb);
 };
 
-/*
+/**
+ * 根据用户 id 返回用户
+ *  @param { String } 用户 id
+ *  @param { Function } cb 回调函数
+ *  cb:
+ *  - err
+ *  - user 用户
+ */
+var getUserById = exports.getUserById = function(id, cb) {
+  User.findOne({ _id: id }, cb);
+};
+
+/**
  * getUserByEmail 通过邮箱查找用户
  * @param { String } 查找的邮箱
  * @param { Function } cb 回调函数
@@ -51,7 +44,7 @@ exports.getUserByEmail = function(email, cb) {
   User.finfOne({ email: email }, cb);
 };
 
-/*
+/**
  * getUserByphone 通过电话查找用户
  * @param { Number } 查找的电话
  * @param { Function } cb 回调函数
@@ -63,7 +56,7 @@ exports.getUserByPhone = function(phoneNum, cb) {
   User.findOne({ phoneNum: phoneNum }, cb);
 };
 
-/*
+/**
  * getUserFocusById 通过用户id来获取用户关注的用户
  * @param { String } 用户的id
  * @param { Function } 回调函数
@@ -72,7 +65,22 @@ exports.getUserByPhone = function(phoneNum, cb) {
  *   - document 查找返回的文档
  *   	- follows
  */
-exports.getUserFocusById = function(id, cb) {
+exports.getUserFocusById = function(id, query, cb) {
+  if (typeof query === 'function') {
+    cb = query;
+    query = null;
+  }
+  var options = { sort: { level: -1 } };
+
+  if (query) {
+    var limit = query.limit;
+    var page = query.page;
+    var skip = limit * page;
+    options = Object.assign(options, {
+      limit: limit,
+      skip: skip
+    });
+  }
   User.findOne({ _id: id })
     .populate({
       path: 'focus',
@@ -84,14 +92,13 @@ exports.getUserFocusById = function(id, cb) {
         follows: 1,
         focus: 1
       },
-      options: {
-        sort: { level: -1 }
-      }
+      options: options
     })
     .exec(cb);
 };
 
-/*
+/**
+ * @todo 增加分页的 query
  * getUserFollowsById 通过用户id来获取用户的粉丝
  * @param { String} 用户的id
  * @param { Function} 回调函数
@@ -100,7 +107,22 @@ exports.getUserFocusById = function(id, cb) {
  *   - document 查找返回的文档
  *     - follows
  */
-exports.getUserFollowsById = function(id, cb) {
+exports.getUserFollowsById = function(id, query, cb) {
+  if (typeof query === 'function') {
+    cb = query;
+    query = null;
+  }
+  var options = { sort: { level: -1 } };
+
+  if (query) {
+    var limit = query.limit;
+    var page = query.page;
+    var skip = limit * page;
+    options = Object.assign(options, {
+      limit: limit,
+      skip: skip
+    });
+  }
   User.findOne({ _id: id })
     .populate({
       path: 'follows',
@@ -112,14 +134,13 @@ exports.getUserFollowsById = function(id, cb) {
         follows: 1,
         focus: 1
       },
-      options: {
-        sort: { level: -1 }
-      }
+      options: options
     })
     .exec(cb);
 };
 
-/*
+/**
+ * @todo 增加分页的 query
  * getUserCommoditiesById 通过用户 id 获取商品
  * @param { String } id
  * @param { Function } 回调函数
@@ -129,7 +150,22 @@ exports.getUserFollowsById = function(id, cb) {
  *  	-  myCommodity { array } 可以理解为 id 被 id 对应的对象取代
  *    -  hostId { array }
  */
-exports.getUserCommoditiesById = function(id, cb) {
+exports.getUserCommoditiesById = function(id, query, cb) {
+  if (typeof query === 'function') {
+    cb = query;
+    query = null;
+  }
+  var options = { sort: { updateTime: -1 } };
+
+  if (query) {
+    var limit = query.limit;
+    var page = query.page;
+    var skip = limit * page;
+    options = Object.assign(options, {
+      limit: limit,
+      skip: skip
+    });
+  }
   User.findOne({ _id: id })
     .populate({
       path: 'myCommodity',
@@ -145,21 +181,19 @@ exports.getUserCommoditiesById = function(id, cb) {
         hostId: 1,
         status: 1
       },
-      options: {
-        sort: { updateTime: -1 }
-      }
+      options: options
     })
     .exec(cb);
 };
 
-/*
- * getCommodityHosterById 通过商品 id 查找用户信息
+/**
+ * getHosterByCommodityId 通过商品 id 查找用户信息
  * @params { Number } 商品id
  * @params { Function } 回调函数
  * - err
  * - user 返回的用户
  */
-exports.getCommodityHosterById = function(id, cb) {
+exports.getHosterByCommodityId = function(id, cb) {
   Commodity.findOne({ _id: id }, function(err, commodity) {
     if (err) {
       return cb(err);
@@ -169,7 +203,7 @@ exports.getCommodityHosterById = function(id, cb) {
   });
 };
 
-/*
+/**
  * getTopUser 获取前 n 名用户
  * @param { Function } 回调函数
  * - err
@@ -182,7 +216,7 @@ exports.getTopUser = function(n, cb) {
     .exec(cb);
 };
 
-/*
+/**
  * addFocus 添加关注用户
  * @param { String } 发起请求者 id
  * @param { String } 被关注者 id
@@ -209,55 +243,53 @@ exports.addFocus = function(userId, focusId, cb) {
       }
       getUserById(userId, function(err, user) {
         if (err) {
-          return console.log(err);
+          return cb(err);
         }
         return cb(null, user);
       });
-
     });
   });
 };
 
-/*
+/**
  * rmFocus 取消关注用户
  * @param { Number } 发起请求者 id
  * @param { Number } 被取消关注的用户 id
  * @param { Function } 回调
  */
-exports.rmFocus = function(id, userId, cb) {
-  User.update({ _id: id }, {
-      $addToSet: { hadFocus: userId } // 先将取消关注的 id 添加到 hadFocus 字段里
-    },
-    function(err) {
+exports.rmFocus = function(userId, followerId, cb) {
+  User.update({ _id: userId }, {
+    $addToSet: { hadFocus: followerId } // 先将取消关注的 id 添加到 hadFocus 字段里
+  }, function(err) {
+    if (err) {
+      return cb(err);
+    }
+    // 再将该 id 从 focus 里面删除
+    User.update({ _id: userId }, {
+      $pull: { focus: followerId }
+    }, function(err) {
       if (err) {
         return cb(err);
       }
-      // 再将该 id 从 focus 里面删除
-      User.update({ _id: id }, {
-        $pull: { focus: userId }
+      // 更新被取消关注的用户的 follows 字段
+      User.update({ _id: followerId }, {
+        $pull: { follows: userId }
       }, function(err) {
         if (err) {
           return cb(err);
         }
-        // 更新被取消关注的用户的 follows 字段
-        User.update({ _id: userId }, {
-          $pull: { follows: id }
-        }, function(err) {
+        getUserById(userId, function(err, user) {
           if (err) {
-            return console.log(err);
+            return cb(err);
           }
-          getUserById(id, function(err, user) {
-            if (err) {
-              return console.log(err);
-            }
-            return cb(null, user);
-          });
+          return cb(null, user);
         });
       });
     });
+  });
 };
 
-/*
+/**
  * updateUserInfo 用户基本资料更新
  * @param { String } 更新用户的 id
  * @param { Object } 更新用户的信息对象
@@ -265,57 +297,49 @@ exports.rmFocus = function(id, userId, cb) {
  */
 exports.updateUserInfo = function(id, obj, cb) {
   User.update({ _id: id }, {
-    $set: {
-      birthday: obj.birthday,
-      nickName: obj.nickName,
-      phoneNum: obj.phoneNum,
-      realName: obj.realName,
-      weChat: obj.weChat,
-      sex: obj.sex,
-      qq: obj.qq
-    }
+    $set: obj
   }, {
     upsert: true,
     multi: true
   }, cb);
 };
 
-/*
- * updateUserPass 根据 id 更新密码
- * @param { String } 用户 id
+/**
+ * updateUserPass 根据 userId 更新密码
+ * @param { String } 用户 userId
  * @param { String } 用户新密码
  * @param { Function } 回调函数
  *   - err
  *   - info 操作结果信息
  */
-exports.updateUserPass = function(id, newPass, cb) {
-  User.update({ _id: id }, {
-    $set: { password: newPass }
+exports.updateUserPass = function(userId, password, cb) {
+  User.findByIdAndUpdate(userId, {
+    $set: { password: password }
   }, cb);
 };
 
-/*
- * addMyCommodity 用户发布新商品之后 将商品 id 更新到 myCommodity 字段里面来
- * @param { String } 用户的 id
+/**
+ * updateMyCommodity 用户发布新商品之后 将商品 id 更新到 myCommodity 字段里面来
+ * @param { String } 用户的 userId
  * @param { String } 新添加商品的 id
  * @param { Function } 回调函数
  */
-exports.addMyCommodity = function(userId, commodityId, cb) {
-  User.update({ _id: userId }, {
+exports.updateMyCommodity = function(userId, commodityId, cb) {
+  User.findByIdAndUpdate(userId, {
     $addToSet: { myCommodity: commodityId }
   }, cb);
 };
 
-/*
- * updateUserHeader 根据 id 更新用户头像
- * @param { String } 用户 id
+/**
+ * updateUserHeader 根据 userId 更新用户头像
+ * @param { String } 用户 userId
  * @param { String } 用户头像路径
  * @param { Function } 回调函数
  *   - err
  *   - info 操作结果信息
  */
-exports.updateUserHeader = function(id, headerSrc, cb) {
-  User.update({ _id: id }, {
-    $set: { header: headerSrc }
+exports.updateUserHeader = function(userId, header, cb) {
+  User.findByIdAndUpdate(userId, {
+    $set: { header: header }
   }, cb);
 };

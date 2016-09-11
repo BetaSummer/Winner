@@ -8,47 +8,44 @@ var sendMessage = require('../common/message');
 var helper = require('../common/helper');
 var fs = require('fs');
 
-/*
- * showIndex 显示首页
+/**
+ * index 显示首页
  */
-exports.showIndex = function(req, res, next) {
-  // 标签查询结果 也有这个方法 所以 要考虑 添加 category 字段查询
-  var p = req.params.page || 0;
-  var limit = req.params.limit || 10;
-  var categoryId = req.params.categoryId;
-  var skip = p * limit;
-
-  Commodity.getCommodities(skip, limit, categoryId, function(err, commodities) {
-    var getUserInfo = function(item) {
+exports.getCommodities = function(req, res, next) {
+  var page = req.query.page || 0;
+  var limit = req.query.limit || 20;
+  var query = {}; // 查询条件： 比如导航，分页, 标签id
+  Commodity.getCommodities(page, limit, query, function(err, commodities) {
+    if (err) {
+      return next(err)
+    }
+    var getUserInfo = function(commodity) {
       var promise = new Promise(function(resolve, reject) {
-        var hostId = item.hostId;
+        var hostId = commodity.hostId;
         User.getUserById(hostId, function(err, user) {
-          if (err) {
-            reject(err);
-            return console.log(err);
-          }
+          if (err) return reject(err);
           resolve(user);
         });
       });
       return promise;
     };
 
-    var promises = commodities.map(function(item) {
-      return getUserInfo(item);
+    var promises = commodities.map(function(commodity) {
+      return getUserInfo(commodity);
     });
 
     Promise.all(promises).then(function(users) {
-      Category.getAllCategory(function(err, categories) {
+      Category.getCategory(function(err, categories) {
         if (err) {
           return console.log(err);
         }
-        var firstCategories = categories.filter(function(item) {
-          return item.leavel === 0;
+        var firstCategories = categories.filter(function(category) {
+          return category.leavel === 0;
         });
-        var secondCategories = categories.filter(function(item) {
-          return item.leavel === 1;
+        var secondCategories = categories.filter(function(category) {
+          return category.leavel === 1;
         });
-        res.render('commodityList/index', {
+        res.render('commodities/index', {
           user: req.session.user,
           commodities: commodities,
           users: users,
@@ -62,25 +59,15 @@ exports.showIndex = function(req, res, next) {
   });
 };
 
-/*
+
+
+/**
  * showPublish 发布商品页面
  */
 exports.showPublish = function(req, res, next) {
-  // 获取标签信息
-  Category.findCategoryByLeavel(0, function(err, firstCategory) {
-    if (err) {
-      return console.log(err);
-    }
-    Category.findCategoryByLeavel(1, function(err, secondCategory) {
-      if (err) {
-        return console.log(err);
-      }
-      res.render('commodityShow/publish', {
-        user: req.session.user,
-        firstCategory: firstCategory,
-        secondCategory: secondCategory
-      });
-    });
+  // 标签信息单读的接口拿
+  res.render('commodity/publish', {
+    user: req.session.user, 
   });
 };
 
@@ -89,16 +76,15 @@ exports.showPublish = function(req, res, next) {
  */
 exports.publish = function(req, res, next) {
   var body = req.body;
-  var user = req.session.user;
-  var userId = user._id;
-  console.log(body);
-  console.log(req.files);
+  var userId = req.session.user._id;
+  // console.log(body);
+  // console.log(req.files);
   var filename = Date.now() + req.files.coverImage.originalFilename;
   var targetPath = './public/upload/images/coverImage/' + filename;
   fs.createReadStream(req.files.coverImage.path).pipe(fs.createWriteStream(targetPath));
   var coverImage = '/upload/images/coverImage/' + filename;
-  // 这个手动一个个太不优雅,可以考虑遍历 body 才生成 publishObj 对象,要注意字段确保一致
-  var publishObj = {
+  // 这个手动一个个太不优雅,可以考虑遍历 body 才生成 newObj 对象,要注意字段确保一致
+  var newObj = {
     title: validator.trim(body.title),
     // 这里类别 扩展性是不是有问题
     categoryId: validator.trim(body.categoryId.replace(/\"/gi, '')),
@@ -116,7 +102,7 @@ exports.publish = function(req, res, next) {
     content: validator.trim(body.content),
     hostId: userId
   };
-  Commodity.newAndSave(publishObj, function(err, commodity) {
+  Commodity.newAndSave(newObj, function(err, commodity) {
     if (err) {
       return console.log(err);
     }
@@ -156,10 +142,10 @@ exports.publish = function(req, res, next) {
 };
 // 麻痹 这回调!
 
-/*
+/**
  * editCommodity 编辑商品
  */
-exports.showEditCommodity = function(req, res, next) {
+exports.showCommodityEdit = function(req, res, next) {
   var commodityId = req.params.id;
   var userId = req.session.user._id;
   Commodity.getCommodityById(commodityId, function(err, commodity) {
@@ -172,11 +158,11 @@ exports.showEditCommodity = function(req, res, next) {
       console.log('没有权限');
       return res.redirect('back');
     }
-    Category.getCategoryNameById(categoryId, function(err, category) {
+    Category.getCategory(categoryId, function(err, category) {
       if (err) {
         return console.log(err);
       }
-      res.render('commodityShow/edit', {
+      res.render('commodity/edit', {
         user: req.session.user,
         commodity: commodity,
         category: category
@@ -185,134 +171,119 @@ exports.showEditCommodity = function(req, res, next) {
   });
 };
 
-/*
+/**
  * 编辑商品内容的时候 拆分为多个表单了
  * 方便的解决方案 注意前端 name 字段和数据库字段保持一致
  */
 exports.edit = function(req, res, next) {
-  // 处理 编辑上传的form 表单
-  // var body = req.body;
   var commodityId = req.params.id;
-  var hostId = req.params.hostId;
-  // console.log(commodityId,hostId);
   var userId = req.session.user._id;
-  if (hostId != userId) {
-    return console.log('不是本人提交 无权修改');
-  }
-  var obj = {
-    // title:validator.trim(body.title),
-    // content:validator.trim(body.content),
-    // category:validator.trim(body.category),
-    // howNew:validator.trim(body.howNew),
-    // price:validator.trim(body.price),
-    // gotPrice:validator.trim(body.gotPrice),
-    // gotTime:validator.trim(body.gotTime),
-    // phoneNum:validator.trim(body.phoneNum),
-    // weChat:validator.trim(body.weChat),
-    // sex:validator.trim(body.sex),
-    // qq:validator.trim(body.qq),
-  };
-  Commodity.updateByCommodityId(commodityId, obj, function(err) {
+  var obj = {};
+  Commodity.getCommodityById(commodityId, function(err, commodity) {
     if (err) {
-      return console.log(err);
+      console.log(err);
     }
-    console.log('更新成功');
+    var hostId = commodity && commodity.hostId;
+    if (hostId != userId) {
+      var err = new Error('不是本人提交 无权修改');
+      return console.error(err);
+    }
+    Commodity.updateByCommodityId(commodityId, obj, function(err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log('更新成功');
+    });
   });
 };
 
-/*
+/**
  * editInfo 设置商品信息字段
  */
 exports.editInfo = function(req, res, next) {
-  // var body = req.body;
   var commodityId = req.params.id;
-  var hostId = req.params.hostId;
   var userId = req.session.user._id;
-  if (hostId != userId) {
-    return console.log('不是本人提交 无权修改');
-  }
-  var infoObj = {
-    // 一些获取过来的数据
-    // 好乱阿
-    // 拉这么长的注释是想说
-    // 这边是空的
-    // 因为
-    // 长
-    // 一
-    // 点
-    // 比较
-    // 容易发现
-  };
-  Commodity.updateByCommodityId(commodityId, infoObj, function(err, info) {
+  var infoObj = {};
+  Commodity.getCommodityById(commodityId, function(err, commodity) {
     if (err) {
-      return console.log(err);
+      console.log(err);
     }
-    console.log(info);
-    res.redirect('back');
+    var hostId = commodity && commodity.hostId;
+    if (hostId != userId) {
+      var err = new Error('不是本人提交 无权修改');
+      return console.error(err);
+    }
+    Commodity.updateByCommodityId(commodityId, infoObj, function(err, info) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(info);
+      res.redirect('back');
+    });
   });
 };
-/*
+
+/**
  * editConnect 设置商品用户联系方式
  */
 exports.editConnect = function(req, res, next) {
-  // var body = req.body;
   var commodityId = req.params.id;
-  var hostId = req.params.hostId;
   var userId = req.session.user._id;
-  if (hostId != userId) {
-    return console.log('不是本人提交 无权修改');
-  }
-  var infoObj = {
-    // 一些获取过来的数据
-    // 好乱阿
-    // 拉这么长的注释是想说
-    // 这边是空的
-    // 因为
-    // 长
-    // 一
-    // 点
-    // 比较
-    // 容易发现
-  };
-  Commodity.updateByCommodityId(commodityId, infoObj, function(err, info) {
+  var infoObj = {};
+  Commodity.getCommodityById(commodityId, function(err, commodity) {
     if (err) {
-      return console.log(err);
+      console.log(err);
     }
-    console.log(info);
-    res.redirect('back');
+    var hostId = commodity && commodity.hostId;
+    if (hostId != userId) {
+      var err = new Error('不是本人提交 无权修改');
+      return console.error(err);
+    }
+    Commodity.updateByCommodityId(commodityId, infoObj, function(err, info) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(info);
+      res.redirect('back');
+    });
   });
 };
 
-/*
+/**
  * editImg 编辑商品 处理 上传封面
  */
 exports.editImg = function(req, res, next) {
-  // var body = req.body;
   var commodityId = req.params.id;
-  var hostId = req.params.hostId;
   var userId = req.session.user._id;
-  if (hostId != userId) {
-    return console.log('不是本人提交 无权修改');
-  }
   // var isFormData = req.body.isFormData || false;
-  var filename = Date.now() + req.files.coverImage.originalFilename;
-  var targetPath = './public/upload/images/coverImage/' + filename;
-  fs.createReadStream(req.files.coverImage.path).pipe(fs.createWriteStream(targetPath));
-  var coverImage = '/upload/images/coverImage/' + filename;
-  var obj = {
-    coverImage: coverImage
-  };
-  Commodity.updateByCommodityId(commodityId, obj, function(err, info) {
+  Commodity.getCommodityById(commodityId, function(err, commodity) {
     if (err) {
-      return console.log(err);
+      console.log(err);
     }
-    console.log(info);
-    console.log('更新成功');
-    res.redirect('back');
+    var hostId = commodity && commodity.hostId;
+    if (hostId != userId) {
+      var err = new Error('不是本人提交 无权修改');
+      return console.error(err);
+    }
+    var filename = Date.now() + req.files.coverImage.originalFilename;
+    var targetPath = './public/upload/images/coverImage/' + filename;
+    fs.createReadStream(req.files.coverImage.path).pipe(fs.createWriteStream(targetPath));
+    var coverImage = '/upload/images/coverImage/' + filename;
+    var obj = {
+      coverImage: coverImage
+    };
+    Commodity.updateByCommodityId(commodityId, obj, function(err, info) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(info);
+      console.log('更新成功');
+      res.redirect('back');
+    });
   });
 };
 
-/*
+/**
  * showCommodityDetail 展示商品详情
  * addCommodityVisited 做相应的优化, 这边也可以做相应的优化
  */
@@ -349,11 +320,13 @@ var showCommodityDetail = exports.showCommodityDetail = function(req, res, next)
         if (err) {
           return console.log(err);
         }
-        Category.getCategoryNameById(categoryId, function(err, category) {
+        Category.getCategory(categoryId, function(err, category) {
           if (err) {
             return console.log(err);
           }
-          res.render('commodityShow/detail', {
+          // 用户的其他闲置
+          // 还有评论相关的  可以用 滚动异步加载
+          res.render('commodity/detail', {
             user: req.session.user,
             hoster: hoster,
             commodity: commodity,
@@ -368,7 +341,7 @@ var showCommodityDetail = exports.showCommodityDetail = function(req, res, next)
   });
 };
 
-/*
+/**
  * unPublish 下架某件商品
  */
 exports.unPublish = function(req, res, next) {
@@ -381,7 +354,7 @@ exports.unPublish = function(req, res, next) {
   });
 };
 
-/*
+/**
  * showCheckCommodityList 展示审核商品列表页面
  */
 exports.showCheckCommoditiesList = function(req, res, next) {
@@ -399,7 +372,7 @@ exports.showCheckCommoditiesList = function(req, res, next) {
   });
 };
 
-/*
+/**
  * showCheckCommodity 展示被审核的商品的详情
  */
 exports.showCheckCommodity = function(req, res) {
@@ -408,7 +381,7 @@ exports.showCheckCommodity = function(req, res) {
   return showCommodityDetail(req, res);
 };
 
-/*
+/**
  * rejectCommodity 商品审核驳回
  */
 exports.rejectCommodity = function(req, res, next) {
@@ -447,7 +420,7 @@ exports.rejectCommodity = function(req, res, next) {
   });
 };
 
-/*
+/**
  * passCommodity 处理审核通过 commodity
  */
 exports.passCommodity = function(req, res) {
@@ -488,7 +461,7 @@ exports.passCommodity = function(req, res) {
   });
 };
 
-/*
+/**
  * searchCommodities 处理查询
  */
 exports.searchCommodities = function(req, res) {
@@ -497,7 +470,7 @@ exports.searchCommodities = function(req, res) {
   // 查询返回结果
 };
 
-/*
+/**
  * blockCommodities 批量禁止某件商品
  */
 exports.blockCommodities = function(req, res) {

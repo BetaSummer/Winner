@@ -1,10 +1,10 @@
-extends ../public/layout.jade
+extends ../layout.jade
 block append css
-  link(rel='stylesheet', href='/dist/css/signInOut.css')
+  link(rel='stylesheet', href='/dist/css/auth.css')
 block content
   div.login-box.ui.piled.segments
     div.login-error.hidden 账号不存在或者密码错误
-    form(action="/login?redirectTo="+redirectTo method="POST")
+    form(action="/auth/login" method="POST")
       .login-line
         label(for="phoneNum") 手机号
         .ui.input
@@ -15,10 +15,10 @@ block content
           input(type="password",id="password",name="password")
       .login-line
         input.ui.button.orange.tiny(type="submit",value="登录",class="login-btn")
-        a(href="/forgetPass" class="forget-password")忘记密码？
+        a(href="/user/forgetPass" class="forget-password") 忘记密码？
       .login-line
         spana 没有帐号？
-        a(href="/reg?redirectTo="+redirectTo class="to-reg-btn")点我注册
+        a(href="/auth/reg?redirectTo=" + redirectTo class="to-reg-btn") 点我注册
       .ui.divider
       div.quick-login
         span 快捷登录

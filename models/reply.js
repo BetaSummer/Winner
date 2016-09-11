@@ -13,6 +13,7 @@ var ReplySchema = new Schema({
   createTime: { type: Date, default: Date.now() },
   updateTime: { type: Date, default: Date.now() },
   deleted: { type: Boolean, default: false }
+  // 被回复的 ids ？
 }, { autoIndex: false });
 
 ReplySchema.index({ commodityId: 1 });

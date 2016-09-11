@@ -15,7 +15,7 @@ var Commodity = require('./commodity');
  * @param { Function } 回调函数
  */
 
-exports.newAndSave = function(type, senderId, targetId, commodityId, replyId, cb) {
+var newAndSave = exports.newAndSave = function(type, senderId, targetId, commodityId, replyId, cb) {
   User.getUserById(senderId, function(err, sender) {
     if (err) {
       return cb(err);
@@ -29,12 +29,7 @@ exports.newAndSave = function(type, senderId, targetId, commodityId, replyId, cb
     message.targetId = targetId;
     message.commodityId = commodityId;
     message.replyId = replyId;
-    message.save(function(err, message) {
-      if (err) {
-        cb(err);
-      }
-      cb(null, message);
-    });
+    message.save(cb);
   });
 };
 
@@ -43,10 +38,9 @@ exports.newAndSave = function(type, senderId, targetId, commodityId, replyId, cb
  * @param { String } 消息接受者的 id
  * @param { Function } 回调函数
  */
-exports.getUnreadMessageCount = function(userId, cb) {
-  Message.count({ targetId: userId, hasRead: false }, cb);
+exports.getUnreadMessageCount = function(targetId, cb) {
+  Message.count({ targetId: targetId, hasRead: false }, cb);
 };
-
 
 /*
  * getMessageById 根据消息 id 查找
@@ -61,15 +55,18 @@ exports.getMessageById = function(id, cb) {
   });
 };
 
-/*
+/**
  * generateMessage 根据 message 的 type 生成相应的消息实体
+ * 生成消息的方式可以用消息模板，根据不同类型填充不同的消息
+ * @todo 生成消息方法扩展性考虑
  */
-var generateMessage = exports.generateMessage = function(message, cb) {
+exports.generateMessage = function generateMessage(message, cb) {
   var replyId = message.replyId;
   var commodityId = message.commodityId;
   var targetId = message.targetId;
   var senderId = message.senderId;
   var type = message.type;
+  var createTime = message.createTime;
   var messageBody = {
     _id: message._id,
     replyId: replyId,
@@ -77,14 +74,8 @@ var generateMessage = exports.generateMessage = function(message, cb) {
     targetId: targetId,
     senderId: senderId,
     type: type,
-    createTime: Date.now()
+    createTime: createTime
   };
-  // for(var key in message){
-  //   if(message.hasOwnProperty(key)){
-  //     messageBody[key] = message[key];
-  //   }
-  // }
-  // var messageBody = Object.assign({}, message); // 冒出一大堆乱七八糟的东西 比如:$__
   User.getUserById(senderId, function(err, sender) {
     if (err) {
       return console.log(err);
@@ -97,6 +88,7 @@ var generateMessage = exports.generateMessage = function(message, cb) {
       messageBody.sender = sender;
       messageBody.target = target;
       if (type == 'follow') {
+        // message sender(_id) 在 createTime 关注了 （target(_id) || 你）
         return cb(null, messageBody);
       }
       Commodity.getCommodityById(commodityId, function(err, commodity) {
@@ -109,6 +101,7 @@ var generateMessage = exports.generateMessage = function(message, cb) {
             return console.log(err);
           }
           messageBody.reply = reply;
+          // message sender(_id) 在 commodity 下评论了你
           return cb(null, messageBody);
         });
       });
@@ -117,12 +110,22 @@ var generateMessage = exports.generateMessage = function(message, cb) {
 };
 
 /*
- * getMessageUnread 根据 id 查找没有被阅读的消息, 消息按照时间倒序排列
+ * getMessageUnread 根据用户 id 查找没有被阅读的消息, 消息按照时间倒序排列
  * @param { String } 接收者 id
  * @param { Function } 回调函数
  */
-exports.getMessageUnread = function(userId, cb) {
-  Message.find({ targetId: userId, hasRead: false }, null, { skip: 0, limit: 20, sort: { createTime: -1 } }, cb);
+exports.getMessageUnread = function(userId, query, cb) {
+  var limit = query.limit;
+  var page = query.page;
+  var skip = limit * page;
+  Message.find({
+    targetId: userId,
+    hasRead: false
+  }, null, {
+    skip: skip,
+    limit: limit,
+    sort: { reateTime: -1 }
+  }, cb);
 };
 
 
@@ -132,11 +135,8 @@ exports.getMessageUnread = function(userId, cb) {
  * @param { Function } 回调函数
  */
 var updateMessageAsRead = exports.updateMessageAsRead = function(id, cb) {
-  Message.findOneAndUpdate({ _id: id },
-    {
-      $set: {
-        hasRead: true
-      }
+  Message.findOneAndUpdate({ _id: id }, {
+      $set: { hasRead: true }
     }, cb);
 };
 
@@ -146,11 +146,8 @@ var updateMessageAsRead = exports.updateMessageAsRead = function(id, cb) {
  * @param { Function } 回调函数
  */
 exports.updateMessageAsUnread = function(id, cb) {
-  Message.findOneAndUpdate({ _id: id },
-    {
-      $set: {
-        hasRead: false
-      }
+  Message.findOneAndUpdate({ _id: id }, {
+      $set: { hasRead: false }
     }, cb);
 };
 
@@ -166,5 +163,36 @@ exports.updateMessagesAsRead = function(userId, idArr, cb) {
     updateMessageAsRead(idArr, cb);
   }
   var query = { targetId: userId, _id: { $in: idArr } };
-  Message.update(query, { $set: { hasRead: true } }, { multi: true }).exec(cb);
+  Message.update(query, {
+      $set: { hasRead: true }
+    }, {
+      multi: true
+    })
+    .exec(cb);
+};
+
+/*
+ * sendReplyMessage 向用户发送被回复的消息
+ * @param { String } 消息发送者 id
+ * @param { String } 消息接受者 id
+ * @param { String } 消息关联的商品 id
+ * @param { String } 消息关联的评论 id
+ * @param { Function } 回调函数
+ *  - err 数据库异常错误
+ *  - message 保存的消息 obj
+ */
+exports.sendReplyMessage = function(senderId, targetId, commodityId, replyId, cb) {
+  newAndSave('reply', senderId, targetId, commodityId, replyId, cb);
+};
+
+exports.sendFollowMessage = function(senderId, targetId, commodityId, replyId, cb) {
+  newAndSave('follow', senderId, targetId, commodityId, replyId, cb);
+};
+
+exports.sendAtMessage = function(senderId, targetId, commodityId, replyId, cb) {
+  newAndSave('at', senderId, targetId, commodityId, replyId, cb);
+};
+
+exports.sendNoticeMessage = function(senderId, targetId, commodityId, replyId, cb) {
+  newAndSave('notice', senderId, targetId, commodityId, replyId, cb);
 };

@@ -12,17 +12,17 @@ var CommoditySchema = new Schema({
   gotTime: { type: Date }, // 入手时间
   gotPrice: { type: Number }, // 入手价格
   content: { type: String }, // 商品详情
-  isSold: { type: Boolean, default: false }, // 是否卖掉
   createTime: { type: Date, default: Date.now() }, // 创建时间
   updateTime: { type: Date, default: Date.now() }, // 更新时间
   replyCount: { type: Number, default: 0 }, // 回复数量
-  reply: [ { type: ObjectId, ref: 'Reply' } ],
+  reply: [ { type: ObjectId, ref: 'Reply' } ], // 一级评论
   visitedCount: { type: Number, default: 1 }, // 访问次数
-  status: { type: Number, default: 0 }, // 0 为审核状态, 1 上架, 2 下架, 3 审核没通过, 4 被删除, 5 为再次审核状态
+  status: { type: Number, default: 0 }, // 0 为审核状态, 1 上架, 2 下架, 3 审核没通过, 4 被删除, 5 为再次审核状态, 6 被卖掉, 7 草稿状态
   qq: { type: Number },
   weChat: { type: String },
   userName: { type: String }, // 用户名, 前台默认控制为 nickname
-  phoneNum: { type: Number } // 默认是登录时的号码可修改
+  phoneNum: { type: Number }, // 默认是登录时的号码可修改
+  isBlock: { type: Boolean, default: false } // 是否被禁止
 }, { autoIndex: false });
 
 CommoditySchema.index({ updateTime: -1 });

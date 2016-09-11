@@ -1,16 +1,17 @@
 .commodity-card.ui.card.mycommodity-card
   // 如果没有登录 或者 商品不是自己的
   - if(!user || user &&  commodities[i].hostId != user._id){
-    - console.log('用户不可编辑')
+    //- - console.log('用户不可编辑')
     a.image.blurring.dimmable(href="/commodity/" + commodities[ i ]._id)
       img(src=commodities[ i ].coverImage alt="")
   - }else{
-    - console.log('开放直接编辑入口')
+    //- - console.log('开放直接编辑入口')
     .image.blurring.dimmable
       .ui.dimmer
         .content
           .content
-            a.ui.inverted.button(href="/edit/"+commodities[ i ]._id) 编辑
+            a.ui.inverted.button(href="/commodity/" + commodities[ i ]._id + "/edit/") 编辑
+            // - unPublish => delete method
             a.ui.inverted.button(href="/unPublish/"+commodities[ i ]._id) 下架
       img(src=commodities[ i ].coverImage alt=commodities[ i ].title+'的封面图片')
   - }

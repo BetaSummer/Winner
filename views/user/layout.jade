@@ -1,8 +1,8 @@
-extends ../public/layout.jade
+extends ../layout.jade
 block append css
   link(rel='stylesheet', href='/dist/css/userCenter.css')
 block append header-extend
-  include userCenterHeader
+  include header
 
 block content
   .usercenter-container
@@ -27,9 +27,9 @@ block content
             span #{oversell.length}
       - }
     //- 区块内容default是用户列表   我的闲置 和 最新动态 自定义
-    block userCenterContent
-      include ../public/userList
+    block userContent
+      include ../list
     //-  分页
-    include ../public/pagination
+    include ../pagination
 
 

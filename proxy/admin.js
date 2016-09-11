@@ -7,7 +7,7 @@ var Admin = models.Admin;
 exports.newAndSave = function(obj, cb) {
   var admin = new Admin();
   Object.keys(obj).forEach(function(k) {
-    admin[ k ] = obj[ k ];
+    admin[k] = obj[k];
   });
   admin.save(cb);
 };

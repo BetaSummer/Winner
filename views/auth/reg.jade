@@ -1,10 +1,10 @@
-extends ../public/layout.jade
+extends ../layout.jade
 block append css
-    link(rel='stylesheet', href='/dist/css/signInOut.css')
+    link(rel='stylesheet', href='/dist/css/auth.css')
 block content
     div.reg-box.ui.piled.segments
         div.reg-error
-        form(action="/reg" method="POST")
+        form(action="/auth/reg" method="POST")
             .reg-line
                 label(for="phoneNum") 手机号
                 .ui.input
@@ -32,4 +32,4 @@ block content
                 input.ui.button.green(type="submit",value="注 册")
                 .link-login-box
                     span 已有账号？
-                    a(href="/login?redirectTo="+redirectTo) 直接登录
+                    a(href="/auth/login?redirectTo="+redirectTo) 直接登录

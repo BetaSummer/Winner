@@ -21,7 +21,7 @@
 //
 // })();
 
-;(function($){
+;(function($) {
 
   /***
    * 侧栏菜单
@@ -39,19 +39,19 @@
   $('.menu .item').tab({
     cache: false,
     apiSettings: {
-      loadingDuration : 300,
-      mockResponse    : function(settings) {
+      loadingDuration: 300,
+      mockResponse: function(settings) {
         var response = {
-          // first  : 'AJAX Tab One',
-          // second : 'AJAX Tab Two',
-          // third  : 'AJAX Tab Three'
+          // first: 'AJAX Tab One',
+          // second: 'AJAX Tab Two',
+          // third: 'AJAX Tab Three'
         };
         return response[settings.urlData.tab];
       }
     },
-    context : 'parent',
-    auto    : true,
-    path    : './admin'
+    context: 'parent',
+    auto: true,
+    path: './admin'
   });
 
   /***
@@ -77,11 +77,11 @@
     on: 'blur',
     fields: {
       empty: {
-        identifier  : 'fail_msg',
+        identifier: 'fail_msg',
         rules: [
           {
-            type   : 'empty',
-            prompt : '主人您还未输入任何理由，人家会伤心的。。。'
+            type: 'empty',
+            prompt: '主人您还未输入任何理由，人家会伤心的。。。'
           }
         ]
       }

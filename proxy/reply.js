@@ -26,9 +26,6 @@ exports.newAndSave = function(content, commodityId, senderId, replyId, cb) {
  *
  */
 exports.getReplyById = function(id, cb) {
-  if (!id) {
-    return cb(null, null);
-  }
   Reply.findOne({ _id: id }, cb);
 };
 
@@ -39,8 +36,8 @@ exports.getReplyById = function(id, cb) {
  * @param { Function } 回调函数
  */
 exports.updateReply = function(id, obj, cb) {
-  // 处理 obj 中的数据
-  // 数据安全控制
+  //
+  // @todo 处理 obj 中的数据， 控制数据安全
 
   // obj 对象不存在的字段 不需要更新, 所以这里的数据库更新写法可能有待改进
   Reply.findByIdAndUpdate(id, {

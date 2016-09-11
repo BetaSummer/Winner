@@ -1,6 +1,6 @@
 (function($) {
-  var getDateByGet = function(url, cb){
-    $.get(url, function(data){
+  var getDateByGet = function(url, cb) {
+    $.get(url, function(data) {
       return cb(data);
     });
   };

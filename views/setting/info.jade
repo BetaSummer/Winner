@@ -1,4 +1,4 @@
-extends ../public/layout.jade
+extends ../layout.jade
 block append css
   link(rel='stylesheet', href='/dist/css/setting.css')
 block content
@@ -63,5 +63,5 @@ block content
             label(for="birthday") 生日
             .ui.input
               input(type="datetime",id="birthday",name="birthday",value=user.birthday)
-    include settingSideBar
+    include sidebar
     

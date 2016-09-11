@@ -4,15 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-// add
-var config = require('./config');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
-
-// 前台展示
-var routes = require('./routes/index');
-// 后台管理
-var admin = require('./routes/admin');
+var config = require('./config');
 
 var app = express();
 
@@ -42,8 +36,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.use('/', routes);
-app.use('/admin', admin);
+require('./routes')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
