@@ -1,0 +1,35 @@
+extends ../layout.pug
+block append css
+  link(rel='stylesheet', href='/dist/css/auth.css')
+block content
+  div.reg-box.ui.piled.segments
+    div.reg-error
+    form(action="/auth/reg" method="POST")
+      .reg-line
+        label(for="phoneNum") 手机号
+        .ui.input
+          input(type="tel",id="phoneNum",name="phoneNum")
+          //.button.ui.tiny.primary 获取验证码
+          .button.ui.tiny.disabled 59s后重新获取
+      .reg-line
+        label(for="verificationCode") 验证码
+        .ui.input
+          input(type="text",id="verificationCode",name="verCode")
+          i.icon.check.circle.green.tag
+      .reg-line
+        label(for="password") 密码
+        .ui.input
+          input(type="password",id="password",name="password")
+      .reg-line
+        label(for="rePassword") 确认密码
+        .ui.input
+          input(type="password",id="rePassword",name="rePassword")
+      .reg-line
+        label(for="nickName") 昵称
+        .ui.input
+          input(type="text",id="nickName",name="nickName")
+      .reg-line
+        input.ui.button.green(type="submit",value="注 册")
+        .link-login-box
+          span 已有账号？
+          a(href="/auth/login?redirectTo="+redirectTo) 直接登录

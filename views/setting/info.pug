@@ -1,4 +1,4 @@
-extends ../layout.jade
+extends ../layout.pug
 block append css
   link(rel='stylesheet', href='/dist/css/setting.css')
 block content
@@ -30,9 +30,6 @@ block content
               input(type="text")
               button.ui.button.red.tiny 确认
               span.warninginfo 验证码错误
-
-
-
           .setting-line
             label(for="realName") 真实姓名
             .ui.input

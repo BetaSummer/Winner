@@ -5,9 +5,8 @@ div.setting-side-bar
     p.user-name #{user.nickName}
     div.my-infos-box
       .ui.divider.inverted
-
-      - numList = [{type:'关注',num:22},{type:"信徒",num:33},{type:"闲置",num:44}]
-      - each item in numList
+      - var numList = [{type:'关注',num:22},{type:"信徒",num:33},{type:"闲置",num:44}]
+      each item in numList
         span.user-center-header-info
           a(href="#",class="user-num-info")= item.num
           a(href="#",class="user-num-type")= item.type
@@ -15,8 +14,8 @@ div.setting-side-bar
     div.user-setting-nav-top
       span.setting-title 设置
     ul
-      - settingList = ['个人资料','修改头像','帐号安全','第三方绑定']
-      - settingNav = ['/setting','settingHeader','/settingPass','/settingBind']
-      - each item,index in settingList
+      - var settingList = ['个人资料','修改头像','帐号安全','第三方绑定']
+      - var settingNav = ['/setting','settingHeader','/settingPass','/settingBind']
+      each item,index in settingList
         li
           a(href=settingNav[index],class="user-setting-nav-item")= item

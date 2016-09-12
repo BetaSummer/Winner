@@ -1,4 +1,4 @@
-extends ../layout.jade
+extends ../layout.pug
 block append css
   link(rel='stylesheet', href='/dist/css/commodityShow.css')
   //- link(rel='stylesheet', href='/lib/umeditor/themes/default/css/umeditor.css')
@@ -44,15 +44,15 @@ block content
             i.dropdown.icon
             .default.text 请选择
             .menu
-              - howNewList = [99,95,9,8,6,5,3,2]
-              - each item,index in howNewList
+              - var howNewList = [99,95,9,8,6,5,3,2]
+              each item,index in howNewList
                 .item(data-value=item) #{item} 成新
         .publish-line
-          label(for="price")价格
+          label(for="price") 价格
           .ui.input(style="width:60px")
             input(type="tel",id="price",name="price")
         .publish-line.before-upload
-          label(for="coverImage")封面图片
+          label(for="coverImage") 封面图片
           // - 这里的a便签用来美化input
           a.ui.button.mini.basic#inputBtn 上传封面
           input(type="file",id="hiddenInput",name="coverImage",accept="image/*",class="hidden")

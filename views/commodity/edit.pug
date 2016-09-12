@@ -1,8 +1,8 @@
-extends ../layout.jade
+extends ../layout.pug
 block append css
   link(rel='stylesheet', href='/dist/css/commodityShow.css')
 block content
-  -if(commodity){
+  if commodity
     .edit-container
       .edit-big-box
         .edit-line.edit-big-box-title-box
@@ -41,18 +41,18 @@ block content
                 i.dropdown.icon
                 .default.text= category.parent
                 .menu
-                  - firstCategory = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
-                    - each item,index in firstCategory
-                      .item(data-value=item) #{item}
+                  - var firstCategory = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
+                  each item,index in firstCategory
+                    .item(data-value=item) #{item}
               .ui.selection.dropdown(style="min-width:80px")
                 // - 已最后细化的 category 为标准
                 input(name="categoryId",type="hidden")
                 i.dropdown.icon
                 .default.text= category.name
                 .menu
-                  - secondCategory = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
-                    - each item,index in secondCategory
-                      .item(data-value=item) #{item}
+                  - var secondCategory = ['闲置数码','家居日用','鞋服配饰','美容保健','交通工具','其他']
+                  each item,index in secondCategory
+                    .item(data-value=item) #{item}
             .edit-line
               label(for="fineness") 成色
               .ui.selection.dropdown(style="min-width:100px")
@@ -60,8 +60,8 @@ block content
                 i.dropdown.icon
                 .default.text #{commodity.howNew}成新
                 .menu
-                  - opList = [99,95,9,8,6,5,3,2]
-                  - each item,index in opList
+                  - var opList = [99,95,9,8,6,5,3,2]
+                  each item,index in opList
                     .item(data-value=item) #{item}成新
             .edit-line
               label(for="price") 价格
@@ -93,11 +93,11 @@ block content
           form(action="/editConnect/"+commodity._id+"/hostId/"+commodity.hostId method="POST")
             h2.edit-box-title 联系信息
             .edit-line
-              label(for="phoneNum")手机
+              label(for="phoneNum") 手机
               .ui.input
                 input(type="tel",id="phoneNum",name="phoneNum",value=commodity.phoneNum)
             .edit-line
-              label(for="userName")姓名
+              label(for="userName") 姓名
               .ui.input
                 input(type="text",id="userName",name="userName",value=commodity.userName)
             .edit-line
@@ -105,9 +105,8 @@ block content
               .ui.input
                 input(type="tel",id="qq",name="qq",value=commodity.qq)
             .edit-line
-              label(for="wechat")微信
+              label(for="wechat") 微信
               .ui.input
                 input(type="text",id="wechat",name="weChat",value=commodity.weChat)
             .edit-line
               input.edit-commodity-btn.ui.button(type="submit",value="保存修改")
-  - }

@@ -1,11 +1,11 @@
-extends ../layout.jade
+extends ../layout.pug
 block append css
   link(rel='stylesheet', href='/dist/css/commodityShow.css')
 block append script
-  script(charset="utf-8",type="text/javascript",src="http://changyan.sohu.com/upload/changyan.js")
-  script(src="/dist/js/getChangyan.js")
+  //- script(charset="utf-8",type="text/javascript",src="http://changyan.sohu.com/upload/changyan.js")
+  //- script(src="/dist/js/getChangyan.js")
 block content
-  - if(commodity){
+  if commodity
     div.commodity-detail-box
       div.commodity-detail-post
         h1.post-title #{commodity.title}
@@ -13,12 +13,10 @@ block content
         .commodity-sub-title
           div.commodity-sub-title-left
             span.last-edit-time #{commodity.updateTime.toLocaleDateString()}
-            &nbsp;&nbsp;
             .commodity-category.ui.breadcrumb
-              - if(category.parent){
+              if category.parent
                 span.section #{category.parent}
                 span.divider /
-              - }
               a.section(href="/category/"+category._id) #{category.name}
           div.commodity-sub-title-right
             .visited-num
@@ -42,7 +40,7 @@ block content
         div.commodity-info-detail
           .detail-line
             h2 商品信息
-            - if(isSelf){
+            if isSelf
               // 自己
               // 不同状态
               - var status = commodity.status
@@ -62,8 +60,8 @@ block content
                 default
                   .ui.button.mini.orange 审核中
               a(href="/edit/"+ commodity._id)
-                .ui.button.mini编辑
-            - }else{
+                .ui.button.mini 编辑
+            else
               - var status = commodity.status
               case status
                 when 1
@@ -72,67 +70,65 @@ block content
                   .ui.button.mini.black 已下架
                 default
                   .ui.button.mini.black 已下架
-            - }
+
           .ui.inverted.divider
           .detail-line
             .info-key
-              i.icon.tag
-              商品名称
+              i.icon.tag 
+              span 商品名称
             .info-value #{commodity.name}
           .detail-line
             .info-key
-              i.icon.star.half.empty
-              价格
+              i.icon.star.half.empty 
+              span 价格
             .info-value #{commodity.price}
           .detail-line
             .info-key
               i.icon.find
-              成色
+              span 成色
             .info-value #{commodity.howNew}成新
           .detail-line
             .info-key
               i.icon.wait
-              入手时间
-            - if(commodity.gotTime){
+              span 入手时间
+            if commodity.gotTime
               .info-value #{commodity.gotTime.toLocaleDateString()}
-            - }else{
+            else
               .info-value 卖家没有填啊
-            - }
+
           .detail-line
             .info-key
               i.icon.star
-              买入价格
-            - if(commodity.gotPrice){
+              span 买入价格
+            if commodity.gotPrice
               .info-value #{commodity.gotPrice}
-            - }else{
+            else
               .info-value 卖家没有填啊
-            - }
-
 
         div.commodity-user-info
           div.info-header
             a.ui.image(href="/user/"+commodity.hostId)
               img(src=hoster.header,alt="")
             div.info-as-name
-              - if(isSelf){
+              if isSelf
                 a.user-name(href="/user/" + commodity.hostId) #{hoster.nickName}
-              - } else if(!focused && !followed) {
+              else if !focused && !followed
                 button.ui.basic.button
                   i.icon.heart
                   a(href="/addFocus/"+hoster._id) 关注 #{hoster.nickName}
-              - } else if(!focused && followed){
+              else if !focused && followed
                 button.ui.basic.button
                   i.icon.heart
                   a(href="/addFocus/"+hoster._id) 人家关注你了哦!而你没有关注人家
-              - } else if(focused && followed){
+              else if focused && followed
                 button.ui.basic.button
                   i.icon.heart
                   a(href="/rmFocus/"+hoster._id) 真好,你们互相关注了
-              - } else {
+              else
                 button.ui.basic.button
                   i.icon.heart
                   a(href="/rmFocus/" + hoster._id) 取消关注
-              - }
+
               .user-num
                 .user-follow-num
                   a(href="/user/"+commodity.hostId+"/follows") 信徒 #{hoster.follows.length}
@@ -142,25 +138,24 @@ block content
           div.info-body
             .detail-line
               span.info-key 联系电话
-              - if(commodity.phoneNum) {
+              if commodity.phoneNum
                 span.info-value #{commodity.phoneNum}
-              - }else{
+              else
                 span.info-value #{hoster.phoneNum}
-              - }
+
             .detail-line
               span.info-key QQ
-              - if(commodity.qq) {
+              if commodity.qq
                 span.info-value #{commodity.qq}
-              - }else{
+              else
                 span.info-value 卖家没有填啊
-              - }
             .detail-line
               span.info-key 微信
-              - if(commodity.qq) {
+              if commodity.qq
                 span.info-value #{commodity.weChat}
-              - }else{
+              else
                 span.info-value 卖家没有填啊
-              - }
+
         div.commodity-user-commodities
           .detail-line
             h2 TA的其他闲置
@@ -176,5 +171,4 @@ block content
               img(src="/dist/images/nan.jpg",alt="")
             .right-btn
               i.icon.angle.right
-  - }
 

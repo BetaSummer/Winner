@@ -1,7 +1,7 @@
 //-  布局是github用户界面样式
 div.user-list
-  - userList = userList;
-  - each item in userList
+  - var userList = userList;
+  each item in userList
     div.user-item
       div.user-item-img
         a(href="/user/"+item._id)
@@ -10,13 +10,13 @@ div.user-list
         a(href="/user/"+item._id ,class="user-item-name")= item.nickName
         p.user-item-intro
           span=item.intro
-        - if(item.mutual && activeMyFocus || item.mutual && avtiveMyFollows)
+        if item.mutual && activeMyFocus || item.mutual && avtiveMyFollows
           button.user-unfollow-btn
             a.flBtn(href="/rmFocus/"+ item._id) 互相关注
-        - else if(activeMyFocus && !item.mutual)  // 我关注而没有关注我的
+        else if activeMyFocus && !item.mutual // 我关注而没有关注我的
           button.user-unfollow-btn
             a.flBtn(href="/rmFocus/"+ item._id) 取消关注
-        - else
+        else
           button.user-follow-btn
             a.flBtn(href="/addFocus/"+ item._id) 添加关注
 block append script

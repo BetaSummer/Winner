@@ -1,0 +1,32 @@
+.commodity-card.ui.card.mycommodity-card
+  if !user || user && commodities[i].hostId != user._id
+    a.image.blurring.dimmable(href="/commodity/" + commodities[i]._id)
+      img(src=commodities[i].coverImage alt=commodities[i].title+'的封面图片')
+  else
+    .image.blurring.dimmable
+      .ui.dimmer
+        .content
+          .content
+            a.ui.inverted.button(href="/commodity/" + commodities[i]._id + "/edit/") 编辑
+            // - unPublish => delete method
+            a.ui.inverted.button(href="/unPublish/"+commodities[i]._id) 下架
+      img(src=commodities[i].coverImage alt=commodities[i].title+'的封面图片')
+  .content
+    .headerbox
+      .commodity-price #{commodities[i].price}
+      .extrabox.mycommodity
+        a(href="/commodity/" + commodities[i]._id) 查看
+    .introbox
+    if theUser
+      a(href="/user/" + theUser._id)
+        img.mini.ui.image.floated.left(src= theUser.header)
+    else
+      a(href="/user/" + users[i]._id)
+        img.mini.ui.image.floated.left(src= users[i].header)
+
+      p.header
+        a(href="/commodity/" + commodities[i]._id) #{commodities[i].title}
+      p.meta  描述一下～描述一下描述一下描述一下描述一下描述一下描述一下
+    .extra
+      span #{commodities[i].updateTime.toLocaleDateString()}
+      span.right.floated 评论#{commodities[i].replyCount}/翻阅#{commodities[i].visitedCount}

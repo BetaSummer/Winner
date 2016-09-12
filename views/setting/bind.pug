@@ -1,4 +1,4 @@
-extends ../layout.jade
+extends ../layout.pug
 block append css
   link(rel='stylesheet', href='/dist/css/setting.css')
 block content
@@ -14,7 +14,7 @@ block content
             label(for="oldPassword") 绑定
             a.ui.button.qq.blue.small
               i.icon.qq
-              腾讯 Q Q
+              腾讯 QQ
             a.cancelBind(href="#") 取消绑定
           .setting-line
             label(for="newPassword") 绑定
