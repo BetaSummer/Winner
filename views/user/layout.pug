@@ -1,4 +1,4 @@
-extends ../layout.jade
+extends ../layout.pug
 block append css
   link(rel='stylesheet', href='/dist/css/userCenter.css')
 block append header-extend
@@ -9,7 +9,7 @@ block content
     .ui.secondary.pointing.menu.user-center-nav-list.orange
       a.item(href="/user/"+user._id, class= activeUserCenterIndex? 'active' : '') 最新动态
       a.item(href="/user/"+user._id+"/focus", class= activeMyFocus? 'active' : '') 我的关注
-      a.item(href="/user/"+user._id+"/commodity", class= activeCommodity? 'active' : '') 我的闲置
+      a.item(href="/user/"+user._id+"/commodities", class= activeCommodity? 'active' : '') 我的闲置
       a.item(href="/user/"+user._id+"/follows", class= avtiveMyFollows? 'active' : '') 我的信徒
       // nav 右侧 二级导航 （mycommodity status 用）
       if isSelf && activeCommodity
@@ -27,7 +27,7 @@ block content
             span #{oversell.length}
     //- 区块内容default是用户列表   我的闲置 和 最新动态 自定义
     block userContent
-      include ../list
+      include ./list
     include ../pagination
 
 

@@ -18,7 +18,6 @@ exports.adminRequired = function(req, res, next) {
  * loginRequired 需要登录
  */
 exports.loginRequired = function(req, res, next) {
-  console.log(req.session)
   if (!req.session || !req.session.user) {
     var redirectTo = req.url;
     var redirect = redirectTo ? '/auth/login?redirectTo=' + redirectTo : '/login';

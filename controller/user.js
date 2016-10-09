@@ -91,7 +91,7 @@ exports.showUserCenterIndex = function(req, res, next) {
       page: page,
       limit: limit
     };
-    Message.getMessageUnread(selfId, function(err, query,messages) {
+    Message.getMessageUnread(selfId, query, function(err, messages) {
       if (err) {
         return console.log(err);
       }
@@ -271,7 +271,7 @@ exports.rmFocus = function(req, res, next) {
 /**
  * showMyCommodity 显示用户个人中心的首页 我的闲置
  */
-exports.showMyCommodity = function(req, res, next) {
+exports.showMyCommodity = function showMyCommodity(req, res, next) {
   var userId = req.params.id;
   var isSelf = userId == req.session.user._id ? true : false;
   var page = req.query.page || 0;

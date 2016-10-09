@@ -13,7 +13,7 @@ div.user-list
         if item.mutual && activeMyFocus || item.mutual && avtiveMyFollows
           button.user-unfollow-btn
             a.flBtn(href="/rmFocus/"+ item._id) 互相关注
-        else if activeMyFocus && !item.mutual // 我关注而没有关注我的
+        else if activeMyFocus && !item.mutual
           button.user-unfollow-btn
             a.flBtn(href="/rmFocus/"+ item._id) 取消关注
         else

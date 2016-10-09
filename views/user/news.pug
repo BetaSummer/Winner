@@ -10,7 +10,7 @@ block userContent
           div.news-item
             p.news-item-header
               span.news-item-text
-                a(href="#")= item.sender.nickName
+              a(href=item.sender._id)= item.sender.nickName
                 span 关注了我
               span.news-item-time= item.createTime
         when 'at'
